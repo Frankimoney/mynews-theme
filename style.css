@@ -1,0 +1,220 @@
+/*
+Theme Name: My News
+Theme URI: https://example.com/mynews/
+Author: Togor Francis
+Author URI: https://example.com/
+Description: A clean, modern WordPress theme for news websites and blogs. Built with Bootstrap 5 for responsive design, My News provides multiple layout options, customizable colors, and optimized performance for an excellent user experience.
+Version: 1.0.0
+Requires at least: 5.0
+Tested up to: 6.4
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: mynews
+Tags: blog, news, two-columns, right-sidebar, custom-menu, editor-style, featured-images, flexible-header, full-width-template, footer-widgets, customizer, custom-colors, custom-background, translation-ready, bootstrap
+
+My News WordPress Theme, (C) 2025 Togor Francis
+My News is distributed under the terms of the GNU GPL.
+*/
+
+/* 
+ * This is the main stylesheet for the My News theme.
+ * 
+ * Most styles are handled by Bootstrap 5, with custom overrides in:
+ * - assets/css/main.css (Core site styles)
+ * - assets/css/footer.css (Footer-specific styles)
+ * - assets/css/layout.css (Layout styles for boxed/full-width)
+ * - assets/css/back-to-top.css (Back to top button styles)
+ * 
+ * This theme uses WordPress customizer for style customizations.
+ * Custom CSS is generated dynamically in inc/custom-styles.php
+ *
+ * Theme-specific CSS variables are defined below
+ */
+
+:root {
+  --mynews-primary: #0d6efd;
+  --mynews-secondary: #6c757d;
+  --mynews-success: #198754;
+  --mynews-info: #0dcaf0;
+  --mynews-warning: #ffc107;
+  --mynews-danger: #dc3545;
+  --mynews-light: #f8f9fa;
+  --mynews-dark: #212529;
+  --mynews-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mynews-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --mynews-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+}
+
+body {
+  font-family: var(--mynews-font-sans-serif);
+  background-color: #f8f9fa;
+}
+
+/* Site structure */
+.site-header {
+  background-color: #fff;
+}
+
+.site-content {
+  padding: 3rem 0;
+}
+
+.site-footer {
+  padding: 3rem 0;
+  background-color: #212529;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Mobile Optimization Enhancements */
+@media screen and (max-width: 992px) {
+  /* General layout adjustments for tablets */
+  .site-content {
+    padding: 2rem 0;
+  }
+  
+  h1 {
+    font-size: 2.2rem;
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  /* Medium mobile adjustments */
+  .site-content {
+    padding: 1.5rem 0;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  h2 {
+    font-size: 1.6rem;
+  }
+  
+  h3 {
+    font-size: 1.4rem;
+  }
+  
+  /* Improve touch targets */
+  .nav-links a, 
+  button,
+  .btn,
+  input[type="button"],
+  input[type="submit"] {
+    min-height: 44px;
+    padding: 0.5rem 1rem;
+    line-height: 1.5;
+  }
+  
+  /* Better spacing for readability */
+  p, ul, ol {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+  }
+  
+  /* Improved form element spacing */
+  input, select, textarea {
+    margin-bottom: 1rem;
+    font-size: 16px; /* Prevents iOS zoom on focus */
+  }
+  
+  /* Adjust page margins */
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  /* Improve card readability */
+  .card {
+    margin-bottom: 1.5rem;
+  }
+  
+  .card-title {
+    font-size: 1.3rem;
+  }
+  
+  /* Enhanced mobile menu experience */
+  .navbar-toggler {
+    padding: 0.75rem;
+    border-radius: 4px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  /* Small mobile specific adjustments */
+  .site-content {
+    padding: 1rem 0;
+  }
+  
+  h1 {
+    font-size: 1.6rem;
+  }
+  
+  h2 {
+    font-size: 1.4rem;
+  }
+  
+  h3 {
+    font-size: 1.2rem;
+  }
+  
+  /* Single column layouts */
+  .row > [class^="col-"] {
+    margin-bottom: 1rem;
+  }
+  
+  /* Grid layout fixes */
+  .row {
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+  
+  .col-md-6, .col-lg-4, .col-lg-3 {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  /* Ensure grid items fill their container properly */
+  .card {
+    height: 100%;
+    margin-bottom: 0;
+  }
+  
+  /* Reduced padding for better space usage */
+  .card-body {
+    padding: 1rem;
+  }
+  
+  /* Full-width buttons for better touch */
+  .btn {
+    display: block;
+    width: 100%;
+  }
+  
+  /* Center pagination on small screens */
+  .pagination {
+    justify-content: center;
+  }
+  
+  /* Adjust header elements */
+  .site-branding {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .custom-logo-link img {
+    max-height: 40px;
+    width: auto;
+  }
+  
+  /* Post navigation improvements */
+  .mynews-post-navigation .h5 {
+    font-size: 1rem;
+  }
+}

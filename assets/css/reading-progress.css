@@ -1,0 +1,61 @@
+/**
+ * Reading Progress Bar Styles
+ *
+ * @package My_News
+ */
+
+/* Reading progress bar container */
+.reading-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background-color: #0073aa; /* Primary theme color */
+    width: 0%;
+    z-index: 9999; /* Ensure it's above other elements */
+    transition: width 0.2s ease-in-out;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Make the progress bar thinner on mobile */
+@media (max-width: 768px) {
+    .reading-progress-bar {
+        height: 3px;
+    }
+}
+
+/* Admin bar offset when logged in */
+body.admin-bar .reading-progress-bar {
+    top: 32px; /* Standard admin bar height */
+}
+
+/* Admin bar offset for mobile when logged in */
+@media screen and (max-width: 782px) {
+    body.admin-bar .reading-progress-bar {
+        top: 46px; /* Mobile admin bar height */
+    }
+}
+
+/* Special styling for dark mode if supported */
+@media (prefers-color-scheme: dark) {
+    body.supports-dark-theme .reading-progress-bar {
+        background-color: #4caf50; /* Different color for dark mode */
+    }
+}
+
+/* Animation for when the progress bar reaches 100% */
+@keyframes progress-pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.reading-progress-bar.complete {
+    animation: progress-pulse 2s infinite;
+}

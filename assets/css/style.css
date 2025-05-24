@@ -1,0 +1,187 @@
+/**
+ * Custom styles for the MyNews WordPress theme
+ * These styles will override both Bootstrap and main.css styles
+ */
+
+/* Custom global styles */
+:root {
+  --mynews-custom-color-1: #f8f9fa;
+  --mynews-custom-color-2: #e9ecef;
+  --mynews-custom-color-3: #dee2e6;
+  --mynews-custom-font-size-base: 1rem;
+  --mynews-custom-font-size-lg: 1.25rem;
+  --mynews-custom-font-size-sm: 0.875rem;
+}
+
+/* Custom typography enhancements */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Custom button styles */
+.btn-custom {
+  background-color: var(--mynews-primary);
+  border-color: var(--mynews-primary);
+  color: #fff;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: var(--mynews-dark);
+  border-color: var(--mynews-dark);
+  color: #fff;
+}
+
+/* Custom card styles */
+.card-custom {
+  border: none;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,.075);
+  transition: all 0.3s ease;
+}
+
+.card-custom:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15);
+  transform: translateY(-3px);
+}
+
+/* Custom header enhancements */
+.site-header {
+  transition: all 0.3s ease;
+}
+
+.site-header.sticky-top {
+  box-shadow: 0 2px 10px rgba(0,0,0,.1);
+  background-color: #fff;
+}
+
+.site-header.compact-header {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
+.site-header.compact-header .navbar-brand img {
+  max-height: 40px;
+}
+
+.site-header.compact-header .site-title {
+  font-size: 1.5rem;
+}
+
+.navbar-brand img {
+  max-height: 50px;
+  width: auto;
+  transition: all 0.3s ease;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.navbar-nav .nav-link {
+  position: relative;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+}
+
+.navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: var(--mynews-primary);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+  width: 50%;
+}
+
+.search-toggle {
+  color: var(--mynews-dark);
+  transition: color 0.3s ease;
+}
+
+.search-toggle:hover {
+  color: var(--mynews-primary);
+}
+
+/* Search form in header */
+#searchCollapse .search-form {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#searchCollapse .search-form .form-control {
+  border-radius: 30px;
+  padding-left: 20px;
+  padding-right: 50px;
+  height: 50px;
+}
+
+#searchCollapse .search-form .search-submit {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--mynews-primary);
+  border: none;
+}
+
+/* Custom animations */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Custom form styles */
+.form-control-custom {
+  border-radius: 0.25rem;
+  border-color: var(--mynews-custom-color-3);
+  padding: 0.75rem 1rem;
+}
+
+.form-control-custom:focus {
+  border-color: var(--mynews-primary);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Override Bootstrap styles where needed */
+.navbar-nav .nav-link.active {
+  color: var(--mynews-primary);
+  font-weight: 600;
+}
+
+/* Custom media queries */
+@media (max-width: 992px) {
+  .display-4 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .display-4 {
+    font-size: 2rem;
+  }
+}

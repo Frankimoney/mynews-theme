@@ -1,0 +1,353 @@
+/**
+ * Breaking News Ticker Styles
+ */
+
+/* Ticker Container */
+.mynews-breaking-news {
+  background-color: var(--mynews-light);
+  position: relative;
+  overflow: hidden;
+  height: 40px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Special styling for scrolling ticker mode */
+/* .scrolling-ticker .mynews-ticker-content {
+  position: relative;
+  padding-left: 0;
+  overflow: hidden;
+  width: 100%;
+  transform: translateZ(0); 
+  -webkit-transform: translateZ(0);
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
+} */
+
+/* Add scrolling-enabled class for proper animation */
+/* .scrolling-enabled.scrolling-ticker .mynews-ticker-content {
+  overflow: hidden;
+  width: 100%;
+  transform: translateZ(0); 
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+} */
+
+.mynews-breaking-news-dark {
+  background-color: var(--mynews-dark);
+  color: #fff;
+}
+
+/* Label */
+.mynews-breaking-label {
+  float: left;
+  padding: 0 15px;
+  height: 100%;
+  line-height: 40px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  background-color: var(--mynews-primary);
+  color: #fff;
+  position: relative;
+  z-index: 2;
+}
+
+/* Ticker content area */
+.mynews-ticker-content {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  margin-left: 15px;
+  flex-grow: 1; /* Take remaining space */
+  white-space: nowrap; /* Keep text on single line */
+  display: block; /* Block for better animation */
+  padding-top: 0; /* Ensure vertical alignment */
+  min-width: 0; /* Prevent flexbox from constraining width */
+  transform: translateZ(0); /* Force hardware acceleration */
+  width: calc(100% - 130px); /* Ensure there's room for the ticker content */
+  overflow-x: hidden; /* Explicitly prevent horizontal overflow */  clip-path: inset(0); /* Ensure content is clipped properly */
+}
+
+/* Fix: Only one rule for scrolling ticker content, no fade/disappear effect */
+.scrolling-ticker .mynews-ticker-content {
+  display: flex !important;
+  align-items: center;
+  animation: ticker-scroll-continuous 15s linear infinite;
+  will-change: transform;
+  width: max-content !important;
+  position: relative;
+  overflow: visible !important;
+  white-space: nowrap;
+}
+
+/* Adjustments for fade ticker mode */
+.fade-ticker .mynews-ticker-content {
+  overflow: hidden;
+}
+
+/* Ensure scrolling ticker has proper overflow handling */
+/* .scrolling-ticker .mynews-ticker-content {
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+  width: 100%;
+}  -- Commented out to prevent override */
+
+/* Second duplicate rule removed to prevent conflicts */
+
+@keyframes ticker-scroll-continuous {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Breaking news items */
+.mynews-ticker-item {
+  position: absolute;
+  display: none;
+  height: 40px;
+  line-height: 40px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+  font-size: var(--mynews-ticker-font-size, 0.95rem);
+  padding-right: 20px;
+  left: 0; /* Ensure items are positioned correctly */
+  top: 0;
+  width: auto; /* Auto width based on content */
+  visibility: hidden; /* Hide items until active */
+  transform-origin: left center; /* Better transform handling */
+}
+
+.mynews-ticker-item.active {
+  display: block !important; /* Force display */
+  opacity: 1;
+  visibility: visible;
+  z-index: 10;
+  transform: none; /* Remove any transform initially */
+}
+
+/* Display mode styles */
+.fade-ticker .mynews-ticker-item {
+  transition: opacity 0.8s ease-in-out;
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: left;
+}
+
+.fade-ticker .mynews-ticker-item.active {
+  transition: opacity 0.8s ease-in-out;
+  opacity: 1 !important;
+}
+
+.mynews-ticker-item.fade-transition {
+  transition: opacity 0.8s ease-in-out;
+}
+
+/* Override scrolling styles in fade mode */
+.fade-ticker .mynews-ticker-item.active.scrolling {
+  animation: none;
+  width: auto;
+}
+
+/* Scrolling animation for active ticker item */
+.mynews-ticker-item.active.scrolling {
+  animation: ticker-scroll 8s linear 1;
+  padding-right: 200px; /* More space between repeating text */
+  display: inline-block !important; /* Inline-block for better scrolling */
+  align-items: center;
+  width: auto; /* Auto width based on content */
+  will-change: transform; /* Performance optimization */
+  position: absolute;
+  white-space: nowrap;
+  left: 0;
+  right: auto; /* Ensure right isn't constraining the element */
+  top: 0;
+  transform: translateX(100vw); /* Start offscreen right using viewport width unit */
+  -webkit-font-smoothing: antialiased;
+  backface-visibility: hidden; /* Additional performance optimization */
+  -webkit-backface-visibility: hidden; /* For Safari */
+  z-index: 100; /* Ensure it's above other elements */
+}
+
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(100vw); /* Start position - right edge of viewport */
+    visibility: visible;
+  }
+  100% {
+    transform: translateX(-100vw); /* Move to left edge of viewport - full travel */
+    visibility: visible;
+  }
+}
+
+/* Hover behavior for scrolling items - only pause on direct hover of the item */
+.mynews-ticker-item.active.scrolling:hover {
+  animation-play-state: paused; /* Pause animation on hover */
+}
+
+/* Ensure animation plays regardless of parent hover state */
+/* .mynews-breaking-news:hover .mynews-ticker-item.active.scrolling {
+  animation-play-state: running;
+} */
+
+.mynews-ticker-item a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.mynews-ticker-item a:hover {
+  text-decoration: underline;
+}
+
+/* Urgency levels */
+.mynews-ticker-item.normal {
+  color: var(--mynews-dark);
+}
+
+.mynews-ticker-item.important {
+  color: var(--mynews-warning);
+  font-weight: 500;
+}
+
+.mynews-ticker-item.urgent {
+  color: var(--mynews-danger);
+  font-weight: 700;
+  animation: blinker 1.5s linear infinite;
+}
+
+.mynews-breaking-news-dark .mynews-ticker-item.normal {
+  color: #fff;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Controls */
+.mynews-ticker-controls {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  z-index: 20; /* Higher z-index to ensure controls are above ticker items */
+  background-color: var(--mynews-light);
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.mynews-breaking-news-dark .mynews-ticker-controls {
+  background-color: var(--mynews-dark);
+}
+
+.mynews-ticker-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 40px;
+  cursor: pointer;
+  color: var(--mynews-dark);
+  transition: all 0.3s ease;
+  padding: 0 5px;
+}
+
+.mynews-breaking-news-dark .mynews-ticker-control {
+  color: #fff;
+}
+
+.mynews-ticker-control:hover {
+  color: var(--mynews-primary);
+  opacity: 0.7;
+}
+
+/* Ticker wrapper */
+.mynews-breaking-wrapper {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+/* Make sure the first item is visible on page load */
+.mynews-ticker-item:first-child {
+  z-index: 2;
+}
+
+/* Improve visibility of active items */
+.mynews-ticker-item.active {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 10;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .mynews-breaking-news {
+    height: 36px;
+  }
+  .mynews-breaking-label {
+    line-height: 36px;
+    padding: 0 10px;
+    font-size: 0.8rem;
+  }
+  .mynews-ticker-item {
+    height: 36px;
+    line-height: 36px;
+    font-size: 0.85rem;
+  }
+  .mynews-ticker-control {
+    width: 22px;
+    height: 36px;
+  }
+  .mynews-ticker-content {
+    margin-left: 8px;
+    font-size: 0.85rem;
+  }
+  /* Ensure scrolling ticker properties are maintained at all screen sizes */
+  .scrolling-ticker .mynews-ticker-content {
+    width: max-content !important;
+    overflow: visible !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .mynews-breaking-news {
+    height: 32px;
+  }
+  .mynews-breaking-label {
+    line-height: 32px;
+    padding: 0 6px;
+    font-size: 0.75rem;
+  }
+  .mynews-ticker-item {
+    height: 32px;
+    line-height: 32px;
+    font-size: 0.8rem;
+  }
+  .mynews-ticker-control {
+    width: 20px;
+    height: 32px;
+  }
+  .mynews-ticker-content {
+    margin-left: 4px;
+    font-size: 0.8rem;
+  }
+  /* Ensure scrolling ticker properties are maintained at all screen sizes */
+  .scrolling-ticker .mynews-ticker-content {
+    width: max-content !important;
+    overflow: visible !important;
+  }
+}

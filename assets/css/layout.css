@@ -1,0 +1,69 @@
+/**
+ * Theme layout styles
+ * Contains styles for boxed and full-width layouts
+ */
+
+/* Base layout styles */
+.site {
+    position: relative;
+    width: 100%;
+}
+
+/* Boxed layout styles */
+body.boxed-layout {
+    background-color: #f0f0f0; /* Background outside the boxed area */
+}
+
+body.boxed-layout .site {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+body.boxed-layout .site-header {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+body.boxed-layout .back-to-top {
+    margin-right: calc((100% - 1200px) / 2);
+}
+
+/* Make background images work with boxed layout */
+body.boxed-layout .site .bg-full-width {
+    margin-left: calc(-1 * ((100% - 100vw) / 2));
+    margin-right: calc(-1 * ((100% - 100vw) / 2));
+    width: 100vw;
+}
+
+/* Media queries for responsive boxed layout */
+@media (max-width: 1230px) {
+    body.boxed-layout .site {
+        max-width: 100%;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+    
+    body.boxed-layout .site-header {
+        max-width: 100%;
+    }
+    
+    body.boxed-layout .back-to-top {
+        margin-right: 15px;
+    }
+}
+
+@media (max-width: 767px) {
+    body.boxed-layout .site {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    body.boxed-layout .back-to-top {
+        margin-right: 0;
+    }
+}

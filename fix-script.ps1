@@ -1,0 +1,2 @@
+Copy-Item -Path "c:\xampp\htdocs\mynews\wp-content\themes\mynews\assets\js\breaking-news-ticker.js" -Destination "c:\xampp\htdocs\mynews\wp-content\themes\mynews\assets\js\breaking-news-ticker.js.bak"
+Copy-Item -Path "c:\xampp\htdocs\mynews\wp-content\themes\mynews\assets\js\breaking-news-ticker.js.new" -Destination "c:\xampp\htdocs\mynews\wp-content\themes\mynews\assets\js\breaking-news-ticker.js" -Force

@@ -1,0 +1,154 @@
+/**
+ * Blog post layouts styling
+ * Styles for both grid and list layouts
+ */
+
+/* Common post styles */
+.entry-title {
+    word-wrap: break-word;
+}
+
+.entry-title a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.entry-title a:hover {
+    color: var(--bs-primary);
+}
+
+.post-categories {
+    margin-bottom: 10px;
+}
+
+.post-categories a {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    margin-right: 0.25rem;
+    margin-bottom: 0.25rem;
+    border-radius: 0.25rem;
+    color: #fff;
+    background-color: var(--bs-primary);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.post-categories a:hover {
+    background-color: var(--bs-primary-dark, #0056b3);
+}
+
+.pagination-container .page-numbers {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    margin: 0 0.25rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    color: var(--bs-primary);
+    text-decoration: none;
+}
+
+.pagination-container .page-numbers.current {
+    background-color: var(--bs-primary);
+    color: #fff;
+    border-color: var(--bs-primary);
+}
+
+.pagination-container .page-numbers:hover:not(.current) {
+    background-color: #f8f9fa;
+}
+
+/* Grid Layout Specific Styles */
+.post-thumbnail {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-top-left-radius: var(--bs-card-inner-border-radius);
+    border-top-right-radius: var(--bs-card-inner-border-radius);
+}
+
+.post-thumbnail img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.post-thumbnail:hover img {
+    transform: scale(1.05);
+}
+
+/* List Layout Specific Styles */
+.posts-list .post-thumbnail img {
+    height: 100%;
+    object-fit: cover;
+}
+
+.posts-list article {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.posts-list article:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15) !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767.98px) {
+    .posts-list .row {
+        flex-direction: column;
+    }
+    
+    .posts-list .post-thumbnail img {
+        height: 220px;
+    }
+}
+
+/* Card styles enhancements */
+.card {
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15) !important;
+}
+
+.card-body {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Read more button styling */
+.read-more-link {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.read-more-link:hover {
+    transform: translateX(3px);
+}
+
+/* Featured badge */
+.featured-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--bs-primary);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    text-transform: uppercase;
+}

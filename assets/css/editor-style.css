@@ -1,0 +1,131 @@
+/**
+ * Block Editor (Gutenberg) specific styles
+ * These styles ensure theme consistency in the WordPress block editor
+ */
+
+/* Editor width */
+.wp-block {
+    max-width: 1140px;
+}
+
+/* Main column width */
+.wp-block[data-align="wide"] {
+    max-width: 1320px;
+}
+
+/* Full width */
+.wp-block[data-align="full"] {
+    max-width: none;
+}
+
+/* Typography */
+.editor-styles-wrapper {
+    font-family: var(--mynews-font-sans-serif);
+    color: var(--mynews-dark);
+}
+
+.editor-styles-wrapper h1,
+.editor-styles-wrapper h2,
+.editor-styles-wrapper h3,
+.editor-styles-wrapper h4,
+.editor-styles-wrapper h5,
+.editor-styles-wrapper h6 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.editor-styles-wrapper h1 {
+    font-size: 2.5rem;
+}
+
+.editor-styles-wrapper h2 {
+    font-size: 2rem;
+}
+
+.editor-styles-wrapper h3 {
+    font-size: 1.75rem;
+}
+
+.editor-styles-wrapper h4 {
+    font-size: 1.5rem;
+}
+
+.editor-styles-wrapper h5 {
+    font-size: 1.25rem;
+}
+
+.editor-styles-wrapper h6 {
+    font-size: 1rem;
+}
+
+.editor-styles-wrapper p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+/* Links */
+.editor-styles-wrapper a {
+    color: var(--mynews-primary);
+    text-decoration: none;
+}
+
+.editor-styles-wrapper a:hover {
+    color: #0a58ca;
+    text-decoration: underline;
+}
+
+/* Buttons */
+.editor-styles-wrapper .wp-block-button__link {
+    color: #fff;
+    background-color: var(--mynews-primary);
+    border-color: var(--mynews-primary);
+    text-decoration: none;
+}
+
+.editor-styles-wrapper .is-style-outline .wp-block-button__link {
+    color: var(--mynews-primary);
+    background-color: transparent;
+    border-color: var(--mynews-primary);
+}
+
+.editor-styles-wrapper .is-style-outline .wp-block-button__link:hover {
+    color: #fff;
+    background-color: var(--mynews-primary);
+    border-color: var(--mynews-primary);
+}
+
+/* Cover and Media */
+.editor-styles-wrapper .wp-block-cover,
+.editor-styles-wrapper .wp-block-cover-image {
+    min-height: 430px;
+}
+
+/* Tables */
+.editor-styles-wrapper .wp-block-table table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.editor-styles-wrapper .wp-block-table td,
+.editor-styles-wrapper .wp-block-table th {
+    padding: 0.75rem;
+    border: 1px solid #dee2e6;
+}
+
+/* Quotes */
+.editor-styles-wrapper .wp-block-quote {
+    border-left: 4px solid var(--mynews-primary);
+    margin: 0 0 1.75em;
+    padding-left: 1em;
+    font-style: italic;
+}
+
+/* Code */
+.editor-styles-wrapper pre {
+    font-family: var(--mynews-font-monospace);
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.375rem;
+}

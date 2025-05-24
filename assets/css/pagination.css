@@ -1,0 +1,88 @@
+/**
+ * Pagination and navigation styles
+ * Styles for both index pagination and post navigation
+ */
+
+/* Pagination Container */
+.mynews-pagination {
+    margin: 2rem 0;
+}
+
+/* Override Bootstrap pagination styles */
+.pagination {
+    margin-bottom: 0;
+}
+
+.pagination .page-item .page-link {
+    color: var(--bs-primary);
+    border-color: #dee2e6;
+    padding: 0.5rem 0.75rem;
+    min-width: 2.5rem;
+    text-align: center;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.pagination .page-item .page-link:hover {
+    color: var(--bs-primary);
+    background-color: #f8f9fa;
+    border-color: var(--bs-primary);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--bs-primary);
+    color: white;
+    border-color: var(--bs-primary);
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: #dee2e6;
+}
+
+/* Post Navigation on Single */
+.mynews-post-navigation {
+    margin: 3rem 0;
+}
+
+.mynews-post-navigation .card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mynews-post-navigation .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+}
+
+.mynews-post-navigation h3 {
+    line-height: 1.4;
+}
+
+.mynews-post-navigation a {
+    color: var(--bs-dark);
+}
+
+.mynews-post-navigation a:hover {
+    color: var(--bs-primary);
+}
+
+.mynews-post-navigation .badge {
+    font-weight: 500;
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767.98px) {
+    .mynews-post-navigation .col-md-6:first-child {
+        margin-bottom: 1rem;
+    }
+    
+    .pagination .page-item .page-link {
+        padding: 0.35rem 0.5rem;
+        min-width: 2rem;
+        font-size: 0.875rem;
+    }
+}

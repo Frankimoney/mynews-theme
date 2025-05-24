@@ -1,0 +1,665 @@
+/**
+ * Mobile optimization enhancements
+ * A collection of mobile-specific styles for improving touch interactions,
+ * readability, and responsive design across all screen sizes.
+ */
+
+/**
+ * Touch interaction improvements
+ */
+@media (max-width: 992px) {
+    /* Enhanced tap targets for better usability */
+    .nav-link,
+    .dropdown-item,
+    a.btn,
+    button,
+    .page-link,
+    input[type="checkbox"],
+    input[type="radio"],
+    .footer-widget a {
+        padding: 0.5rem 0.75rem;
+        margin-bottom: 0.25rem;
+    }
+
+    /* Improve form input touch targets */
+    input:not([type="checkbox"]):not([type="radio"]),
+    textarea,
+    select {
+        font-size: 16px; /* Prevents iOS zoom on focus */
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        border-radius: 0.25rem;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    /* Better checkbox/radio elements */
+    input[type="checkbox"], 
+    input[type="radio"] {
+        width: 22px;
+        height: 22px;
+    }
+
+    /* Enhanced dropdown menus */
+    .dropdown-menu {
+        padding: 0.5rem;
+    }
+
+    .dropdown-item {
+        border-radius: 0.25rem;
+    }
+
+    /* Expandable search form */
+    .search-form .form-control {
+        height: 46px;
+    }
+}
+
+/**
+ * Layout adjustments for mobile devices
+ */
+@media (max-width: 768px) {
+    /* Header adaptations */
+    .site-header {
+        position: relative;
+    }
+
+    /* Content spacing improvements */
+    .post, 
+    .page {
+        margin-bottom: 2rem;
+    }
+
+    /* Fixed bottom navigation option */
+    .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: #fff;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        padding: 8px 0;
+        transition: transform 0.3s ease;
+    }
+
+    /* Hide on scroll down, show on scroll up */
+    .mobile-bottom-nav.bottom-nav-hidden {
+        transform: translateY(100%);
+    }
+
+    .mobile-bottom-nav .bottom-nav-item {
+        flex: 1;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 0;
+        color: #555;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .mobile-bottom-nav .bottom-nav-item:active {
+        background: rgba(0,0,0,0.05);
+    }
+
+    .mobile-bottom-nav .bottom-nav-item i {
+        font-size: 1.5rem;
+        margin-bottom: 4px;
+    }
+
+    .mobile-bottom-nav .bottom-nav-item span {
+        font-size: 0.7rem;
+        font-weight: 500;
+    }
+
+    /* Categories modal improvements */
+    .mobile-categories-list li {
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .mobile-categories-list li:last-child {
+        border-bottom: none;
+    }
+
+    .mobile-categories-list li a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .mobile-categories-list li a:hover,
+    .mobile-categories-list li a:active {
+        background: rgba(0,0,0,0.025);
+    }
+
+    /* Dark mode support for bottom nav */
+    body.dark-mode .mobile-bottom-nav {
+        background-color: #222;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+    }
+
+    body.dark-mode .mobile-bottom-nav .bottom-nav-item {
+        color: #ccc;
+    }
+
+    body.dark-mode .mobile-categories-list li {
+        border-bottom-color: rgba(255,255,255,0.1);
+    }
+
+    body.dark-mode .mobile-categories-list li a {
+        color: #ddd;
+    }
+
+    body.dark-mode .mobile-categories-list li a:hover,
+    body.dark-mode .mobile-categories-list li a:active {
+        background: rgba(255,255,255,0.05);
+    }
+
+    /* Search modal improvements for mobile */
+    #search-modal .modal-content {
+        border-radius: 0;
+        border: none;
+    }
+
+    #search-modal .modal-header {
+        border-bottom-color: rgba(0,0,0,0.05);
+    }
+
+    #search-modal .search-form {
+        display: flex;
+        align-items: center;
+    }
+
+    #search-modal .search-form .form-control {
+        height: 50px;
+        font-size: 16px;
+        border-radius: 4px 0 0 4px;
+    }
+
+    #search-modal .search-form .btn {
+        height: 50px;
+        border-radius: 0 4px 4px 0;
+    }
+}
+
+/**
+ * Small mobile specific adjustments
+ */
+@media (max-width: 576px) {
+    /* Compressed spacing */
+    .site-content {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    /* Simplified footer on mobile */
+    .site-footer .row > div {
+        margin-bottom: 1.5rem;
+    }
+
+    /* Optimize primary navigation */
+    .navbar-brand img {
+        max-height: 36px;
+    }
+
+    .navbar-toggler {
+        padding: 0.5rem;
+        font-size: 1rem;
+    }
+
+    /* Better mobile pagination */
+    .pagination .page-item {
+        margin: 0 2px;
+    }
+
+    .pagination .page-link {
+        min-width: 40px;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Enhance mobile comments */
+    .comment {
+        padding: 0.75rem;
+    }
+
+    .comment-avatar {
+        max-width: 40px;
+    }
+
+    .comment-respond .form-submit {
+        margin-top: 1rem;
+    }
+
+    /* Improve mobile reading experience */
+    .entry-content {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .entry-content h2,
+    .entry-content h3 {
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .entry-content img {
+        margin-bottom: 1rem;
+    }
+    
+    /* Fix table overflow on mobile */
+    .entry-content table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Mobile-friendly post navigation */
+    .mynews-post-navigation .card {
+        margin-bottom: 1rem;
+    }
+}
+
+/**
+ * Better reading experience on mobile
+ */
+@media (max-width: 768px) {
+    /* Article typography improvements */
+    .single-post .entry-content p {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+    }
+
+    .single-post .entry-content h2 {
+        font-size: 1.6rem;
+        margin: 2rem 0 1rem;
+    }
+
+    .single-post .entry-content h3 {
+        font-size: 1.4rem;
+        margin: 1.75rem 0 0.75rem;
+    }
+
+    /* Better embedded content */
+    .single-post .entry-content iframe,
+    .single-post .entry-content .wp-block-embed {
+        margin-bottom: 1.5rem;
+        max-width: 100%;
+    }
+
+    /* Better blockquotes */
+    .single-post .entry-content blockquote {
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        border-left: 5px solid var(--primary);
+        background-color: rgba(0,0,0,0.03);
+        font-style: italic;
+    }
+
+    .single-post .entry-content blockquote p:last-child {
+        margin-bottom: 0;
+    }
+
+    /* Better lists */
+    .single-post .entry-content ul,
+    .single-post .entry-content ol {
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .single-post .entry-content li {
+        margin-bottom: 0.5rem;
+    }
+
+    /* Better tables */
+    .single-post .entry-content table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Reading progress indicator */
+    .reading-progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 3px;
+        background-color: var(--primary);
+        z-index: 9999;
+        transition: width 0.2s ease;
+    }
+
+    /* Estimated reading time */
+    .estimated-reading-time {
+        display: inline-block;
+        font-size: 0.85rem;
+        color: #666;
+        margin-left: 1rem;
+    }
+
+    /* Social sharing buttons */
+    .mobile-social-share {
+        display: flex;
+        justify-content: space-between;
+        margin: 1.5rem 0;
+        padding: 0.75rem 0;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .mobile-social-share a {
+        flex: 1;
+        text-align: center;
+        padding: 0.75rem 0;
+        color: #fff;
+        border-radius: 4px;
+        font-size: 1rem;
+        margin: 0 4px;
+    }
+
+    .mobile-social-share .share-facebook {
+        background-color: #1877f2;
+    }
+
+    .mobile-social-share .share-twitter {
+        background-color: #1da1f2;
+    }
+
+    .mobile-social-share .share-whatsapp {
+        background-color: #25d366;
+    }
+
+    .mobile-social-share .share-email {
+        background-color: #555;
+    }
+
+    /* Font size adjustment feature */
+    .font-size-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 1rem 0;
+    }
+
+    .font-size-controls button {
+        background: transparent;
+        border: 1px solid #ddd;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        margin: 0 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .font-size-controls .font-size-value {
+        margin: 0 10px;
+        font-size: 0.9rem;
+    }
+
+    /* Font size classes */
+    .single-post.font-size-small .entry-content p,
+    .single-post.font-size-small .entry-content li {
+        font-size: 0.9rem;
+    }
+
+    .single-post.font-size-large .entry-content p,
+    .single-post.font-size-large .entry-content li {
+        font-size: 1.15rem;
+    }
+
+    .single-post.font-size-xlarge .entry-content p,
+    .single-post.font-size-xlarge .entry-content li {
+        font-size: 1.25rem;
+    }
+}
+
+/**
+ * Accessibility improvements for touch devices
+ */
+@media (hover: none) {
+    /* Remove hover effects which can cause flickering on touch */
+    a:hover,
+    button:hover,
+    .btn:hover {
+        transition: none !important;
+    }
+
+    /* Add active state styling for better touch feedback */
+    a:active,
+    button:active,
+    .btn:active {
+        opacity: 0.8;
+        transform: translateY(1px);
+    }
+
+    /* Enhance focus states for accessibility */
+    a:focus,
+    button:focus,
+    input:focus,
+    select:focus,
+    textarea:focus {
+        outline: 2px solid var(--mynews-primary);
+        outline-offset: 2px;
+    }
+}
+
+/**
+ * Dark mode support for mobile devices
+ */
+@media (prefers-color-scheme: dark) {
+    .theme-supports-dark-mode {
+        --mynews-light: #222;
+        --mynews-dark: #f8f9fa;
+        background-color: #1a1a1a;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .theme-supports-dark-mode .card,
+    .theme-supports-dark-mode .widget,
+    .theme-supports-dark-mode .navbar,
+    .theme-supports-dark-mode .site-header,
+    .theme-supports-dark-mode .mobile-bottom-nav {
+        background-color: #2a2a2a;
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .theme-supports-dark-mode .card,
+    .theme-supports-dark-mode .widget {
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .theme-supports-dark-mode a:not(.btn) {
+        color: #add8e6;
+    }
+
+    .theme-supports-dark-mode .page-link,
+    .theme-supports-dark-mode .form-control {
+        background-color: #333;
+        border-color: rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .theme-supports-dark-mode .btn-outline-secondary {
+        color: #ddd;
+        border-color: #666;
+    }
+}
+
+/**
+ * Print-specific styles
+ */
+@media print {
+    .site-header,
+    .site-footer,
+    .comments-area,
+    .navigation,
+    .sidebar,
+    .mobile-bottom-nav,
+    .mynews-post-navigation {
+        display: none !important;
+    }
+
+    body {
+        font-size: 12pt;
+        color: #000;
+    }
+
+    a {
+        color: #000;
+        text-decoration: underline;
+    }
+
+    .entry-content a:after {
+        content: " (" attr(href) ")";
+        font-size: 10pt;
+        font-weight: normal;
+    }
+
+    .post-thumbnail img {
+        max-width: 100% !important;
+        page-break-inside: avoid;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        page-break-after: avoid;
+    }
+
+    p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    table {
+        border-collapse: collapse !important;
+    }
+
+    table td, table th {
+        background-color: #fff !important;
+        border: 1px solid #ddd !important;
+    }
+}
+
+/**
+ * Dark mode styles
+ */
+body.dark-mode {
+    background-color: #222;
+    color: #eee;
+}
+
+body.dark-mode .site-header,
+body.dark-mode .navbar,
+body.dark-mode .card,
+body.dark-mode .widget,
+body.dark-mode .comment-body,
+body.dark-mode .site-footer {
+    background-color: #2d2d2d;
+    color: #eee;
+}
+
+body.dark-mode .card,
+body.dark-mode .widget {
+    border-color: #444;
+}
+
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode h4, 
+body.dark-mode h5, 
+body.dark-mode h6,
+body.dark-mode a:not(.btn) {
+    color: #fff;
+}
+
+body.dark-mode .nav-link,
+body.dark-mode .navbar-nav .nav-link,
+body.dark-mode .post-meta,
+body.dark-mode .post-meta a {
+    color: #ccc;
+}
+
+body.dark-mode .nav-link:hover,
+body.dark-mode .navbar-nav .nav-link:hover,
+body.dark-mode .post-meta a:hover {
+    color: #fff;
+}
+
+body.dark-mode blockquote {
+    background: rgba(255,255,255,0.05);
+    border-left-color: #444;
+}
+
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+    background-color: #333;
+    border-color: #444;
+    color: #eee;
+}
+
+/* Print styles */
+@media print {
+    .mobile-bottom-nav,
+    .back-to-top,
+    .navbar-toggler,
+    .site-header-search,
+    .site-footer,
+    .comments-area,
+    .sidebar,
+    .mynews-pagination,
+    .mynews-post-navigation,
+    .wp-block-buttons {
+        display: none !important;
+    }
+
+    body {
+        font-size: 12pt;
+        background: #fff !important;
+        color: #000 !important;
+    }
+
+    a {
+        color: #000 !important;
+    }
+
+    .post-thumbnail img {
+        max-width: 100% !important;
+        page-break-inside: avoid;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        page-break-after: avoid;
+    }
+
+    p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    table {
+        border-collapse: collapse !important;
+    }
+
+    table td, table th {
+        background-color: #fff !important;
+        border: 1px solid #ddd !important;
+    }
+}

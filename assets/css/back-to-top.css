@@ -1,0 +1,45 @@
+/* Back to Top Button Styling */
+.back-to-top {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: none;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    background-color: var(--mynews-primary);
+    color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 999;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.back-to-top:hover {
+    opacity: 1;
+    color: #fff;
+    text-decoration: none;
+    background-color: var(--mynews-dark);
+}
+
+.back-to-top i {
+    font-size: 20px;
+    line-height: 45px;
+}
+
+@media (max-width: 768px) {
+    .back-to-top {
+        bottom: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+    }
+    
+    .back-to-top i {
+        font-size: 18px;
+        line-height: 40px;
+    }
+}

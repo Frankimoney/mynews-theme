@@ -1,0 +1,662 @@
+/**
+ * Dark Mode Styles for MyNews Theme
+ * 
+ * @package My_News
+ */
+
+/* Dark Mode Variables */
+:root {
+    /* Light Mode (default) variables */
+    --body-bg: #ffffff;
+    --body-color: #333333;
+    --heading-color: #222222;
+    --link-color: #0073aa;
+    --link-hover-color: #00a0d2;
+    --card-bg: #ffffff;
+    --card-border: rgba(0, 0, 0, 0.125);
+    --input-bg: #ffffff;
+    --input-border: #ced4da;
+    --navbar-bg: #ffffff;
+    --navbar-color: #333333;
+    --footer-bg: #f8f9fa;
+    --footer-color: #666666;
+    --blockquote-bg: #f8f9fa;
+    --blockquote-border: #e9ecef;
+    --code-bg: #f5f5f5;
+    --hr-border: rgba(0, 0, 0, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --table-border: #dee2e6;
+    --table-stripe: rgba(0, 0, 0, 0.03);
+    --box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Dark Mode Variables */
+[data-theme="dark"] {
+    --body-bg: #121212;
+    --body-color: #e0e0e0;
+    --heading-color: #f8f9fa;
+    --link-color: #4caf50;
+    --link-hover-color: #81c784;
+    --card-bg: #1e1e1e;
+    --card-border: rgba(255, 255, 255, 0.125);
+    --input-bg: #2d2d2d;
+    --input-border: #444444;
+    --navbar-bg: #1a1a1a;
+    --navbar-color: #e0e0e0;
+    --footer-bg: #1a1a1a;
+    --footer-color: #b0b0b0;
+    --blockquote-bg: #2d2d2d;
+    --blockquote-border: #444444;
+    --code-bg: #2d2d2d;
+    --hr-border: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --table-border: #444444;
+    --table-stripe: rgba(255, 255, 255, 0.03);
+    --box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.2);
+}
+
+/* Dark Mode Toggle Button */
+.dark-mode-toggle {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+    margin: 0 10px;
+}
+
+.dark-mode-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.dark-mode-toggle .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.dark-mode-toggle .slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.dark-mode-toggle input:checked + .slider {
+    background-color: #4caf50;
+}
+
+.dark-mode-toggle input:focus + .slider {
+    box-shadow: 0 0 1px #4caf50;
+}
+
+.dark-mode-toggle input:checked + .slider:before {
+    transform: translateX(30px);
+}
+
+.dark-mode-toggle .slider .moon,
+.dark-mode-toggle .slider .sun {
+    position: absolute;
+    top: 6px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.dark-mode-toggle .slider .sun {
+    left: 8px;
+}
+
+.dark-mode-toggle .slider .moon {
+    right: 8px;
+    color: #333;
+}
+
+/* Icons in dark mode */
+[data-theme="dark"] .dark-mode-toggle .slider .moon {
+    color: #fff;
+}
+
+[data-theme="dark"] .dark-mode-toggle .slider .sun {
+    color: #333;
+}
+
+/* Apply dark mode styles */
+[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+/* Base elements */
+[data-theme="dark"] body {
+    background-color: var(--body-bg);
+    color: var(--body-color);
+}
+
+[data-theme="dark"] h1, 
+[data-theme="dark"] h2, 
+[data-theme="dark"] h3, 
+[data-theme="dark"] h4, 
+[data-theme="dark"] h5, 
+[data-theme="dark"] h6 {
+    color: var(--heading-color);
+}
+
+[data-theme="dark"] a {
+    color: var(--link-color);
+}
+
+[data-theme="dark"] a:hover,
+[data-theme="dark"] a:focus {
+    color: var(--link-hover-color);
+}
+
+/* Navigation */
+[data-theme="dark"] .navbar {
+    background-color: var(--navbar-bg) !important;
+}
+
+[data-theme="dark"] .navbar-light .navbar-nav .nav-link {
+    color: var(--body-color);
+}
+
+[data-theme="dark"] .navbar-light .navbar-nav .nav-link:hover,
+[data-theme="dark"] .navbar-light .navbar-nav .nav-link:focus {
+    color: var(--link-color);
+}
+
+[data-theme="dark"] .navbar-light .navbar-brand {
+    color: var(--heading-color);
+}
+
+[data-theme="dark"] .dropdown-menu {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+}
+
+[data-theme="dark"] .dropdown-item {
+    color: var(--body-color);
+}
+
+[data-theme="dark"] .dropdown-item:hover,
+[data-theme="dark"] .dropdown-item:focus {
+    background-color: var(--navbar-bg);
+    color: var(--link-color);
+}
+
+/* Ensure hamburger (navbar-toggler) icon is visible in dark mode */
+[data-theme="dark"] .navbar-toggler {
+    border-color: #fff !important;
+}
+[data-theme="dark"] .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
+/* Cards and Content */
+[data-theme="dark"] .card {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+}
+
+[data-theme="dark"] .card-header,
+[data-theme="dark"] .card-footer {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-color: var(--card-border);
+}
+
+[data-theme="dark"] .post,
+[data-theme="dark"] .page,
+[data-theme="dark"] .widget,
+[data-theme="dark"] .comment-body {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+}
+
+[data-theme="dark"] .list-group-item {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+    color: var(--body-color);
+}
+
+/* Form elements */
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="email"],
+[data-theme="dark"] input[type="url"],
+[data-theme="dark"] input[type="password"],
+[data-theme="dark"] input[type="search"],
+[data-theme="dark"] input[type="number"],
+[data-theme="dark"] input[type="tel"],
+[data-theme="dark"] input[type="range"],
+[data-theme="dark"] input[type="date"],
+[data-theme="dark"] input[type="month"],
+[data-theme="dark"] input[type="week"],
+[data-theme="dark"] input[type="time"],
+[data-theme="dark"] input[type="datetime"],
+[data-theme="dark"] input[type="datetime-local"],
+[data-theme="dark"] input[type="color"],
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--body-color);
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+    color: #999999;
+}
+
+/* Tables */
+[data-theme="dark"] table {
+    border-color: var(--table-border);
+}
+
+[data-theme="dark"] th {
+    background-color: var(--card-bg);
+    border-color: var(--table-border);
+}
+
+[data-theme="dark"] td {
+    border-color: var(--table-border);
+}
+
+[data-theme="dark"] tr:nth-child(even) {
+    background-color: var(--table-stripe);
+}
+
+/* Other elements */
+[data-theme="dark"] blockquote {
+    background-color: var(--blockquote-bg);
+    border-left-color: var(--blockquote-border);
+}
+
+[data-theme="dark"] code,
+[data-theme="dark"] pre {
+    background-color: var(--code-bg);
+}
+
+[data-theme="dark"] hr {
+    border-color: var(--hr-border);
+}
+
+/* Widget areas */
+[data-theme="dark"] .sidebar .widget,
+[data-theme="dark"] .footer-widget {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+}
+
+[data-theme="dark"] .widget-title {
+    border-bottom-color: var(--card-border);
+}
+
+/* Footer */
+[data-theme="dark"] .site-footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-color);
+    border-top-color: var(--card-border);
+}
+
+/* Popular Posts Widget */
+[data-theme="dark"] .mynews-post-item {
+    border-bottom-color: var(--card-border);
+}
+
+[data-theme="dark"] .mynews-post-title a {
+    color: var(--body-color);
+}
+
+[data-theme="dark"] .mynews-post-title a:hover {
+    color: var(--link-color);
+}
+
+[data-theme="dark"] .mynews-post-meta {
+    color: #999999;
+}
+
+[data-theme="dark"] .mynews-post-excerpt {
+    color: var(--body-color);
+}
+
+/* Comments */
+[data-theme="dark"] .comment-metadata a {
+    color: #999999;
+}
+
+[data-theme="dark"] .comment-content {
+    color: var(--body-color);
+}
+
+/* Main comment section outer container - keep text dark in dark mode */
+[data-theme="dark"] .comments-area,
+[data-theme="dark"] #comments {
+    color: #222 !important;
+}
+
+/* Main comment section outer container - force dark text in dark mode */
+[data-theme="dark"] .comments-area,
+[data-theme="dark"] #comments,
+[data-theme="dark"] .comments-area *,
+[data-theme="dark"] #comments * {
+    color: #222 !important;
+}
+
+/* Pagination */
+[data-theme="dark"] .pagination .page-link {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+    color: var(--body-color);
+}
+
+[data-theme="dark"] .pagination .page-link:hover {
+    background-color: var(--navbar-bg);
+    color: var(--link-color);
+}
+
+[data-theme="dark"] .pagination .page-item.active .page-link {
+    background-color: var(--link-color);
+    border-color: var(--link-color);
+    color: #fff;
+}
+
+/* Adjusted single post content padding for less horizontal space */
+.single-post,
+.single .post,
+.single-post .post,
+.single .entry-content {
+    padding: 2rem 1rem !important;
+    margin-bottom: 2rem;
+    border-radius: 0.5rem;
+}
+
+/* Adjusted pagination link padding for less horizontal space */
+.pagination .page-link {
+    padding: 0.75rem 0.75rem;
+    font-size: 1.1rem;
+    border-radius: 0.375rem;
+    margin: 0 0.15rem;
+    transition: background 0.2s, color 0.2s;
+}
+
+/* Dark mode pagination tweaks */
+[data-theme="dark"] .pagination .page-link {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+    color: var(--body-color);
+}
+
+[data-theme="dark"] .pagination .page-link:hover,
+[data-theme="dark"] .pagination .page-link:focus {
+    background-color: var(--navbar-bg);
+    color: var(--link-color);
+}
+
+[data-theme="dark"] .pagination .page-item.active .page-link {
+    background-color: var(--link-color);
+    border-color: var(--link-color);
+    color: #fff;
+}
+
+/* Improved text alignment for single post content and pagination */
+.single-post,
+.single .post,
+.single-post .post,
+.single .entry-content,
+.single-post .entry-content,
+.pagination {
+    text-align: left !important;
+}
+
+.single-post h1,
+.single-post h2,
+.single-post h3,
+.single-post h4,
+.single-post h5,
+.single-post h6,
+.single-post p,
+.single .entry-content h1,
+.single .entry-content h2,
+.single .entry-content h3,
+.single .entry-content h4,
+.single .entry-content h5,
+.single .entry-content h6,
+.single .entry-content p {
+    text-align: left !important;
+}
+
+/* Bootstrap Components */
+[data-theme="dark"] .badge {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .badge.bg-primary {
+    background-color: var(--link-color) !important;
+}
+
+[data-theme="dark"] .alert {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .btn-light {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+    color: var(--body-color);
+}
+
+/* Image adjustments */
+[data-theme="dark"] .wp-post-image,
+[data-theme="dark"] .attachment-thumbnail,
+[data-theme="dark"] img.size-medium,
+[data-theme="dark"] img.size-large,
+[data-theme="dark"] img.size-full {
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+}
+
+[data-theme="dark"] .wp-post-image:hover {
+    opacity: 1;
+}
+
+/* Breaking News Ticker - dark mode */
+[data-theme="dark"] .breaking-news-ticker,
+[data-theme="dark"] .breaking-news-ticker .ticker-content,
+[data-theme="dark"] .breaking-news-ticker .ticker-title,
+[data-theme="dark"] .breaking-news-ticker .ticker-text,
+[data-theme="dark"] .breaking-news-ticker marquee,
+[data-theme="dark"] .breaking-news-ticker strong,
+[data-theme="dark"] .breaking-news-ticker b {
+    color: #fff !important;
+    background: var(--navbar-bg) !important;
+}
+
+[data-theme="dark"] .breaking-news-ticker .ticker-content a,
+[data-theme="dark"] .breaking-news-ticker .ticker-text a,
+[data-theme="dark"] .breaking-news-ticker marquee a {
+    color: #fff !important;
+}
+
+/* Breaking News Ticker - dark mode accessibility fix */
+[data-theme="dark"] .mynews-breaking-news,
+[data-theme="dark"] .mynews-breaking-news .mynews-breaking-label,
+[data-theme="dark"] .mynews-breaking-news .mynews-ticker-content,
+[data-theme="dark"] .mynews-breaking-news .mynews-ticker-item,
+[data-theme="dark"] .mynews-breaking-news .mynews-ticker-item a {
+    background: var(--navbar-bg) !important;
+    color: #fff !important;
+}
+
+[data-theme="dark"] .mynews-breaking-news .mynews-breaking-label {
+    background: var(--link-color) !important;
+    color: #fff !important;
+}
+
+[data-theme="dark"] .mynews-breaking-news .mynews-ticker-controls i {
+    color: #fff !important;
+}
+
+/* Recent Posts Section - dark mode fix */
+[data-theme="dark"] .widget_recent_entries,
+[data-theme="dark"] .widget_recent_entries li,
+[data-theme="dark"] .widget_recent_entries a,
+[data-theme="dark"] .recent-posts,
+[data-theme="dark"] .recent-posts li,
+[data-theme="dark"] .recent-posts a {
+    color: #fff !important;
+}
+
+[data-theme="dark"] .widget_recent_entries li,
+[data-theme="dark"] .recent-posts li {
+    background: transparent !important;
+}
+
+/* Sidebar and Card Text - dark mode fix */
+[data-theme="dark"] .widget_recent_entries,
+[data-theme="dark"] .widget_recent_entries li,
+[data-theme="dark"] .widget_recent_entries a,
+[data-theme="dark"] .recent-posts,
+[data-theme="dark"] .recent-posts li,
+[data-theme="dark"] .recent-posts a,
+[data-theme="dark"] .widget_recent_comments,
+[data-theme="dark"] .widget_recent_comments li,
+[data-theme="dark"] .widget_recent_comments a,
+[data-theme="dark"] .widget_archive,
+[data-theme="dark"] .widget_archive li,
+[data-theme="dark"] .widget_archive a,
+[data-theme="dark"] .widget_categories,
+[data-theme="dark"] .widget_categories li,
+[data-theme="dark"] .widget_categories a,
+[data-theme="dark"] .widget_text,
+[data-theme="dark"] .widget_text p,
+[data-theme="dark"] .widget,
+[data-theme="dark"] .widget a,
+[data-theme="dark"] .card,
+[data-theme="dark"] .card-body,
+[data-theme="dark"] .card-title,
+[data-theme="dark"] .card-text,
+[data-theme="dark"] .post-card,
+[data-theme="dark"] .post-card * {
+    color: #fff !important;
+}
+
+[data-theme="dark"] .widget li,
+[data-theme="dark"] .widget_recent_entries li,
+[data-theme="dark"] .recent-posts li,
+[data-theme="dark"] .widget_recent_comments li,
+[data-theme="dark"] .widget_archive li,
+[data-theme="dark"] .widget_categories li {
+    background: transparent !important;
+}
+
+/* Force white text on blue backgrounds in dark mode */
+[data-theme="dark"] .bg-primary,
+[data-theme="dark"] .mynews-breaking-news .mynews-breaking-label,
+[data-theme="dark"] .bg-primary *,
+[data-theme="dark"] .mynews-breaking-news .mynews-breaking-label * {
+    color: #fff !important;
+}
+
+/* Force 'Read more' text on blue backgrounds to remain white in dark mode */
+[data-theme="dark"] .bg-primary .read-more,
+[data-theme="dark"] .bg-primary .read-more *,
+[data-theme="dark"] .mynews-breaking-news .mynews-breaking-label .read-more,
+[data-theme="dark"] .mynews-breaking-news .mynews-breaking-label .read-more * {
+    color: #fff !important;
+}
+
+/* Media queries for responsive dark mode */
+@media (max-width: 768px) {
+    .dark-mode-toggle {
+        width: 50px;
+        height: 26px;
+        margin: 0 5px;
+    }
+    
+    .dark-mode-toggle .slider:before {
+        height: 18px;
+        width: 18px;
+    }
+    
+    .dark-mode-toggle input:checked + .slider:before {
+        transform: translateX(24px);
+    }
+    
+    .dark-mode-toggle .slider .moon,
+    .dark-mode-toggle .slider .sun {
+        font-size: 12px;
+        top: 7px;
+    }
+    
+    /* Place the toggle above the navbar-toggler on very small screens */
+    @media (max-width: 400px) {
+        .dark-mode-container {
+            position: absolute;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    [data-theme="dark"] .navbar-collapse {
+        background-color: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+    }
+}
+
+/* Reading progress bar - dark mode */
+[data-theme="dark"] .reading-progress-bar {
+    background-color: var(--link-color);
+}
+
+/* Mobile bottom navigation - dark mode */
+[data-theme="dark"] .mobile-bottom-nav {
+    background-color: var(--navbar-bg);
+    border-top-color: var(--card-border);
+}
+
+[data-theme="dark"] .mobile-bottom-nav .nav-item a {
+    color: var(--body-color);
+}
+
+[data-theme="dark"] .mobile-bottom-nav .nav-item a.active,
+[data-theme="dark"] .mobile-bottom-nav .nav-item a:hover,
+[data-theme="dark"] .mobile-bottom-nav .nav-item a:focus {
+    color: var(--link-color);
+}
+
+/* Dark mode toggle feedback */
+.dark-mode-toggle:focus-within {
+    outline: 2px solid var(--link-color);
+    outline-offset: 2px;
+}
+
+/* Comment widget text - dark mode fix for white background */
+[data-theme="dark"] .widget_recent_comments,
+[data-theme="dark"] .widget_recent_comments li,
+[data-theme="dark"] .widget_recent_comments li *,
+[data-theme="dark"] .widget_recent_comments a {
+    color: #222 !important;
+}
+
+/* MAXIMUM SPECIFICITY: Comment widget text - dark mode fix for white background */
+[data-theme="dark"] .widget_recent_comments li,
+[data-theme="dark"] .widget_recent_comments li *,
+[data-theme="dark"] .widget_recent_comments li a,
+[data-theme="dark"] .widget_recent_comments li span,
+[data-theme="dark"] .widget_recent_comments li cite,
+[data-theme="dark"] .widget_recent_comments li .comment-author-link {
+    color: #222 !important;
+}

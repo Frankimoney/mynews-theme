@@ -1,0 +1,140 @@
+/**
+ * Popular Posts Widget Styles
+ *
+ * @package My_News
+ */
+
+/* Widget container */
+.mynews-popular-posts {
+    margin-bottom: 1.5rem;
+}
+
+/* Post list */
+.mynews-posts-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Post item */
+.mynews-post-item {
+    display: flex;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.mynews-post-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+/* Post thumbnail */
+.mynews-post-thumb {
+    flex: 0 0 100px;
+    margin-right: 15px;
+}
+
+.mynews-post-thumb img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+/* Post content */
+.mynews-post-content {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+/* Post title */
+.mynews-post-title {
+    font-size: 16px;
+    line-height: 1.3;
+    margin: 0 0 8px;
+    font-weight: 600;
+}
+
+.mynews-post-title a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.mynews-post-title a:hover {
+    color: #0073aa;
+}
+
+/* Post meta */
+.mynews-post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: #767676;
+    margin-bottom: 8px;
+}
+
+.mynews-post-date,
+.mynews-post-views,
+.mynews-post-comments {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.mynews-post-date i,
+.mynews-post-views i,
+.mynews-post-comments i {
+    margin-right: 4px;
+    font-size: 14px;
+}
+
+/* Post excerpt */
+.mynews-post-excerpt {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #555;
+    margin: 8px 0 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .mynews-post-thumb {
+        flex: 0 0 80px;
+    }
+    
+    .mynews-post-title {
+        font-size: 15px;
+    }
+    
+    .mynews-post-meta {
+        font-size: 12px;
+    }
+    
+    .mynews-post-excerpt {
+        font-size: 13px;
+    }
+}
+
+/* Widget in footer area */
+.footer-widget .mynews-post-item {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.footer-widget .mynews-post-title a {
+    color: #f8f9fa;
+}
+
+.footer-widget .mynews-post-title a:hover {
+    color: #17a2b8;
+}
+
+.footer-widget .mynews-post-meta {
+    color: #adb5bd;
+}
+
+.footer-widget .mynews-post-excerpt {
+    color: #ced4da;
+}

@@ -1,0 +1,40 @@
+/**
+ * Additional fixes for breaking news ticker
+ */
+
+/* Force hardware acceleration on all browsers */
+.mynews-ticker-item.active.scrolling {
+  transform: translate3d(100vw, 0, 0);
+  animation-name: ticker-scroll-3d;
+}
+
+@keyframes ticker-scroll-3d {
+  0% {
+    transform: translate3d(100vw, 0, 0);
+    visibility: visible;
+  }
+  100% {
+    transform: translate3d(-100vw, 0, 0);
+    visibility: visible;
+  }
+}
+
+/* Override for browsers that don't support 3D transforms */
+@supports not (transform: translate3d(0,0,0)) {
+  .mynews-ticker-item.active.scrolling {
+    transform: translateX(100vw);
+    animation-name: ticker-scroll;
+  }
+}
+
+/* Make sure the animation doesn't get interrupted */
+.scrolling-ticker {
+  contain: layout style;
+}
+
+/* Ensure performance on mobile devices */
+@media (max-width: 768px) {
+  .mynews-ticker-item.active.scrolling {
+    animation-duration: 14s !important; /* Faster scrolling on mobile */
+  }
+}

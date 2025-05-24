@@ -1,0 +1,204 @@
+/**
+ * Page template specific styles
+ * Additional styling for page.php template
+ */
+
+/* Page Header Styling */
+.entry-header {
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.entry-title {
+    color: var(--bs-dark);
+    word-wrap: break-word;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.entry-title:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 4px;
+    width: 60px;
+    background-color: var(--bs-primary);
+    border-radius: 2px;
+}
+
+/* Featured Image */
+.featured-image-wrapper {
+    margin-bottom: 2rem;
+    overflow: hidden;
+    border-radius: 0.375rem;
+}
+
+.featured-image-wrapper img {
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.featured-image-wrapper:hover img {
+    transform: scale(1.02);
+}
+
+/* Content Styling */
+.entry-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.entry-content h2, 
+.entry-content h3, 
+.entry-content h4 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.entry-content p {
+    margin-bottom: 1.5rem;
+}
+
+.entry-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.375rem;
+}
+
+.entry-content .wp-block-image figcaption {
+    font-size: 0.875rem;
+    color: #6c757d;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+/* Lists within content */
+.entry-content ul,
+.entry-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.25rem;
+}
+
+.entry-content li {
+    margin-bottom: 0.5rem;
+}
+
+/* Tables */
+.entry-content table {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border-collapse: collapse;
+}
+
+.entry-content table th,
+.entry-content table td {
+    padding: 0.75rem;
+    border: 1px solid #dee2e6;
+}
+
+.entry-content table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+/* Blockquotes */
+.entry-content blockquote {
+    border-left: 4px solid var(--bs-primary);
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: #495057;
+}
+
+/* Code blocks */
+.entry-content pre {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.375rem;
+    overflow: auto;
+    margin-bottom: 1.5rem;
+}
+
+.entry-content code {
+    background-color: #f8f9fa;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+}
+
+/* Page Footer */
+.entry-footer {
+    padding-top: 1rem;
+    margin-top: 3rem;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Page Links Pagination */
+.page-links {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.page-links .page-numbers {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    margin: 0 0.25rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    color: var(--bs-primary);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.page-links .page-numbers:hover,
+.page-links .page-numbers.current {
+    background-color: var(--bs-primary);
+    color: #fff;
+    border-color: var(--bs-primary);
+}
+
+/* Comments Area */
+.comments-area {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 767.98px) {
+    .entry-title {
+        font-size: 1.75rem;
+    }
+    
+    .entry-content {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+    
+    .entry-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .entry-content h3 {
+        font-size: 1.25rem;
+    }
+}
+
+/* Add Bootstrap styles to WordPress alignment classes */
+.alignleft {
+    float: left;
+    margin-right: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.alignright {
+    float: right;
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.aligncenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

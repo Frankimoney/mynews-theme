@@ -1,0 +1,463 @@
+/**
+ * Breaking News Ticker JavaScript
+ */
+(function($) {
+  'use strict';
+
+  // Ticker class
+  class BreakingNewsTicker {
+    constructor(element, options) {
+      // Default options
+      const defaults = {
+        autoPlay: true,
+        speed: 4000,
+        pauseOnHover: true,
+        direction: 'ltr',
+        scrolling: true, // Enable scrolling effect
+        scrollDuration: 20000, // 20 seconds to complete one full scroll
+        displayMode: 'scroll' // 'scroll' or 'fade'
+      };
+
+      // Merge defaults with user options
+      this.options = $.extend({}, defaults, options);
+      
+      // Setup variables
+      this.$ticker = $(element);
+      this.$items = this.$ticker.find('.mynews-ticker-item');
+      this.$controls = this.$ticker.find('.mynews-ticker-controls');
+      this.$next = this.$ticker.find('.mynews-ticker-next');
+      this.$prev = this.$ticker.find('.mynews-ticker-prev');
+      this.$pause = this.$ticker.find('.mynews-ticker-pause');
+      
+      this.itemCount = this.$items.length;
+      this.currentIndex = 0;
+      this.isPaused = false;
+      this.interval = null;
+      this.isRtl = this.options.direction === 'rtl';
+      this.textMeasureEl = null; // For measuring text width
+      
+      // Initialize the ticker
+      this.init = this.init.bind(this);
+      this.showItem = this.showItem.bind(this);
+      this.showNext = this.showNext.bind(this);
+      this.showPrev = this.showPrev.bind(this);
+      this.play = this.play.bind(this);
+      this.pause = this.pause.bind(this);
+      this.bindEvents = this.bindEvents.bind(this);
+      this.resetInterval = this.resetInterval.bind(this);
+      this.getTextWidth = this.getTextWidth.bind(this);
+      this.init();
+    }
+    
+    init() {
+      // Show first item
+      this.showItem(0);
+      
+      // Autoplay if enabled
+      if (this.options.autoPlay) {
+        this.play();
+      }
+      
+      // Set up event handlers
+      this.bindEvents();
+    }
+    
+    bindEvents() {
+      // Use arrow functions to preserve 'this'
+      this.$next.on('click', (e) => {
+        e.preventDefault();
+        this.showNext();
+        this.resetInterval();
+      });
+      
+      this.$prev.on('click', (e) => {
+        e.preventDefault();
+        this.showPrev();
+        this.resetInterval();
+      });
+      
+      // Handle window resize to recalculate animation durations
+      $(window).on('resize', () => {
+        // Wait a moment for the resize to complete
+        clearTimeout(this.resizeTimer);
+        this.resizeTimer = setTimeout(() => {
+          // Re-show the current item to recalculate dimensions
+          if (this.options.displayMode === 'scroll') {
+            // For scroll mode, restart the animation
+            const $currentItem = this.$ticker.find('.mynews-ticker-item.active');
+            if ($currentItem.length) {
+              // Briefly remove and reapply the scrolling class to restart animation
+              $currentItem.removeClass('scrolling');
+              void $currentItem[0].offsetWidth; // Force reflow
+              
+              // Re-show the current item with fresh animation
+              this.showItem(this.currentIndex);
+            }
+          } else {
+            this.showItem(this.currentIndex);
+          }
+        }, 250);
+      });
+      
+      this.$pause.on('click', (e) => {
+        e.preventDefault();
+        if (this.isPaused) {
+          this.play();
+          // Change icon to pause when playing
+          this.$pause.html('<i class="fas fa-pause"></i>');
+        } else {
+          this.pause();
+          // Change icon to play when paused
+          this.$pause.html('<i class="fas fa-play"></i>');
+        }
+      });
+      
+      if (this.options.pauseOnHover) {
+        // Apply pause on hover only to the ticker content area, not the controls
+        this.$ticker.find('.mynews-ticker-content').on('mouseenter', () => {
+          if (!this.isPaused) {
+            this.pause(true); // true = paused by hover
+            // Don't update the pause button UI when pausing by hover
+          }
+        }).on('mouseleave', () => {
+          if (this.pausedByHover) {
+            this.play();
+            // Make sure the pause button shows the correct icon when resuming from hover
+            if (!this.isPaused) {
+              this.$pause.html('<i class="fas fa-pause"></i>');
+            }
+          }
+        });
+      }
+    }
+    
+    resetInterval() {
+      if (this.interval) {
+        clearInterval(this.interval);
+        this.interval = null;
+      }
+      
+      if (!this.isPaused) {
+        this.interval = setInterval(() => {
+          this.showNext();
+        }, this.options.speed);
+      }
+    }
+    
+    showItem(index) {
+      // Always get the latest items in case DOM changes
+      const $items = this.$ticker.find('.mynews-ticker-item');
+      this.itemCount = $items.length; // update itemCount!
+      
+      // Reset all items - remove classes and inline styles
+      $items.removeClass('active scrolling fade-transition').css({
+        'opacity': '',
+        'animation-duration': '',
+        'animation-play-state': '',
+        'border': '',
+        'background': ''
+      });
+      
+      const $currentItem = $items.eq(index);
+      
+      // Add active class
+      $currentItem.addClass('active');
+      
+      // Make sure item is fully visible
+      $currentItem.css({
+        'opacity': 1
+      });
+      
+      // Update the current index
+      this.currentIndex = index;
+      
+      // Handle different display modes
+      if (this.options.displayMode === 'fade') {
+        // Apply fade transition class
+        $currentItem.addClass('fade-transition');
+      }
+      // Add scrolling animation if enabled and in scroll mode
+      else if (this.options.scrolling && this.options.displayMode === 'scroll') {
+        // First position the element outside the visible area
+        $currentItem.css({
+          'transform': 'translateX(300%)', // Move further off-screen to match the keyframe starting position
+          'opacity': 1
+        });
+        
+        // Force a reflow before adding the scrolling class to ensure animation starts properly
+        void $currentItem[0].offsetWidth;
+        
+        $currentItem.addClass('scrolling');
+        
+        // Set animation duration from options
+        if (this.options.scrollDuration) {
+          const duration = this.options.scrollDuration / 1000;
+          
+          // Calculate animation speed based on text length for more consistent reading experience
+          const textLength = $currentItem.text().length;
+          const containerWidth = this.$ticker.find('.mynews-ticker-content').width();
+          const textWidth = this.getTextWidth($currentItem.text());
+          
+          // Account for padding and any additional content
+          const actualTextWidth = textWidth + 150; // Add more padding for better measurement
+          
+          // Always use scrolling animation for consistency across all devices
+          // Only center very short text (less than 30% of container)
+          if (actualTextWidth <= containerWidth * 0.3) {
+            $currentItem.removeClass('scrolling');
+            $currentItem.css({
+              'transform': 'translateX(0)', // Center in container instead
+              'position': 'static', // Change from absolute to static
+              'display': 'block' // Use block instead of inline-block
+            });
+            return;
+          }
+          
+          // Calculate a better duration based on text width and container width
+          // Ensure text has time to scroll completely across screen
+          const textWidthRatio = textWidth / containerWidth;
+          
+          // Calculate total travel distance for full scrolling across ALL screens
+          // For the animation that goes from 300% to -800%, we need to account for a 1100% total travel distance
+          // This is an extremely large distance that should work on all screen sizes
+          const totalWidth = (containerWidth * 11) + textWidth; // Increased multiplier for even more travel distance
+          
+          // Use a fixed speed of pixels per second to ensure consistent speed across screen sizes
+          const pixelsPerSecond = 35; // Further reduced speed for better readability across all devices
+          const calculatedDuration = totalWidth / pixelsPerSecond;
+          
+          // Ensure a minimum duration
+          const adjustedDuration = Math.max(
+            duration / 1000, // Convert ms to seconds
+            calculatedDuration,
+            5 // Minimum 5 seconds animation duration
+          );
+          
+          $currentItem.css({
+            'animation-duration': adjustedDuration + 's'
+          });
+        }
+      }
+    }
+    
+    // Helper method to estimate text width more accurately
+    getTextWidth(text) {
+      if (!this.textMeasureEl) {
+        // Create a hidden element to measure text width that matches ticker styling
+        const fontSize = getComputedStyle(document.documentElement).getPropertyValue('--mynews-ticker-font-size') || '0.95rem';
+        
+        this.textMeasureEl = $('<span>').css({
+          'position': 'absolute',
+          'visibility': 'hidden',
+          'white-space': 'nowrap',
+          'font-size': fontSize,
+          'font-weight': this.$ticker.find('.mynews-ticker-item').css('font-weight') || 'normal',
+          'font-family': this.$ticker.css('font-family'),
+          'letter-spacing': this.$ticker.css('letter-spacing') || 'normal',
+          'padding-right': '20px' // Match padding from ticker items
+        }).appendTo('body');
+      }
+      
+      // Add HTML content to accurately measure links and other formatting
+      this.textMeasureEl.html(text);
+      
+      // Add 75% additional width to account for any measurement inaccuracies
+      // This ensures we don't underestimate the text width on any device
+      return this.textMeasureEl.width() * 1.75;
+    }
+    
+    showNext() {
+      let nextIndex = this.currentIndex + 1;
+      
+      // Loop back to beginning if at end
+      if (nextIndex >= this.itemCount) {
+        nextIndex = 0;
+      }
+      
+      // For fade effect, fade out current item before showing next
+      if (this.options.displayMode === 'fade') {
+        const $currentItem = this.$ticker.find('.mynews-ticker-item.active');
+        $currentItem.css('opacity', 0);
+        
+        // Wait for fade out before showing next
+        setTimeout(() => {
+          this.showItem(nextIndex);
+        }, 400);
+      } else if (this.options.displayMode === 'scroll') {
+        // For scroll mode, smoothly transition to next item with faster transition
+        const $currentItem = this.$ticker.find('.mynews-ticker-item.active');
+        
+        // Fade out current item
+        $currentItem.css({
+          'opacity': 0,
+          'transition': 'opacity 0.2s ease-out'
+        });
+        
+        // After fade out complete, show next item
+        setTimeout(() => {
+          this.showItem(nextIndex);
+        }, 220);
+      } else {
+        this.showItem(nextIndex);
+      }
+    }
+    
+    showPrev() {
+      let prevIndex = this.currentIndex - 1;
+      
+      // Loop to end if at beginning
+      if (prevIndex < 0) {
+        prevIndex = this.itemCount - 1;
+      }
+      
+      // For fade effect, fade out current item before showing prev
+      if (this.options.displayMode === 'fade') {
+        const $currentItem = this.$ticker.find('.mynews-ticker-item.active');
+        $currentItem.css('opacity', 0);
+        
+        // Wait for fade out before showing prev
+        setTimeout(() => {
+          this.showItem(prevIndex);
+        }, 400);
+      } else if (this.options.displayMode === 'scroll') {
+        // For scroll mode, smoothly transition to previous item
+        const $currentItem = this.$ticker.find('.mynews-ticker-item.active');
+        
+        // Fade out current item
+        $currentItem.css({
+          'opacity': 0,
+          'transition': 'opacity 0.3s ease-out'
+        });
+        
+        // After fade out complete, show previous item
+        setTimeout(() => {
+          this.showItem(prevIndex);
+        }, 300);
+      } else {
+        this.showItem(prevIndex);
+      }
+    }
+    
+    play() {
+      this.isPaused = false;
+      this.pausedByHover = false;
+      this.resetInterval();
+      
+      // Resume scrolling animation if in scroll mode
+      if (this.options.displayMode === 'scroll') {
+        const $activeItem = this.$ticker.find('.mynews-ticker-item.active.scrolling');
+        if ($activeItem.length) {
+          $activeItem.css('animation-play-state', 'running');
+        }
+      }
+    }
+    
+    pause(pausedByHover = false) {
+      this.isPaused = true;
+      this.pausedByHover = pausedByHover;
+      
+      // Pause scrolling animation if in scroll mode
+      if (this.options.displayMode === 'scroll') {
+        const $activeItem = this.$ticker.find('.mynews-ticker-item.active.scrolling');
+        if ($activeItem.length) {
+          $activeItem.css('animation-play-state', 'paused');
+        }
+      }
+      
+      if (this.interval) {
+        clearInterval(this.interval);
+        this.interval = null;
+      }
+    }
+  }
+  
+  // jQuery plugin
+  $.fn.myNewsBreakingTicker = function(options) {
+    return this.each(function() {
+      if (!$.data(this, "myNewsBreakingTicker")) {
+        $.data(this, "myNewsBreakingTicker", new BreakingNewsTicker(this, options));
+      }
+    });
+  };
+  
+  // Initialize when DOM is ready
+  $(document).ready(function() {
+    // Get custom speed from settings or use default
+    var speed = (typeof myNewsTickerSettings !== 'undefined' && myNewsTickerSettings.speed) 
+                ? myNewsTickerSettings.speed 
+                : 5000;
+                
+    // Get scrolling setting
+    var isScrollingEnabled = (typeof myNewsTickerSettings !== 'undefined' && 'scrolling' in myNewsTickerSettings)
+                            ? myNewsTickerSettings.scrolling
+                            : true;
+                       
+    const $ticker = $('.mynews-breaking-news');
+    
+    // Get display mode setting
+    var displayMode = (typeof myNewsTickerSettings !== 'undefined' && myNewsTickerSettings.displayMode) 
+                      ? myNewsTickerSettings.displayMode 
+                      : 'scroll';
+                      
+    // Apply appropriate classes based on display mode
+    if (displayMode === 'scroll' && isScrollingEnabled) {
+      $ticker.addClass('scrolling-enabled scrolling-ticker');
+      // Force hardware acceleration for smoother scrolling
+      $('.mynews-ticker-content').css({
+        'transform': 'translateZ(0)',
+        '-webkit-transform': 'translateZ(0)',
+        '-webkit-backface-visibility': 'hidden'
+      });
+    } else if (displayMode === 'fade') {
+      $ticker.addClass('fade-ticker').removeClass('scrolling-enabled scrolling-ticker');
+    } else {
+      $ticker.removeClass('scrolling-ticker scrolling-enabled fade-ticker');
+    }
+    
+    if ($ticker.length > 0) {
+      // Always ensure only the first item is active at start
+      $ticker.find('.mynews-ticker-item').removeClass('active').first().addClass('active');
+      
+      // Get custom settings from WordPress or use defaults
+      var scrollingEnabled = (typeof myNewsTickerSettings !== 'undefined' && 'scrolling' in myNewsTickerSettings)
+                            ? myNewsTickerSettings.scrolling
+                            : true;
+                              
+      var scrollDuration = (typeof myNewsTickerSettings !== 'undefined' && myNewsTickerSettings.scrollDuration)
+                          ? myNewsTickerSettings.scrollDuration
+                          : 20000;
+      
+      // Get custom font size and apply it
+      if (typeof myNewsTickerSettings !== 'undefined' && myNewsTickerSettings.fontSize) {
+        document.documentElement.style.setProperty('--mynews-ticker-font-size', myNewsTickerSettings.fontSize);
+      }
+      
+      // Initialize ticker
+      $ticker.myNewsBreakingTicker({
+        autoPlay: true,
+        speed: speed,
+        pauseOnHover: true,
+        displayMode: (typeof myNewsTickerSettings !== 'undefined' && myNewsTickerSettings.displayMode) 
+                    ? myNewsTickerSettings.displayMode 
+                    : 'scroll',
+        scrolling: scrollingEnabled,
+        scrollDuration: scrollDuration * 3 // Even further increase duration to ensure full movement
+      });
+      
+      // Ensure pause/play button has correct icon on initialization
+      $('.mynews-ticker-pause').html('<i class="fas fa-pause"></i>');
+      
+      // Force recalculation of ticker dimensions after short delay to ensure proper display
+      // Use multiple delays to ensure it works across different loading speeds
+      setTimeout(function() {
+        $(window).trigger('resize');
+      }, 500);
+      
+      // Additional check a bit later to ensure correct display on slower connections
+      setTimeout(function() {
+        $(window).trigger('resize');
+      }, 1500);
+    }
+  });
+
+})(jQuery);

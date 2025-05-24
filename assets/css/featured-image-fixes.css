@@ -1,0 +1,50 @@
+/**
+ * Fixed featured image sizes for posts
+ * Ensures featured images don't become too large on desktop
+ */
+
+/* Featured image on single posts */
+.single-post .post-thumbnail {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.single-post .post-thumbnail img {
+  max-width: 100%;
+  height: auto;
+  max-height: 600px; /* Maximum height on desktop */
+  width: auto;
+  object-fit: contain;
+  margin: 0 auto;
+  border-radius: 6px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+/* Make sure images aren't too wide on larger screens */
+@media (min-width: 1200px) {
+  .single-post .post-thumbnail img {
+    max-width: 900px; /* Limit width on large screens */
+  }
+}
+
+/* Responsive featured image size */
+@media (max-width: 992px) {
+  .single-post .post-thumbnail img {
+    max-height: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .single-post .post-thumbnail img {
+    max-height: 400px;
+  }
+}
+
+/* Featured image caption */
+.single-post .post-thumbnail .wp-caption-text {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #6c757d;
+  text-align: center;
+  font-style: italic;
+}

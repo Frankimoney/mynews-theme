@@ -1,0 +1,149 @@
+/**
+ * Grid Layout Fixes
+ * Ensures grid layout displays properly without gaps or white spaces
+ */
+
+/* Row fixes to ensure proper alignment */
+.row.g-4 {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: calc(var(--bs-gutter-x) * -.5);
+  margin-left: calc(var(--bs-gutter-x) * -.5);
+  width: 100%;
+}
+
+/* Equal height grid items */
+.row.g-4 > [class^="col-"] {
+  display: flex;
+  float: none; /* Fix for Safari layout issues */
+  margin-top: var(--bs-gutter-y);
+  padding-right: calc(var(--bs-gutter-x) * .5);
+  padding-left: calc(var(--bs-gutter-x) * .5);
+}
+
+/* Ensure cards fill their container */
+.card {
+  width: 100%;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  break-inside: avoid; /* Prevent partial rendering */
+}
+
+/* Flex grow for card body to push footer to bottom */
+.card-body {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Post thumbnail image container */
+.post-thumbnail {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  height: 0;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+}
+
+.post-thumbnail img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+/* Prevent image distortion on grid cards */
+.card-img-top {
+  width: 100%;
+  border-top-left-radius: var(--bs-card-inner-border-radius);
+  border-top-right-radius: var(--bs-card-inner-border-radius);
+}
+
+/* Fixed height options for different screen sizes */
+@media (min-width: 992px) {
+  .post-thumbnail img {
+    height: 200px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .post-thumbnail img {
+    height: 220px;
+  }
+}
+
+/* Proper spacing between grid items */
+.row.g-4 {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 1.5rem;
+}
+
+/* Fix for grid rendering issues */
+@supports not (gap: 1.5rem) {
+  .row.g-4 > [class^="col-"] {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.row.g-4 > [class^="col-"] {
+  padding-right: calc(var(--bs-gutter-x) * .5);
+  padding-left: calc(var(--bs-gutter-x) * .5);
+  margin-top: var(--bs-gutter-y);
+}
+
+/* Ensure last row doesn't have extra bottom margin */
+.row.g-4:last-child {
+  margin-bottom: 0;
+}
+
+/* Mobile grid fixes */
+@media (max-width: 767.98px) {
+  /* Adjust gutters for small screens */
+  .row.g-4 {
+    --bs-gutter-x: 1rem;
+    --bs-gutter-y: 1rem;
+  }
+  
+  /* Ensure grid looks good on mobile */
+  .col-md-6, .col-lg-4, .col-lg-3 {
+    width: 100%;
+  }
+  
+  /* Fix image heights on mobile */
+  .post-thumbnail img {
+    height: 200px;
+  }
+  
+  /* Reduce margin between grid items */
+  .card {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Safari specific fixes */
+@media not all and (min-resolution:.001dpcm) { 
+  @supports (-webkit-appearance:none) {
+    .row.g-4 {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+    }
+    
+    .row.g-4 > [class^="col-"] {
+      -webkit-box-flex: 0;
+      -webkit-flex: 0 0 auto;
+      flex: 0 0 auto;
+    }
+  }
+}
+
+/* Clear fix for any floating issues */
+.row.g-4::after {
+  content: "";
+  display: table;
+  clear: both;
+}

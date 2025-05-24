@@ -35,6 +35,16 @@ require get_template_directory() . '/inc/post-views.php';
 require get_template_directory() . '/inc/widgets/popular-reactions-widget.php';
 
 /**
+ * Include Author Profile functionality
+ */
+require get_template_directory() . '/inc/author-profile.php';
+
+/**
+ * Include Footer Text Visibility Fix
+ */
+require get_template_directory() . '/inc/footer-text-fix.php';
+
+/**
  * Sets up theme defaults and registers support for various WordPress features.
  */
 function mynews_setup() {
@@ -261,9 +271,13 @@ function mynews_scripts() {
 	wp_enqueue_style( 'mynews-featured-image-fixes', get_template_directory_uri() . '/assets/css/featured-image-fixes.css', array('mynews-main'), MYNEWS_VERSION );
 	// Add custom style.css (for additional custom styles)
 	wp_enqueue_style( 'mynews-custom', get_template_directory_uri() . '/assets/css/style.css', array('bootstrap', 'mynews-main'), MYNEWS_VERSION );
-	
-	// Add dark mode styles
+		// Add dark mode styles
 	wp_enqueue_style( 'mynews-dark-mode', get_template_directory_uri() . '/assets/css/dark-mode.css', array('bootstrap', 'mynews-main'), MYNEWS_VERSION );
+		// Add author profiles styling
+	wp_enqueue_style( 'mynews-author-profiles', get_template_directory_uri() . '/assets/css/author-profiles.css', array('mynews-main'), MYNEWS_VERSION );
+	
+	// Add footer text visibility fix - high priority to override other styles
+	wp_enqueue_style( 'mynews-footer-fix', get_template_directory_uri() . '/assets/css/footer-fix.css', array('mynews-main', 'mynews-dark-mode'), MYNEWS_VERSION );
 	
 	// jQuery (if needed)
 	wp_enqueue_script( 'jquery' );

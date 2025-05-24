@@ -58,6 +58,9 @@ if (function_exists('mynews_generate_article_schema')) {
                     
                     // Display post reactions
                     get_template_part('template-parts/post-reactions');
+                    
+                    // Display author box
+                    get_template_part('template-parts/author-box');
 
                     // Enhanced post navigation with thumbnails and categories
                     if (function_exists('mynews_post_navigation')) {

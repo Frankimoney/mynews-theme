@@ -1,0 +1,47 @@
+/* 
+ * Footer text visibility fix
+ * This CSS ensures that the footer headings and text are visible in both light and dark modes
+ */
+
+/* Target the specific footer headings with more specificity */
+body .site-footer h3.widget-title {
+    color: white !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Target the footer paragraphs */
+body .site-footer p {
+    color: rgba(255, 255, 255, 0.8) !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Target the contact list items */
+body .site-footer .footer-contact li {
+    color: rgba(255, 255, 255, 0.8) !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Target the newsletter form placeholder */
+body .site-footer .newsletter-form input::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+    opacity: 1 !important;
+}
+
+/* Target the footer links */
+body .site-footer a {
+    color: rgba(255, 255, 255, 0.8) !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Target the footer icons */
+body .site-footer i.fas,
+body .site-footer i.fab,
+body .site-footer i.fa {
+    color: rgba(255, 255, 255, 0.8) !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}

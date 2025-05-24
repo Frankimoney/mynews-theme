@@ -1,7 +1,7 @@
 /* Footer styling with Bootstrap */
 .site-footer {
     background-color: var(--mynews-dark);
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.6) !important; /* Force light color for text visibility */
     padding: 3rem 0 1.5rem;
 }
 
@@ -11,7 +11,7 @@
 
 .site-footer .widget-title,
 .site-footer .footer-widget-title {
-    color: #fff;
+    color: #fff !important; /* Force white color for visibility */
     border-color: rgba(255, 255, 255, 0.1);
     font-size: 1.25rem;
     margin-bottom: 1.25rem;
@@ -72,6 +72,12 @@
     margin-bottom: 12px;
     display: flex;
     align-items: flex-start;
+    color: rgba(255, 255, 255, 0.8) !important; /* Ensure visibility in light mode */
+}
+
+/* Ensure footer paragraphs are visible */
+.site-footer p {
+    color: rgba(255, 255, 255, 0.8) !important; /* Ensure visibility in light mode */
 }
 
 .footer-contact li i {
@@ -236,6 +242,11 @@
 /* Newsletter form */
 .newsletter-form {
     position: relative;
+}
+
+/* Specific styles for Subscribe to Newsletter and Contact Us headings */
+.site-footer h3.widget-title {
+    color: #fff !important; /* Ensure visibility in light mode */
 }
 
 .newsletter-form .form-control {

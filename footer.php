@@ -76,10 +76,9 @@
 				<!-- Footer Column 3 -->
 				<div class="<?php echo esc_attr($column_class); ?> mb-4 mb-md-0">
 					<?php if ( is_active_sidebar( 'footer-3' ) ) : ?>
-						<?php dynamic_sidebar( 'footer-3' ); ?>
-					<?php else : ?>
-						<h3 class="widget-title"><?php esc_html_e( 'Subscribe to Newsletter', 'mynews' ); ?></h3>
-						<p><?php esc_html_e( 'Stay updated with our latest news and articles.', 'mynews' ); ?></p>
+						<?php dynamic_sidebar( 'footer-3' ); ?>					<?php else : ?>
+						<h3 class="widget-title" style="color: white !important; visibility: visible !important; display: block !important;"><?php esc_html_e( 'Subscribe to Newsletter', 'mynews' ); ?></h3>
+						<p style="color: rgba(255,255,255,0.8) !important; visibility: visible !important; display: block !important;"><?php esc_html_e( 'Stay updated with our latest news and articles.', 'mynews' ); ?></p>
 						<div class="newsletter-form">
 							<input type="email" class="form-control" placeholder="<?php esc_attr_e( 'Your email address', 'mynews' ); ?>">
 							<button type="submit" class="btn btn-primary"><?php esc_html_e( 'Subscribe', 'mynews' ); ?></button>
@@ -91,10 +90,9 @@
 				<?php if (is_active_sidebar('footer-4') || $footer_widgets == 0): ?>
 				<div class="<?php echo esc_attr($column_class); ?>">
 					<?php if (is_active_sidebar('footer-4')): ?>
-						<?php dynamic_sidebar('footer-4'); ?>
-					<?php else: ?>
-						<h3 class="widget-title"><?php esc_html_e('Contact Us', 'mynews'); ?></h3>
-						<ul class="footer-contact list-unstyled">
+						<?php dynamic_sidebar('footer-4'); ?>					<?php else: ?>
+						<h3 class="widget-title" style="color: white !important; visibility: visible !important; display: block !important;"><?php esc_html_e('Contact Us', 'mynews'); ?></h3>
+						<ul class="footer-contact list-unstyled" style="color: rgba(255,255,255,0.8) !important;">
 							<li><i class="fas fa-map-marker-alt"></i> <?php echo esc_html__('123 Street, City, Country', 'mynews'); ?></li>
 							<li><i class="fas fa-phone-alt"></i> <?php echo esc_html__('(123) 456-7890', 'mynews'); ?></li>
 							<li><i class="fas fa-envelope"></i> <?php echo esc_html__('info@example.com', 'mynews'); ?></li>

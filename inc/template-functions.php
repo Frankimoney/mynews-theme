@@ -737,3 +737,70 @@ function mynews_schema_testing_links($wp_admin_bar) {
     ));
 }
 add_action('admin_bar_menu', 'mynews_schema_testing_links', 99);
+
+/**
+ * Display top reactions for a post
+ *
+ * @param int $post_id Post ID
+ * @param int $limit Number of top reactions to show (default: 3)
+ * @return string HTML output of top reactions
+ */
+function mynews_display_top_reactions($post_id = null, $limit = 3) {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+    
+    if (!function_exists('mynews_get_post_reactions')) {
+        return '';
+    }
+    
+    $reactions = mynews_get_post_reactions($post_id);
+    if (empty($reactions)) {
+        return '';
+    }
+    
+    // Sort reactions by count (descending)
+    arsort($reactions);
+    
+    // Get total reaction count
+    $total_count = 0;
+    foreach ($reactions as $count) {
+        $total_count += intval($count);
+    }
+    
+    // If no reactions, return empty
+    if ($total_count === 0) {
+        return '';
+    }
+    
+    // Get reaction emoji mapping
+    $emojis = array(
+        'like' => '👍',
+        'love' => '❤️',
+        'haha' => '😂',
+        'wow' => '😮',
+        'sad' => '😢'
+    );
+    
+    // Limit to requested number of reactions
+    $top_reactions = array_slice($reactions, 0, $limit, true);
+    
+    // Build output
+    $output = '<div class="mynews-top-reactions">';
+    $output .= '<span class="top-reactions-label">' . __('Top Reactions:', 'mynews') . '</span>';
+    $output .= '<span class="top-reactions-icons">';
+    
+    foreach ($top_reactions as $type => $count) {
+        if ($count > 0) {
+            $emoji = isset($emojis[$type]) ? $emojis[$type] : '';
+            $output .= '<span class="top-reaction" title="' . $count . ' ' . ucfirst($type) . '">';
+            $output .= $emoji . ' <span class="count">' . $count . '</span>';
+            $output .= '</span>';
+        }
+    }
+    
+    $output .= '</span>'; // .top-reactions-icons
+    $output .= '</div>'; // .mynews-top-reactions
+    
+    return $output;
+}

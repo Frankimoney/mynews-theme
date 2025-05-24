@@ -1,0 +1,48 @@
+/**
+ * Top Reactions CSS
+ *
+ * @package My_News
+ */
+
+.mynews-top-reactions {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    padding: 5px 0;
+    font-size: 0.9rem;
+}
+
+.top-reactions-label {
+    margin-right: 10px;
+    font-weight: 500;
+    color: #666;
+}
+
+.top-reactions-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.top-reaction {
+    display: inline-flex;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+.top-reaction .count {
+    margin-left: 3px;
+    font-weight: 600;
+}
+
+/* Dark mode support */
+.dark-mode .top-reactions-label {
+    color: #a0aec0;
+}
+
+.dark-mode .top-reaction {
+    background-color: #2d3748;
+}

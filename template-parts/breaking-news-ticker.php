@@ -139,21 +139,28 @@ if ($display_option === 'custom_only') {
 
 // Get maximum items from customizer setting
 $max_items = get_theme_mod('mynews_breaking_news_max_items', 10);
-$breaking_items = array_slice($breaking_items, 0, $max_items);    // Only display ticker if we have breaking news items
+$breaking_items = array_slice($breaking_items, 0, $max_items);
+
+// Debug output for troubleshooting
+if (empty($breaking_items)) {
+    echo '<div style="color:red;font-weight:bold;">DEBUG: No breaking news items found. Check post meta _is_breaking_news, _breaking_news_expiry, and post status.</div>';
+} else {
+    echo '<div style="color:green;font-weight:bold;">DEBUG: Found ' . count($breaking_items) . ' breaking news items.</div>';
+    foreach ($breaking_items as $item) {
+        echo '<div style="font-size:12px;">ID: ' . $item['ID'] . ' | Title: ' . esc_html($item['title']) . ' | Urgency: ' . esc_html($item['urgency']) . (isset($item['is_from_post']) && $item['is_from_post'] ? ' | Source: post' : ' | Source: custom') . '</div>';
+    }
+}
+
+// Only display ticker if we have breaking news items
 if (!empty($breaking_items)) :
     $dark_mode = get_theme_mod('mynews_enable_dark_mode', false);
-    $display_mode = get_theme_mod('mynews_breaking_news_display_mode', 'scroll');
-    $scrolling_enabled = get_theme_mod('mynews_breaking_news_scrolling', true);
-    
-    // Set ticker class based on display mode and dark mode
-    $ticker_class = 'mynews-breaking-news';
-    $ticker_class .= $dark_mode ? ' mynews-breaking-news-dark' : '';
-    $ticker_class .= $display_mode === 'scroll' ? ' scrolling-ticker' : ' fade-ticker';
-    
+    $ticker_class = $dark_mode ? 'mynews-breaking-news mynews-breaking-news-dark' : 'mynews-breaking-news';
     $ticker_bg_color = get_theme_mod('mynews_breaking_news_bg_color', '#f8f9fa');
     $label_bg_color = get_theme_mod('mynews_breaking_news_label_color', '#0d6efd');
     $ticker_label = get_theme_mod('mynews_breaking_news_label', __('Breaking', 'mynews'));    // Get customizer settings
     $ticker_speed = get_theme_mod('mynews_breaking_news_speed', 5000);
+    $display_mode = get_theme_mod('mynews_breaking_news_display_mode', 'scroll');
+    $scrolling_enabled = get_theme_mod('mynews_breaking_news_scrolling', true);
     $scrolling_duration = get_theme_mod('mynews_breaking_news_scroll_duration', 20000);
     $font_size = get_theme_mod('mynews_breaking_news_font_size', '0.95');
     
@@ -169,7 +176,7 @@ if (!empty($breaking_items)) :
         'before'
     );
 ?>
-<div class="<?php echo esc_attr($ticker_class); ?>" style="background-color: <?php echo esc_attr($ticker_bg_color); ?>">
+<div class="<?php echo esc_attr($ticker_class); ?> scrolling-ticker" style="background-color: <?php echo esc_attr($ticker_bg_color); ?>">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">

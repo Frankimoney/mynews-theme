@@ -30,6 +30,11 @@ require get_template_directory() . '/inc/breaking-news-fix.php';
 require get_template_directory() . '/inc/post-views.php';
 
 /**
+ * Include Popular Reactions Widget
+ */
+require get_template_directory() . '/inc/widgets/popular-reactions-widget.php';
+
+/**
  * Sets up theme defaults and registers support for various WordPress features.
  */
 function mynews_setup() {
@@ -239,6 +244,15 @@ function mynews_scripts() {
 	wp_enqueue_style( 'mynews-pagination', get_template_directory_uri() . '/assets/css/pagination.css', array('mynews-main'), MYNEWS_VERSION );
 	// Add popular posts widget styles
 	wp_enqueue_style( 'mynews-popular-posts', get_template_directory_uri() . '/assets/css/popular-posts-widget.css', array('mynews-main'), MYNEWS_VERSION );
+		// Add popular reactions widget style if exists
+	if (file_exists(get_template_directory() . '/assets/css/popular-reactions-widget.css')) {
+		wp_enqueue_style( 'mynews-popular-reactions', get_template_directory_uri() . '/assets/css/popular-reactions-widget.css', array('mynews-main'), MYNEWS_VERSION );
+	}
+	
+	// Add top reactions style if exists
+	if (file_exists(get_template_directory() . '/assets/css/top-reactions.css')) {
+		wp_enqueue_style( 'mynews-top-reactions', get_template_directory_uri() . '/assets/css/top-reactions.css', array('mynews-main'), MYNEWS_VERSION );
+	}
 	// Add mobile-specific optimizations
 	wp_enqueue_style( 'mynews-mobile', get_template_directory_uri() . '/assets/css/mobile.css', array('mynews-main'), MYNEWS_VERSION );	// Add grid layout fixes
 	wp_enqueue_style( 'mynews-grid-fixes', get_template_directory_uri() . '/assets/css/grid-fixes.css', array('mynews-main', 'mynews-blog'), MYNEWS_VERSION );
@@ -999,8 +1013,8 @@ function mynews_breaking_news_meta_callback($post) {
     echo '<label for="breaking_news_urgency">' . __('Urgency Level:', 'mynews') . '</label><br>';
     echo '<select id="breaking_news_urgency" name="breaking_news_urgency" style="width: 100%;">';
     echo '<option value="normal" ' . selected($urgency, 'normal', false) . '>' . __('Normal', 'mynews') . '</option>';
-    echo '<option value="important" ' . selected($urgency, 'important', false) . '>' . __('Important', 'mynews') . '</option>';
-    echo '<option value="urgent" ' . selected($urgency, 'urgent', false) . '>' . __('Urgent', 'mynews') . '</option>';
+    echo '<option value="important" ' . selected($urgency, 'important', false) . '>' . __('Important', 'mynews' ) . '</option>';
+    echo '<option value="urgent" ' . selected($urgency, 'urgent', false) . '>' . __('Urgent', 'mynews' ) . '</option>';
     echo '</select>';
     echo '</p>';
     
@@ -1302,14 +1316,14 @@ function mynews_post_breaking_news_meta_callback($post) {
     echo ' <label for="is_breaking_news"><strong>' . __('Mark as Breaking News', 'mynews') . '</strong></label>';
     echo '</p>';
     
-    echo '<div id="breaking_news_options" style="' . ($is_breaking ? '' : 'display:none;') . '">';
+    echo '<div id="breaking_news_options">';
     
     echo '<p>';
     echo '<label for="breaking_news_urgency">' . __('Urgency Level:', 'mynews') . '</label><br>';
     echo '<select id="breaking_news_urgency" name="breaking_news_urgency" style="width: 100%;">';
     echo '<option value="normal" ' . selected($urgency, 'normal', false) . '>' . __('Normal', 'mynews') . '</option>';
-    echo '<option value="important" ' . selected($urgency, 'important', false) . '>' . __('Important', 'mynews') . '</option>';
-    echo '<option value="urgent" ' . selected($urgency, 'urgent', false) . '>' . __('Urgent', 'mynews') . '</option>';
+    echo '<option value="important" ' . selected($urgency, 'important', false) . '>' . __('Important', 'mynews' ) . '</option>';
+    echo '<option value="urgent" ' . selected($urgency, 'urgent', false) . '>' . __('Urgent', 'mynews' ) . '</option>';
     echo '</select>';
     echo '</p>';
     
@@ -1524,3 +1538,210 @@ function mynews_enqueue_reading_progress_assets() {
     }
 }
 add_action('wp_enqueue_scripts', 'mynews_enqueue_reading_progress_assets');
+
+/**
+ * Post Reactions functionality
+ */
+
+/**
+ * Enqueue post reactions styles and scripts
+ */
+function mynews_enqueue_post_reactions_assets() {
+    // Only enqueue on single posts
+    if (is_single()) {
+        // Enqueue CSS
+        wp_enqueue_style('mynews-post-reactions', get_template_directory_uri() . '/assets/css/post-reactions.css', array('mynews-main'), MYNEWS_VERSION);
+        
+        // Enqueue JS
+        wp_enqueue_script('mynews-post-reactions', get_template_directory_uri() . '/assets/js/post-reactions.js', array('jquery'), MYNEWS_VERSION, true);
+        
+        // Localize the script with data
+        wp_localize_script('mynews-post-reactions', 'mynewsReactions', array(
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('mynews-post-reactions-nonce'),
+            'loginPrompt' => __('You need to be logged in to react. Would you like to log in now?', 'mynews'),
+            'loginUrl' => wp_login_url(get_permalink())
+        ));
+    }
+}
+add_action('wp_enqueue_scripts', 'mynews_enqueue_post_reactions_assets');
+
+/**
+ * AJAX handler for post reactions
+ */
+function mynews_handle_post_reaction() {
+    // Check nonce for security
+    if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'mynews-post-reactions-nonce')) {
+        wp_send_json_error(array('message' => 'Security check failed'));
+        return;
+    }
+    
+    // Verify required data
+    if (!isset($_POST['post_id']) || !isset($_POST['reaction'])) {
+        wp_send_json_error(array('message' => 'Missing required data'));
+        return;
+    }
+    
+    $post_id = intval($_POST['post_id']);
+    $reaction = sanitize_text_field($_POST['reaction']);
+    
+    // Make sure the post exists
+    if (!get_post($post_id)) {
+        wp_send_json_error(array('message' => 'Invalid post ID'));
+        return;
+    }
+    
+    // Valid reactions
+    $valid_reactions = array('like', 'love', 'haha', 'wow', 'sad');
+    
+    if (!in_array($reaction, $valid_reactions)) {
+        wp_send_json_error(array('message' => 'Invalid reaction type'));
+        return;
+    }
+    
+    // Handle reaction based on user status
+    if (is_user_logged_in()) {
+        // For logged in users
+        $user_id = get_current_user_id();
+        $result = mynews_process_user_reaction($user_id, $post_id, $reaction);
+        
+        if ($result) {
+            wp_send_json_success(array(
+                'reactions' => mynews_get_post_reactions($post_id),
+                'user_reaction' => mynews_get_user_reaction($user_id, $post_id)
+            ));
+        } else {
+            wp_send_json_error(array('message' => 'Failed to process reaction'));
+        }
+    } else {
+        // For non-logged in users, we could track by IP or session, but for now just show a message
+        wp_send_json_error(array('message' => 'User not logged in'));
+    }
+}
+add_action('wp_ajax_mynews_handle_post_reaction', 'mynews_handle_post_reaction');
+add_action('wp_ajax_nopriv_mynews_handle_post_reaction', 'mynews_handle_post_reaction');
+
+/**
+ * Process a user's reaction to a post
+ *
+ * @param int $user_id User ID
+ * @param int $post_id Post ID
+ * @param string $reaction Reaction type
+ * @return bool Success or failure
+ */
+function mynews_process_user_reaction($user_id, $post_id, $reaction) {
+    // Get stored reactions for this post
+    $post_reactions = get_post_meta($post_id, '_mynews_post_reactions', true);
+    if (!is_array($post_reactions)) {
+        $post_reactions = array();
+    }
+    
+    // Get user's existing reactions
+    $user_reactions = get_user_meta($user_id, '_mynews_user_reactions', true);
+    if (!is_array($user_reactions)) {
+        $user_reactions = array();
+    }
+    
+    // Check if user already reacted to this post
+    $previous_reaction = isset($user_reactions[$post_id]) ? $user_reactions[$post_id] : '';
+    
+    // If user is clicking the same reaction again, it's a toggle (remove it)
+    if ($previous_reaction === $reaction) {
+        // Remove the reaction from user's reactions
+        unset($user_reactions[$post_id]);
+        
+        // Decrease the reaction count
+        if (isset($post_reactions[$reaction])) {
+            $post_reactions[$reaction] = max(0, intval($post_reactions[$reaction]) - 1);
+        }
+    } else {
+        // If user had a different reaction before, decrease that count
+        if ($previous_reaction && isset($post_reactions[$previous_reaction])) {
+            $post_reactions[$previous_reaction] = max(0, intval($post_reactions[$previous_reaction]) - 1);
+        }
+        
+        // Add the new reaction
+        $user_reactions[$post_id] = $reaction;
+        
+        // Increase the new reaction count
+        if (!isset($post_reactions[$reaction])) {
+            $post_reactions[$reaction] = 0;
+        }
+        $post_reactions[$reaction] = intval($post_reactions[$reaction]) + 1;
+    }
+    
+    // Update the post meta
+    update_post_meta($post_id, '_mynews_post_reactions', $post_reactions);
+    
+    // Update user meta
+    update_user_meta($user_id, '_mynews_user_reactions', $user_reactions);
+    
+    return true;
+}
+
+/**
+ * Get all reactions for a post
+ *
+ * @param int $post_id Post ID
+ * @return array Reactions with counts
+ */
+function mynews_get_post_reactions($post_id) {
+    $reactions = get_post_meta($post_id, '_mynews_post_reactions', true);
+    
+    if (!is_array($reactions)) {
+        $reactions = array();
+    }
+    
+    // Ensure all reaction types are set
+    $valid_reactions = array('like', 'love', 'haha', 'wow', 'sad');
+    foreach ($valid_reactions as $type) {
+        if (!isset($reactions[$type])) {
+            $reactions[$type] = 0;
+        }
+    }
+    
+    return $reactions;
+}
+
+/**
+ * Get a user's reaction to a specific post
+ *
+ * @param int $user_id User ID
+ * @param int $post_id Post ID
+ * @return string|null The reaction or null if none
+ */
+function mynews_get_user_reaction($user_id, $post_id) {
+    $user_reactions = get_user_meta($user_id, '_mynews_user_reactions', true);
+    
+    if (!is_array($user_reactions) || !isset($user_reactions[$post_id])) {
+        return null;
+    }
+    
+    return $user_reactions[$post_id];
+}
+
+/**
+ * Shortcode for displaying post reactions anywhere
+ * 
+ * Usage: [mynews_post_reactions post_id="123"]
+ *
+ * @param array $atts Shortcode attributes
+ * @return string HTML output
+ */
+function mynews_post_reactions_shortcode($atts) {
+    $atts = shortcode_atts(array(
+        'post_id' => get_the_ID(),
+    ), $atts, 'mynews_post_reactions');
+    
+    // Start output buffering
+    ob_start();
+    
+    // Include the template part
+    set_query_var('mynews_reaction_post_id', $atts['post_id']);
+    get_template_part('template-parts/post-reactions');
+    set_query_var('mynews_reaction_post_id', null);
+    
+    // Get the buffered content and return it
+    return ob_get_clean();
+}
+add_shortcode('mynews_post_reactions', 'mynews_post_reactions_shortcode');

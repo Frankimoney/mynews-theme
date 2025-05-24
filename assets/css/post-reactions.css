@@ -1,0 +1,143 @@
+/**
+ * Post Reactions Styling
+ *
+ * @package My_News
+ */
+
+.mynews-post-reactions {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+.mynews-post-reactions h4 {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.mynews-reaction-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.mynews-reaction-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 60px;
+}
+
+.mynews-reaction-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mynews-reaction-emoji {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.mynews-reaction-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.mynews-reaction-count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #666;
+}
+
+.mynews-reaction-btn.reacted {
+    background-color: #e7f3ff;
+    border-color: #bbd9f9;
+}
+
+.mynews-reaction-btn.disabled {
+    opacity: 0.7;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Animation for reaction click */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.mynews-reaction-btn.animate .mynews-reaction-emoji {
+    animation: pulse 0.5s ease;
+}
+
+.mynews-reaction-login-prompt {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.mynews-reaction-login-prompt a {
+    color: #0d6efd;
+    text-decoration: underline;
+}
+
+/* Dark mode support */
+.dark-mode .mynews-post-reactions {
+    background-color: #2d3748;
+}
+
+.dark-mode .mynews-reaction-btn {
+    background-color: #1a202c;
+    border-color: #4a5568;
+    color: #e2e8f0;
+}
+
+.dark-mode .mynews-reaction-count {
+    color: #a0aec0;
+}
+
+.dark-mode .mynews-reaction-btn.reacted {
+    background-color: #2a4365;
+    border-color: #4299e1;
+}
+
+.dark-mode .mynews-reaction-login-prompt {
+    color: #a0aec0;
+}
+
+.dark-mode .mynews-reaction-login-prompt a {
+    color: #63b3ed;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 576px) {
+    .mynews-reaction-buttons {
+        gap: 0.5rem;
+    }
+
+    .mynews-reaction-btn {
+        min-width: 50px;
+        padding: 0.4rem;
+    }
+
+    .mynews-reaction-emoji {
+        font-size: 1.2rem;
+    }
+
+    .mynews-reaction-label {
+        font-size: 0.7rem;
+    }
+}

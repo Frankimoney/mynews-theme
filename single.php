@@ -54,9 +54,10 @@ if (function_exists('mynews_generate_article_schema')) {
 
                 <?php
                 while (have_posts()) :
-                    the_post();
-
-                    get_template_part('template-parts/content', get_post_type());
+                    the_post();                    get_template_part('template-parts/content', get_post_type());
+                    
+                    // Display post reactions
+                    get_template_part('template-parts/post-reactions');
 
                     // Enhanced post navigation with thumbnails and categories
                     if (function_exists('mynews_post_navigation')) {

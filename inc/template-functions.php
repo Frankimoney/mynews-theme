@@ -804,3 +804,34 @@ function mynews_display_top_reactions($post_id = null, $limit = 3) {
     
     return $output;
 }
+
+/**
+ * Display post views count with icon
+ * 
+ * @param int|null $post_id Post ID or null to use current post
+ * @param bool $echo Whether to echo or return the output
+ * @return string|void HTML output if $echo is false
+ */
+function mynews_display_post_views($post_id = null, $echo = true) {
+    if (!function_exists('mynews_get_post_views')) {
+        return '';
+    }
+    
+    if (null === $post_id) {
+        $post_id = get_the_ID();
+    }
+    
+    $view_count = mynews_get_post_views($post_id);
+    $output = '<span class="post-views"><i class="bi bi-eye"></i> ' . 
+        sprintf(
+            _n('%s view', '%s views', $view_count, 'mynews'),
+            number_format($view_count)
+        ) . 
+    '</span>';
+    
+    if ($echo) {
+        echo $output;
+    } else {
+        return $output;
+    }
+}

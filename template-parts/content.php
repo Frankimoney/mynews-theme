@@ -41,13 +41,13 @@ if (is_singular() && 'post' === get_post_type()) {
 					echo '<meta itemprop="dateModified" content="' . esc_attr(get_the_modified_date('c')) . '">';
 				endif;
 				
+				// Post date
 				if ( function_exists( 'mynews_posted_on' ) ) {
 					mynews_posted_on();
 				} else {
 					echo '<span class="posted-on">Posted on <a href="' . esc_url( get_permalink() ) . '">' . get_the_date() . '</a></span>';
 				}
-				
-				if ( function_exists( 'mynews_posted_by' ) ) {
+						if ( function_exists( 'mynews_posted_by' ) ) {
 					mynews_posted_by();
 				} else {
 					if (is_singular()) :
@@ -56,6 +56,10 @@ if (is_singular() && 'post' === get_post_type()) {
 						echo '<span class="byline"> by <a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>';
 					endif;
 				}
+						// Display post view count
+				if (is_singular() && function_exists('mynews_display_post_views')) :
+					mynews_display_post_views();
+				endif;
 				?>
 			</div><!-- .entry-meta -->
 		<?php endif; ?>

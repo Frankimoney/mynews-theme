@@ -129,10 +129,8 @@ if ( get_theme_mod( 'mynews_enable_mobile_bottom_nav', false ) && get_theme_mod(
 	get_template_part( 'template-parts/mobile-search-modal' );
 }
 
-// Add back to top button if enabled
-if ( get_theme_mod( 'mynews_enable_back_to_top', true ) ) {
-	echo '<button id="back-to-top" class="btn btn-primary" title="' . esc_attr__( 'Back to top', 'mynews' ) . '"><i class="bi bi-arrow-up"></i></button>';
-}
+// Back to top button is now handled by back-to-top.js
+// The duplicate button has been removed from here
 ?>
 
 <?php wp_footer(); ?>

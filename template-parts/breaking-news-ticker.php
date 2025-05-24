@@ -141,16 +141,6 @@ if ($display_option === 'custom_only') {
 $max_items = get_theme_mod('mynews_breaking_news_max_items', 10);
 $breaking_items = array_slice($breaking_items, 0, $max_items);
 
-// Debug output for troubleshooting
-if (empty($breaking_items)) {
-    echo '<div style="color:red;font-weight:bold;">DEBUG: No breaking news items found. Check post meta _is_breaking_news, _breaking_news_expiry, and post status.</div>';
-} else {
-    echo '<div style="color:green;font-weight:bold;">DEBUG: Found ' . count($breaking_items) . ' breaking news items.</div>';
-    foreach ($breaking_items as $item) {
-        echo '<div style="font-size:12px;">ID: ' . $item['ID'] . ' | Title: ' . esc_html($item['title']) . ' | Urgency: ' . esc_html($item['urgency']) . (isset($item['is_from_post']) && $item['is_from_post'] ? ' | Source: post' : ' | Source: custom') . '</div>';
-    }
-}
-
 // Only display ticker if we have breaking news items
 if (!empty($breaking_items)) :
     $dark_mode = get_theme_mod('mynews_enable_dark_mode', false);

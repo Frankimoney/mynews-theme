@@ -17,7 +17,13 @@
     opacity: 0.8;
 }
 
-.back-to-top:hover {
+/* Show class for compatibility with multiple scripts */
+.back-to-top.show {
+    display: block;
+}
+
+.back-to-top:hover,
+.back-to-top.touch-active {
     opacity: 1;
     color: #fff;
     text-decoration: none;

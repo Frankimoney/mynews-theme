@@ -134,32 +134,7 @@
     transform: translateY(-3px);
 }
 
-/* Back to Top Button */
-.back-to-top {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: var(--mynews-primary);
-    color: #fff;
-    text-align: center;
-    line-height: 40px;
-    z-index: 999;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    display: none;
-    transition: all 0.3s ease;
-}
-
-.back-to-top.show {
-    display: block;
-}
-
-.back-to-top:hover {
-    background-color: #0a58ca;
-    color: #fff;
-}
+/* Back to Top Button - Moved to back-to-top.css */
 
 /* Additional Bootstrap Utilities and Overrides */
 .section-heading {

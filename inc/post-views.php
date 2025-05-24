@@ -116,3 +116,47 @@ function mynews_sort_by_post_views($query) {
     }
 }
 add_action('pre_get_posts', 'mynews_sort_by_post_views');
+
+/**
+ * Shortcode for displaying post views
+ * 
+ * Usage: [mynews_post_views] or [mynews_post_views post_id="123"]
+ * 
+ * @param array $atts Shortcode attributes
+ * @return string Shortcode output
+ */
+function mynews_post_views_shortcode($atts) {
+    $atts = shortcode_atts(
+        array(
+            'post_id' => get_the_ID(),
+            'prefix' => '',
+            'suffix' => '',
+        ), 
+        $atts, 
+        'mynews_post_views'
+    );
+    
+    // Don't display if function doesn't exist
+    if (!function_exists('mynews_get_post_views')) {
+        return '';
+    }
+    
+    $view_count = mynews_get_post_views($atts['post_id']);
+    
+    $output = '<span class="post-views-shortcode">';
+    if (!empty($atts['prefix'])) {
+        $output .= '<span class="post-views-prefix">' . esc_html($atts['prefix']) . '</span> ';
+    }
+    $output .= '<i class="bi bi-eye"></i> ';
+    $output .= sprintf(
+        _n('%s view', '%s views', $view_count, 'mynews'),
+        number_format($view_count)
+    );
+    if (!empty($atts['suffix'])) {
+        $output .= ' <span class="post-views-suffix">' . esc_html($atts['suffix']) . '</span>';
+    }
+    $output .= '</span>';
+    
+    return $output;
+}
+add_shortcode('mynews_post_views', 'mynews_post_views_shortcode');

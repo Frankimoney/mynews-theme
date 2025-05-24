@@ -453,6 +453,19 @@
     color: var(--body-color);
 }
 
+[data-theme="dark"] .btn-primary {
+    background-color: var(--link-color);
+    border-color: var(--link-color);
+    color: #fff;
+}
+
+[data-theme="dark"] .btn-primary:hover,
+[data-theme="dark"] .btn-primary:focus {
+    background-color: var(--link-hover-color);
+    border-color: var(--link-hover-color);
+    color: #fff;
+}
+
 /* Image adjustments */
 [data-theme="dark"] .wp-post-image,
 [data-theme="dark"] .attachment-thumbnail,
@@ -569,7 +582,9 @@
 [data-theme="dark"] .bg-primary .read-more,
 [data-theme="dark"] .bg-primary .read-more *,
 [data-theme="dark"] .mynews-breaking-news .mynews-breaking-label .read-more,
-[data-theme="dark"] .mynews-breaking-news .mynews-breaking-label .read-more * {
+[data-theme="dark"] .mynews-breaking-news .mynews-breaking-label .read-more *,
+[data-theme="dark"] .read-more-link,
+[data-theme="dark"] .read-more-link * {
     color: #fff !important;
 }
 
@@ -659,4 +674,51 @@
 [data-theme="dark"] .widget_recent_comments li cite,
 [data-theme="dark"] .widget_recent_comments li .comment-author-link {
     color: #222 !important;
+}
+
+/* Post view count styling */
+.post-views {
+    margin-left: 15px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.post-views i {
+    margin-right: 4px;
+}
+
+[data-theme="dark"] .post-views {
+    color: #a0aec0;
+}
+
+/* Breadcrumb navigation - dark mode fix */
+[data-theme="dark"] .breadcrumb {
+    background-color: transparent;
+}
+
+/* Back to top button - dark mode fix */
+[data-theme="dark"] .back-to-top {
+    background-color: var(--link-color);
+    color: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .back-to-top:hover {
+    background-color: var(--link-hover-color);
+    color: var(--card-bg);
+}
+
+[data-theme="dark"] .breadcrumb-item a {
+    color: var(--link-color);
+}
+
+[data-theme="dark"] .breadcrumb-item a:hover,
+[data-theme="dark"] .breadcrumb-item a:focus {
+    color: var(--link-hover-color);
+    text-decoration: underline;
+}
+
+[data-theme="dark"] .breadcrumb-item.active {
+    color: var(--body-color); /* This ensures the current page title is visible */
 }

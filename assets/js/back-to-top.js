@@ -13,13 +13,12 @@
             $('body').append('<a href="#" class="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></a>');
         
         var $backToTop = $('.back-to-top');
-        
-        // Show/hide the button based on scroll position
+          // Show/hide the button based on scroll position
         $(window).scroll(function() {
             if ($(this).scrollTop() > 300) {
-                $backToTop.fadeIn();
+                $backToTop.fadeIn().addClass('show');
             } else {
-                $backToTop.fadeOut();
+                $backToTop.fadeOut().removeClass('show');
             }
         });
           // Smooth scroll to top when clicked

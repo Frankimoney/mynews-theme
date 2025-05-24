@@ -154,28 +154,19 @@
             });
         }
     }
-    
-    // Add back-to-top functionality optimized for mobile
+      // Add back-to-top functionality optimized for mobile
     function setupMobileBackToTop() {
-        var $backToTop = $('#back-to-top');
+        var $backToTop = $('.back-to-top');
         
         if ($backToTop.length) {
-            // Show/hide button based on scroll position
-            $(window).on('scroll', function() {
-                if ($(this).scrollTop() > 300) {
-                    $backToTop.addClass('visible');
-                } else {
-                    $backToTop.removeClass('visible');
-                }
-            });
+            // Show/hide button based on scroll position - handled by back-to-top.js
+            // Additional mobile-specific behavior can be added here if needed
             
-            // Smooth scroll to top
-            $backToTop.on('click', function(e) {
-                e.preventDefault();
-                $('html, body').animate({
-                    scrollTop: 0
-                }, 500);
-                return false;
+            // Mobile touch enhancements
+            $backToTop.on('touchstart', function() {
+                $(this).addClass('touch-active');
+            }).on('touchend', function() {
+                $(this).removeClass('touch-active');
             });
         }
     }

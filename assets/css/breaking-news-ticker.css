@@ -12,26 +12,25 @@
 }
 
 /* Special styling for scrolling ticker mode */
-/* .scrolling-ticker .mynews-ticker-content {
+.scrolling-ticker .mynews-ticker-content {
   position: relative;
   padding-left: 0;
   overflow: hidden;
   width: 100%;
-  transform: translateZ(0); 
+  transform: translateZ(0);
   -webkit-transform: translateZ(0);
-  -webkit-perspective: 1000;
   -webkit-backface-visibility: hidden;
-} */
+}
 
 /* Add scrolling-enabled class for proper animation */
-/* .scrolling-enabled.scrolling-ticker .mynews-ticker-content {
+.scrolling-enabled.scrolling-ticker .mynews-ticker-content {
   overflow: hidden;
   width: 100%;
   transform: translateZ(0); 
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-} */
+}
 
 .mynews-breaking-news-dark {
   background-color: var(--mynews-dark);
@@ -66,19 +65,8 @@
   min-width: 0; /* Prevent flexbox from constraining width */
   transform: translateZ(0); /* Force hardware acceleration */
   width: calc(100% - 130px); /* Ensure there's room for the ticker content */
-  overflow-x: hidden; /* Explicitly prevent horizontal overflow */  clip-path: inset(0); /* Ensure content is clipped properly */
-}
-
-/* Fix: Only one rule for scrolling ticker content, no fade/disappear effect */
-.scrolling-ticker .mynews-ticker-content {
-  display: flex !important;
-  align-items: center;
-  animation: ticker-scroll-continuous 15s linear infinite;
-  will-change: transform;
-  width: max-content !important;
-  position: relative;
-  overflow: visible !important;
-  white-space: nowrap;
+  overflow-x: hidden; /* Explicitly prevent horizontal overflow */
+  clip-path: inset(0); /* Ensure content is clipped properly */
 }
 
 /* Adjustments for fade ticker mode */
@@ -129,7 +117,6 @@
   opacity: 1;
   visibility: visible;
   z-index: 10;
-  transform: none; /* Remove any transform initially */
 }
 
 /* Display mode styles */
@@ -162,14 +149,13 @@
   padding-right: 200px; /* More space between repeating text */
   display: inline-block !important; /* Inline-block for better scrolling */
   align-items: center;
-  width: auto; /* Auto width based on content */
-  will-change: transform; /* Performance optimization */
+  width: auto; /* Auto width based on content */  will-change: transform; /* Performance optimization */
   position: absolute;
   white-space: nowrap;
   left: 0;
   right: auto; /* Ensure right isn't constraining the element */
   top: 0;
-  transform: translateX(100vw); /* Start offscreen right using viewport width unit */
+  transform: translateX(100%); /* Start offscreen to the right */
   -webkit-font-smoothing: antialiased;
   backface-visibility: hidden; /* Additional performance optimization */
   -webkit-backface-visibility: hidden; /* For Safari */
@@ -178,11 +164,11 @@
 
 @keyframes ticker-scroll {
   0% {
-    transform: translateX(100vw); /* Start position - right edge of viewport */
+    transform: translateX(100%); /* Start position - right edge of container */
     visibility: visible;
   }
   100% {
-    transform: translateX(-100vw); /* Move to left edge of viewport - full travel */
+    transform: translateX(-120%); /* Move past left edge to ensure complete exit */
     visibility: visible;
   }
 }
@@ -280,17 +266,22 @@
   position: relative;
 }
 
-/* Make sure the first item is visible on page load */
-.mynews-ticker-item:first-child {
-  z-index: 2;
-}
-
-/* Improve visibility of active items */
+/* Make sure the active item is always visible and properly displayed */
 .mynews-ticker-item.active {
   display: block !important;
   opacity: 1 !important;
   visibility: visible !important;
   z-index: 10;
+  animation-fill-mode: forwards;
+}
+
+/* Apply proper animation to scrolling items */
+.mynews-ticker-item.active.scrolling {
+  display: inline-block !important;
+  animation: ticker-scroll linear;
+  animation-fill-mode: forwards;
+  animation-delay: 0.1s; /* Small delay to ensure animation starts properly */
+  will-change: transform; /* Optimize for animation performance */
 }
 
 /* Responsive adjustments */

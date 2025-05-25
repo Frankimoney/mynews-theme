@@ -25,6 +25,11 @@ define( 'MYNEWS_ASSETS_URI', MYNEWS_THEME_URI . '/assets' );
 require get_template_directory() . '/inc/breaking-news-fix.php';
 
 /**
+ * Include ticker test script (for development only)
+ */
+require get_template_directory() . '/inc/ticker-test.php';
+
+/**
  * Include post views tracking functionality
  */
 require get_template_directory() . '/inc/post-views.php';

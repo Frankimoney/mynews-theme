@@ -31,34 +31,10 @@ add_filter( 'body_class', 'mynews_body_classes' );
 
 /**
  * Determine if post is featured
+ * This function is now defined in functions.php to avoid duplicate function declarations 
  * 
- * @param int|WP_Post $post Post ID or post object.
- * @return bool Whether the post is featured
+ * @see functions.php for the implementation of mynews_is_post_featured()
  */
-function mynews_is_post_featured( $post = null ) {
-    $post = get_post( $post );
-    if ( ! $post ) {
-        return false;
-    }
-
-    // Option 1: Using sticky posts
-    if ( is_sticky( $post->ID ) ) {
-        return true;
-    }
-    
-    // Option 2: Using post meta (if you've set up a custom field for featured posts)
-    $featured = get_post_meta( $post->ID, 'mynews_featured_post', true );
-    if ( $featured ) {
-        return true;
-    }
-    
-    // Option 3: Using a specific category
-    if ( has_category( 'featured', $post ) ) {
-        return true;
-    }
-    
-    return false;
-}
 
 /**
  * Check if a page has child pages

@@ -2003,3 +2003,113 @@ function mynews_post_reactions_shortcode($atts) {
     return ob_get_clean();
 }
 add_shortcode('mynews_post_reactions', 'mynews_post_reactions_shortcode');
+
+/**
+ * Featured Post Functionality
+ */
+
+/**
+ * Check if a post is featured
+ * 
+ * @param int $post_id Post ID. Defaults to current post.
+ * @return bool True if post is featured, false otherwise
+ */
+function mynews_is_post_featured($post_id = null) {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+    
+    return get_post_meta($post_id, '_mynews_featured_post', true) == 'yes';
+}
+
+/**
+ * Get featured post query
+ * 
+ * @return WP_Query Featured post query
+ */
+function mynews_get_featured_post() {
+    $args = array(
+        'post_type' => 'post',
+        'posts_per_page' => 1,
+        'meta_key' => '_mynews_featured_post',
+        'meta_value' => 'yes',
+        'ignore_sticky_posts' => true,
+    );
+    
+    return new WP_Query($args);
+}
+
+/**
+ * Add meta box for featured post
+ */
+function mynews_add_featured_meta_box() {
+    add_meta_box(
+        'mynews_featured_post',
+        __('Featured Post', 'mynews'),
+        'mynews_featured_meta_box_callback',
+        'post',
+        'side',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'mynews_add_featured_meta_box');
+
+/**
+ * Meta box callback function
+ */
+function mynews_featured_meta_box_callback($post) {
+    // Add a nonce field
+    wp_nonce_field('mynews_featured_post_nonce', 'mynews_featured_post_nonce');
+    
+    // Get current value
+    $value = get_post_meta($post->ID, '_mynews_featured_post', true);
+    ?>
+    <p>
+        <input type="checkbox" name="mynews_featured_post" id="mynews_featured_post" value="yes" <?php checked($value, 'yes'); ?> />
+        <label for="mynews_featured_post"><?php _e('Mark as featured post', 'mynews'); ?></label>
+    </p>
+    <p class="description"><?php _e('Featured posts will be displayed prominently on the homepage.', 'mynews'); ?></p>
+    <?php
+}
+
+/**
+ * Save the meta box data
+ */
+function mynews_save_featured_post_meta($post_id) {
+    // Check if nonce is set and valid
+    if (!isset($_POST['mynews_featured_post_nonce']) || !wp_verify_nonce($_POST['mynews_featured_post_nonce'], 'mynews_featured_post_nonce')) {
+        return;
+    }
+    
+    // Check if this is an autosave
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    
+    // Check user permissions
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+    
+    // Update or delete the meta value
+    if (isset($_POST['mynews_featured_post']) && $_POST['mynews_featured_post'] === 'yes') {
+        // Before setting a new featured post, unset any existing ones
+        $existing_featured = get_posts(array(
+            'post_type' => 'post',
+            'posts_per_page' => -1,
+            'meta_key' => '_mynews_featured_post',
+            'meta_value' => 'yes',
+            'fields' => 'ids',
+        ));
+        
+        foreach ($existing_featured as $featured_id) {
+            if ($featured_id != $post_id) {
+                delete_post_meta($featured_id, '_mynews_featured_post');
+            }
+        }
+        
+        update_post_meta($post_id, '_mynews_featured_post', 'yes');    } else {
+        delete_post_meta($post_id, '_mynews_featured_post');
+    }
+}
+add_action('save_post', 'mynews_save_featured_post_meta');

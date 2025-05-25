@@ -29,12 +29,25 @@ if ($posts_per_row == '2') {
 <main id="primary" class="site-main container py-5">
     <div class="row">
         <div class="col-lg-8">
+            <?php 
+            // Display featured post if on the front page
+            if (is_front_page() || is_home()) : 
+                $featured_query = mynews_get_featured_post();
+                if ($featured_query->have_posts()) :
+                    while ($featured_query->have_posts()) : $featured_query->the_post();
+                        get_template_part('template-parts/content', 'featured');
+                    endwhile;
+                    wp_reset_postdata();
+                endif;
+            endif;
+            ?>
+            
             <?php if (have_posts()) : ?>
                 <?php if (is_home() && !is_front_page()) : ?>
                     <header class="page-header mb-4">
                         <h1 class="page-title"><?php single_post_title(); ?></h1>
                     </header>
-                <?php endif; ?>                <?php if ($blog_layout === 'grid') : ?>
+                <?php endif; ?><?php if ($blog_layout === 'grid') : ?>
                     <div class="row g-4 mynews-posts-grid">
                         <?php
                         /* Start the Loop */

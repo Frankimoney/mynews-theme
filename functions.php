@@ -685,8 +685,11 @@ function mynews_has_active_breaking_news() {
  * Enqueue Breaking News Ticker scripts and styles
  */
 function mynews_enqueue_breaking_news_ticker_assets() {
-    // Only load on front page and if breaking news exist
-    if (is_front_page() && mynews_has_active_breaking_news()) {
+    // Load on front page or single posts (if enabled) when breaking news exist
+    $show_on_single = is_singular('post') && get_theme_mod('mynews_show_ticker_on_single', true);
+    $show_on_front = is_front_page();
+    
+    if (($show_on_front || $show_on_single) && mynews_has_active_breaking_news()) {
         wp_enqueue_style('mynews-breaking-news-ticker', get_template_directory_uri() . '/assets/css/breaking-news-ticker.css', array('mynews-main'), MYNEWS_VERSION);
         wp_enqueue_script('mynews-breaking-news-ticker', get_template_directory_uri() . '/assets/js/breaking-news-ticker.js', array('jquery'), MYNEWS_VERSION, array(
             'strategy' => 'defer',

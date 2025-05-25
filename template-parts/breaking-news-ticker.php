@@ -141,6 +141,8 @@ if ($display_option === 'custom_only') {
 $max_items = get_theme_mod('mynews_breaking_news_max_items', 10);
 $breaking_items = array_slice($breaking_items, 0, $max_items);
 
+// Debug messages removed
+
 // Only display ticker if we have breaking news items
 if (!empty($breaking_items)) :
     $dark_mode = get_theme_mod('mynews_enable_dark_mode', false);

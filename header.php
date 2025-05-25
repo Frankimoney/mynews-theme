@@ -241,8 +241,11 @@ echo '<div id="mynews-reading-progress" class="reading-progress-bar" style="posi
 
 <div id="page" class="site">
 		<?php 
-	// Include breaking news ticker but only on the front page and if breaking news exist
-	if (is_front_page() && function_exists('mynews_has_active_breaking_news') && mynews_has_active_breaking_news()) {
+	// Include breaking news ticker on front page or single posts (if enabled) when breaking news exists
+	$show_on_single = is_singular('post') && get_theme_mod('mynews_show_ticker_on_single', true);
+	$show_on_front = is_front_page();
+	
+	if (($show_on_front || $show_on_single) && function_exists('mynews_has_active_breaking_news') && mynews_has_active_breaking_news()) {
 		get_template_part('template-parts/breaking-news-ticker');
 	}
 	?>

@@ -405,10 +405,23 @@ function mynews_customize_register( $wp_customize ) {
 		'sanitize_callback' => 'mynews_sanitize_checkbox',
 		'transport'         => 'refresh',
 	));
-	
-	$wp_customize->add_control('mynews_enable_breaking_ticker', array(
+		$wp_customize->add_control('mynews_enable_breaking_ticker', array(
 		'label'       => __('Display Breaking News Ticker', 'mynews'),
 		'description' => __('Show or hide the breaking news ticker on the homepage.', 'mynews'),
+		'section'     => 'mynews_breaking_news_section',
+		'type'        => 'checkbox',
+	));
+	
+	// Show Breaking News Ticker on Single Posts
+	$wp_customize->add_setting('mynews_show_ticker_on_single', array(
+		'default'           => true,
+		'sanitize_callback' => 'mynews_sanitize_checkbox',
+		'transport'         => 'refresh',
+	));
+	
+	$wp_customize->add_control('mynews_show_ticker_on_single', array(
+		'label'       => __('Show on Single Posts', 'mynews'),
+		'description' => __('Display the breaking news ticker on single post pages.', 'mynews'),
 		'section'     => 'mynews_breaking_news_section',
 		'type'        => 'checkbox',
 	));

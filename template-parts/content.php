@@ -62,8 +62,17 @@ if (is_singular() && 'post' === get_post_type()) {
 				endif;
 				?>
 			</div><!-- .entry-meta -->
-		<?php endif; ?>
-	</header><!-- .entry-header -->	<?php 
+		<?php endif; ?>	</header><!-- .entry-header -->
+	
+	<?php 
+	// Display below-title ad on single posts
+	if ( is_singular() ) {
+		get_template_part( 'template-parts/ad-container', null, array(
+			'placement' => 'below-title',
+			'title'     => esc_html__( 'Advertisement', 'mynews' ),
+		) );
+	}
+	
 	if ( function_exists( 'mynews_post_thumbnail' ) ) {
 		if (is_singular()) {
 			echo '<div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">';
@@ -154,8 +163,18 @@ if (is_singular() && 'post' === get_post_type()) {
 		else :
 			the_excerpt();
 		endif;
-		?>
-	</div><!-- .entry-content -->
+		?>	</div><!-- .entry-content -->
+	
+	<?php 
+	// Display after-content ad on single posts
+	if ( is_singular() ) {
+		get_template_part( 'template-parts/ad-container', null, array(
+			'placement' => 'after-content',
+			'title'     => esc_html__( 'Advertisement', 'mynews' ),
+		) );
+	}
+	?>
+	
 	<footer class="entry-footer">
 		<?php 
 		if ( function_exists( 'mynews_entry_footer' ) ) {

@@ -35,6 +35,14 @@ if (function_exists('mynews_generate_article_schema')) {
 ?>
 
 <main id="primary" class="site-main py-5">
+    <?php 
+    // Display header ad placement
+    get_template_part('template-parts/ad-container', null, array(
+        'placement' => 'header',
+        'title' => esc_html__('Advertisement', 'mynews'),
+    ));
+    ?>
+    
     <div class="<?php echo esc_attr($container_class); ?>">
         <div class="row">            <div class="col-lg-8">
                 <!-- Breadcrumb Navigation -->
@@ -50,18 +58,29 @@ if (function_exists('mynews_generate_article_schema')) {
                         <?php endif; ?>
                         <li class="breadcrumb-item active" aria-current="page"><?php echo wp_trim_words(get_the_title(), 5); ?></li>
                     </ol>
-                </nav>
-
-                <?php
+                </nav>                <?php
                 while (have_posts()) :
-                    the_post();                    get_template_part('template-parts/content', get_post_type());
+                    the_post();
+                    
+                    // Check for post format
+                    $format = get_post_format();
+                    if ($format && in_array($format, array('video', 'audio'))) {
+                        get_template_part('template-parts/content', $format);
+                    } else {
+                        get_template_part('template-parts/content', get_post_type());
+                    }
                     
                     // Display post reactions
                     get_template_part('template-parts/post-reactions');
-                    
-                    // Display author box
+                      // Display author box
                     get_template_part('template-parts/author-box');
-
+                    
+                    // Display read next recommendation
+                    get_template_part('template-parts/read-next');
+                    
+                    // Display related articles
+                    get_template_part('template-parts/related-articles');
+                    
                     // Enhanced post navigation with thumbnails and categories
                     if (function_exists('mynews_post_navigation')) {
                         echo mynews_post_navigation();

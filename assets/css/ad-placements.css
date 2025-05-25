@@ -1,0 +1,226 @@
+/**
+ * Ad Placement Styles
+ * Responsive styles for premium ad placements throughout the theme
+ */
+
+/* Common ad container styles */
+.mynews-ad-container {
+    position: relative;
+    width: 100%;
+    margin: 1.5rem 0;
+    text-align: center;
+    overflow: hidden;
+    clear: both;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ad label */
+.ad-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #767676;
+    margin-bottom: 0.25rem;
+    font-weight: 400;
+    text-align: center;
+    width: 100%;
+}
+
+/* Ad content */
+.ad-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50px;
+}
+
+/* Ad placeholders for admins */
+.ad-placeholder {
+    width: 100%;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border: 1px dashed #dee2e6;
+    color: #6c757d;
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Dark mode styles for ad placeholders */
+[data-theme="dark"] .ad-placeholder {
+    background-color: #212529;
+    border-color: #495057;
+    color: #adb5bd;
+}
+
+/* Specific ad placement styles */
+
+/* Header ad */
+.ad-header {
+    margin: 0 0 1.5rem 0;
+    max-width: 100%;
+}
+
+/* Below title ad */
+.ad-below-title {
+    margin: 0.75rem 0 1.5rem 0;
+}
+
+/* Mid content ad */
+.ad-mid-content {
+    margin: 1.5rem 0;
+    float: none;
+    clear: both;
+}
+
+/* After content ad */
+.ad-after-content {
+    margin: 2rem 0 1rem 0;
+}
+
+/* Sidebar ads */
+.ad-sidebar-top {
+    margin: 0 0 1.5rem 0;
+}
+
+.ad-sidebar-bottom {
+    margin: 1.5rem 0 0 0;
+}
+
+/* Footer ad */
+.ad-footer {
+    margin: 1.5rem 0 0 0;
+}
+
+/* In-feed ad styles */
+.ad-infeed {
+    margin: 1.5rem 0;
+    padding: 1.25rem 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .ad-infeed {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Video ad styles */
+.video-ad-container {
+    margin: 2rem auto;
+}
+
+.video-ad-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 728px;
+    margin: 0 auto;
+}
+
+.video-ad-wrapper iframe, 
+.video-ad-wrapper video {
+    max-width: 100%;
+    border: none;
+}
+
+.video-ad-instructions {
+    width: 100%;
+    max-width: 728px;
+    margin: 1rem auto 0;
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+[data-theme="dark"] .video-ad-instructions {
+    color: #adb5bd;
+}
+
+.video-ad-instructions summary {
+    cursor: pointer;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 3px;
+}
+
+[data-theme="dark"] .video-ad-instructions summary {
+    background-color: #212529;
+}
+
+.video-ad-instructions .instruction-content {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0 0 3px 3px;
+}
+
+[data-theme="dark"] .video-ad-instructions .instruction-content {
+    background-color: #212529;
+}
+
+/* Sticky ad styles */
+.mynews-ad-container.ad-sticky {
+    position: sticky;
+    top: 80px;
+    z-index: 10;
+    transition: top 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .mynews-ad-container {
+        margin: 1.25rem 0;
+    }
+    
+    .ad-header, .ad-footer {
+        margin: 1rem 0;
+    }
+    
+    .ad-below-title {
+        margin: 0.5rem 0 1.25rem 0;
+    }
+    
+    /* Adjust sticky behavior on tablets */
+    .mynews-ad-container.ad-sticky {
+        position: static;
+    }
+    
+    /* Make video ads more compact on tablets */
+    .video-ad-wrapper {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .mynews-ad-container {
+        margin: 1rem 0;
+    }
+    
+    /* Further optimize in-feed ads for mobile */
+    .ad-infeed {
+        margin: 1rem 0;
+        padding: 1rem 0;
+    }
+    
+    /* Ensure no horizontal scrolling for video ads */
+    .video-ad-container {
+        max-width: 100%;
+        overflow: hidden;
+    }
+}
+
+/* Hide ads in print view */
+@media print {
+    .mynews-ad-container {
+        display: none !important;
+    }
+}
+
+/* AdSense responsive styles */
+.mynews-ad-container .adsbygoogle {
+    display: block;
+    margin: 0 auto;
+}

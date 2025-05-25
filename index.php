@@ -41,18 +41,58 @@ if ($posts_per_row == '2') {
                         while (have_posts()) :
                             the_post();
                             echo '<div class="' . esc_attr($column_class) . ' mb-4">';
-                            get_template_part('template-parts/content', 'grid');
+                            
+                            // Check for post format and use appropriate template
+                            $format = get_post_format();
+                            if ($format && in_array($format, array('video', 'audio'))) {
+                                get_template_part('template-parts/content', 'grid-' . $format);
+                            } else {
+                                get_template_part('template-parts/content', 'grid');
+                            }
+                            
                             echo '</div>';
+                            
+                            // Check if we should display an in-feed ad
+                            if (get_theme_mod('mynews_enable_infeed_ads', false)) {
+                                $position = get_theme_mod('mynews_infeed_position', 3);
+                                $repeat = get_theme_mod('mynews_infeed_repeat', true);
+                                
+                                if (($wp_query->current_post + 1) === $position || 
+                                    ($repeat && ($wp_query->current_post + 1) > $position && 
+                                    (($wp_query->current_post + 1 - $position) % $position === 0))) {
+                                    echo '<div class="col-12">';
+                                    get_template_part('template-parts/in-feed-ad', null, array('post_index' => $wp_query->current_post));
+                                    echo '</div>';
+                                }
+                            }
                         endwhile;
                         ?>
-                    </div>
-                <?php else : ?>
+                    </div>                <?php else : ?>
                     <div class="posts-list">
                         <?php
                         /* Start the Loop */
                         while (have_posts()) :
                             the_post();
-                            get_template_part('template-parts/content', 'list');
+                            
+                            // Check for post format and use appropriate template
+                            $format = get_post_format();
+                            if ($format && in_array($format, array('video', 'audio'))) {
+                                get_template_part('template-parts/content', 'list-' . $format);
+                            } else {
+                                get_template_part('template-parts/content', 'list');
+                            }
+                            
+                            // Check if we should display an in-feed ad
+                            if (get_theme_mod('mynews_enable_infeed_ads', false)) {
+                                $position = get_theme_mod('mynews_infeed_position', 3);
+                                $repeat = get_theme_mod('mynews_infeed_repeat', true);
+                                
+                                if (($wp_query->current_post + 1) === $position || 
+                                    ($repeat && ($wp_query->current_post + 1) > $position && 
+                                    (($wp_query->current_post + 1 - $position) % $position === 0))) {
+                                    get_template_part('template-parts/in-feed-ad', null, array('post_index' => $wp_query->current_post));
+                                }
+                            }
                         endwhile;
                         ?>
                     </div>

@@ -1,0 +1,40 @@
+/**
+ * Post Navigation Dark Mode Fix
+ * 
+ * Ensures "Previous Post" and "Next Post" text is visible in dark mode
+ * 
+ * @package My_News
+ */
+
+/* Style for the post navigation labels */
+.post-nav-label {
+    color: #666666;
+}
+
+[data-theme="dark"] .post-nav-label {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Dark mode fixes for post navigation */
+[data-theme="dark"] .mynews-post-navigation .text-muted {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+[data-theme="dark"] .mynews-post-navigation a {
+    color: var(--heading-color);
+}
+
+[data-theme="dark"] .mynews-post-navigation a:hover {
+    color: var(--link-hover-color);
+}
+
+[data-theme="dark"] .mynews-post-navigation .card {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+}
+
+/* Also fix the badge colors for better visibility */
+[data-theme="dark"] .mynews-post-navigation .badge.bg-primary {
+    background-color: var(--link-color) !important;
+    color: #ffffff;
+}

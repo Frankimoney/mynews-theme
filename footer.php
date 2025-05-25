@@ -8,6 +8,14 @@
  */
 
 ?>
+	<?php 
+	// Display footer ad placement
+	get_template_part( 'template-parts/ad-container', null, array(
+		'placement' => 'footer',
+		'title'     => esc_html__( 'Advertisement', 'mynews' ),
+	) );
+	?>
+	
 	<footer id="colophon" class="site-footer">
 		<div class="container">
 			<?php

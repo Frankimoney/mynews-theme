@@ -39,7 +39,15 @@ if ($posts_per_row == '2') {
                         while (have_posts()) :
                             the_post();
                             echo '<div class="' . esc_attr($column_class) . ' mb-4">';
-                            get_template_part('template-parts/content', 'grid');
+                            
+                            // Check for post format and use appropriate template
+                            $format = get_post_format();
+                            if ($format && in_array($format, array('video', 'audio'))) {
+                                get_template_part('template-parts/content', 'grid-' . $format);
+                            } else {
+                                get_template_part('template-parts/content', 'grid');
+                            }
+                            
                             echo '</div>';
                         endwhile;
                         ?>
@@ -50,7 +58,15 @@ if ($posts_per_row == '2') {
                         /* Start the Loop */
                         while (have_posts()) :
                             the_post();
-                            get_template_part('template-parts/content', 'list');
+                            
+                            // Check for post format and use appropriate template
+                            $format = get_post_format();
+                            if ($format && in_array($format, array('video', 'audio'))) {
+                                get_template_part('template-parts/content', 'list-' . $format);
+                            } else {
+                                get_template_part('template-parts/content', 'list');
+                            }
+                            
                         endwhile;
                         ?>
                     </div>

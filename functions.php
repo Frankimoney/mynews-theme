@@ -45,6 +45,11 @@ require get_template_directory() . '/inc/author-profile.php';
 require get_template_directory() . '/inc/footer-text-fix.php';
 
 /**
+ * Include Post Formats Admin Help
+ */
+require get_template_directory() . '/inc/post-formats-admin.php';
+
+/**
  * Sets up theme defaults and registers support for various WordPress features.
  */
 function mynews_setup() {
@@ -111,9 +116,17 @@ function mynews_setup() {
 	// Add support for editor styles.
 	add_theme_support( 'editor-styles' );
 	add_editor_style( 'assets/css/editor-style.css' );
-
 	// Add support for responsive embedded content.
 	add_theme_support( 'responsive-embeds' );
+	
+	// Add support for post formats
+	add_theme_support(
+		'post-formats',
+		array(
+			'audio',
+			'video',
+		)
+	);
 
 	// Add support for custom logo.
 	add_theme_support(
@@ -220,6 +233,176 @@ function mynews_widgets_init() {
 			'after_title'   => '</h3>',
 		)
 	);
+	
+	// Premium Ad Widget Areas
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Header Ad', 'mynews' ),
+			'id'            => 'ad-header',
+			'description'   => esc_html__( 'Add ad code here for the premium header placement (below navigation, above content). Great for high-visibility banners.', 'mynews' ),
+			'before_widget' => '<div id="%1$s" class="ad-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="visually-hidden">',
+			'after_title'   => '</h3>',
+		)
+	);
+	
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Below Post Title Ad', 'mynews' ),
+			'id'            => 'ad-below-title',
+			'description'   => esc_html__( 'Add ad code here for placement below post title. High CTR placement above the fold.', 'mynews' ),
+			'before_widget' => '<div id="%1$s" class="ad-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="visually-hidden">',
+			'after_title'   => '</h3>',
+		)
+	);
+	
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Mid Content Ad', 'mynews' ),
+			'id'            => 'ad-mid-content',
+			'description'   => esc_html__( 'Add ad code here for placement in the middle of post content. Native-looking placement with high engagement.', 'mynews' ),
+			'before_widget' => '<div id="%1$s" class="ad-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="visually-hidden">',
+			'after_title'   => '</h3>',
+		)
+	);
+	
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'After Content Ad', 'mynews' ),
+			'id'            => 'ad-after-content',
+			'description'   => esc_html__( 'Add ad code here for placement after post content, before comments. High completion placement.', 'mynews' ),
+			'before_widget' => '<div id="%1$s" class="ad-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="visually-hidden">',
+			'after_title'   => '</h3>',
+		)
+	);
+	
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Sidebar Top Ad', 'mynews' ),
+			'id'            => 'ad-sidebar-top',
+			'description'   => esc_html__( 'Add ad code here for placement at the top of the sidebar. High-visibility placement.', 'mynews' ),
+			'before_widget' => '<div id="%1$s" class="ad-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="visually-hidden">',
+			'after_title'   => '</h3>',
+		)
+	);
+	
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Sidebar Bottom Ad', 'mynews' ),
+			'id'            => 'ad-sidebar-bottom',
+			'description'   => esc_html__( 'Add ad code here for placement at the bottom of the sidebar.', 'mynews' ),
+			'before_widget' => '<div id="%1$s" class="ad-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="visually-hidden">',
+			'after_title'   => '</h3>',
+		)
+	);
+	
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Footer Ad', 'mynews' ),
+			'id'            => 'ad-footer',
+			'description'   => esc_html__( 'Add ad code here for site-wide footer placement. Displays on all pages before the footer.', 'mynews' ),
+			'before_widget' => '<div id="%1$s" class="ad-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="visually-hidden">',
+			'after_title'   => '</h3>',
+		)
+	);
+	
+	// Premium Ad Widget Areas
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Header Ad', 'mynews' ),
+			'id'            => 'ad-header',
+			'description'   => esc_html__( 'Add ad code here for the premium header placement (below navigation, above content). Great for high-visibility banners.', 'mynews' ),
+			'before_widget' => '<div id="%1$s" class="ad-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="visually-hidden">',
+			'after_title'   => '</h3>',
+		)
+	);
+	
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Below Post Title Ad', 'mynews' ),
+			'id'            => 'ad-below-title',
+			'description'   => esc_html__( 'Add ad code here for placement below post title. High CTR placement above the fold.', 'mynews' ),
+			'before_widget' => '<div id="%1$s" class="ad-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="visually-hidden">',
+			'after_title'   => '</h3>',
+		)
+	);
+	
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Mid Content Ad', 'mynews' ),
+			'id'            => 'ad-mid-content',
+			'description'   => esc_html__( 'Add ad code here for placement in the middle of post content. Native-looking placement with high engagement.', 'mynews' ),
+			'before_widget' => '<div id="%1$s" class="ad-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="visually-hidden">',
+			'after_title'   => '</h3>',
+		)
+	);
+	
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'After Content Ad', 'mynews' ),
+			'id'            => 'ad-after-content',
+			'description'   => esc_html__( 'Add ad code here for placement after post content, before comments. High completion placement.', 'mynews' ),
+			'before_widget' => '<div id="%1$s" class="ad-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="visually-hidden">',
+			'after_title'   => '</h3>',
+		)
+	);
+	
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Sidebar Top Ad', 'mynews' ),
+			'id'            => 'ad-sidebar-top',
+			'description'   => esc_html__( 'Add ad code here for placement at the top of the sidebar. High-visibility placement.', 'mynews' ),
+			'before_widget' => '<div id="%1$s" class="ad-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="visually-hidden">',
+			'after_title'   => '</h3>',
+		)
+	);
+	
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Sidebar Bottom Ad', 'mynews' ),
+			'id'            => 'ad-sidebar-bottom',
+			'description'   => esc_html__( 'Add ad code here for placement at the bottom of the sidebar.', 'mynews' ),
+			'before_widget' => '<div id="%1$s" class="ad-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="visually-hidden">',
+			'after_title'   => '</h3>',
+		)
+	);
+	
+	register_sidebar(
+		array(
+			'name'          => esc_html__( 'Footer Ad', 'mynews' ),
+			'id'            => 'ad-footer',
+			'description'   => esc_html__( 'Add ad code here for site-wide footer placement. Displays on all pages before the footer.', 'mynews' ),
+			'before_widget' => '<div id="%1$s" class="ad-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="visually-hidden">',
+			'after_title'   => '</h3>',
+		)
+	);
 }
 add_action( 'widgets_init', 'mynews_widgets_init' );
 
@@ -267,17 +450,23 @@ function mynews_scripts() {
 	wp_enqueue_style( 'mynews-mobile', get_template_directory_uri() . '/assets/css/mobile.css', array('mynews-main'), MYNEWS_VERSION );	// Add grid layout fixes
 	wp_enqueue_style( 'mynews-grid-fixes', get_template_directory_uri() . '/assets/css/grid-fixes.css', array('mynews-main', 'mynews-blog'), MYNEWS_VERSION );
 	
-	// Add featured image size constraints
-	wp_enqueue_style( 'mynews-featured-image-fixes', get_template_directory_uri() . '/assets/css/featured-image-fixes.css', array('mynews-main'), MYNEWS_VERSION );
+	// Add featured image size constraints	wp_enqueue_style( 'mynews-featured-image-fixes', get_template_directory_uri() . '/assets/css/featured-image-fixes.css', array('mynews-main'), MYNEWS_VERSION );
+	// Add ad placements styles
+	wp_enqueue_style( 'mynews-ad-placements', get_template_directory_uri() . '/assets/css/ad-placements.css', array('mynews-main'), MYNEWS_VERSION );
 	// Add custom style.css (for additional custom styles)
 	wp_enqueue_style( 'mynews-custom', get_template_directory_uri() . '/assets/css/style.css', array('bootstrap', 'mynews-main'), MYNEWS_VERSION );
-		// Add dark mode styles
-	wp_enqueue_style( 'mynews-dark-mode', get_template_directory_uri() . '/assets/css/dark-mode.css', array('bootstrap', 'mynews-main'), MYNEWS_VERSION );
+		// Add dark mode styles	wp_enqueue_style( 'mynews-dark-mode', get_template_directory_uri() . '/assets/css/dark-mode.css', array('bootstrap', 'mynews-main'), MYNEWS_VERSION );
+		// Add post formats styling
+	wp_enqueue_style( 'mynews-post-formats', get_template_directory_uri() . '/assets/css/post-formats.css', array('mynews-main'), MYNEWS_VERSION );
 		// Add author profiles styling
 	wp_enqueue_style( 'mynews-author-profiles', get_template_directory_uri() . '/assets/css/author-profiles.css', array('mynews-main'), MYNEWS_VERSION );
-	
-	// Add footer text visibility fix - high priority to override other styles
+		// Add footer text visibility fix - high priority to override other styles
 	wp_enqueue_style( 'mynews-footer-fix', get_template_directory_uri() . '/assets/css/footer-fix.css', array('mynews-main', 'mynews-dark-mode'), MYNEWS_VERSION );
+		// Add related content styles for related articles and read next components
+	wp_enqueue_style( 'mynews-related-content', get_template_directory_uri() . '/assets/css/related-content.css', array('mynews-main'), MYNEWS_VERSION );
+	
+	// Add post navigation dark mode fix
+	wp_enqueue_style( 'mynews-post-navigation-fix', get_template_directory_uri() . '/assets/css/post-navigation-fix.css', array('mynews-main', 'mynews-dark-mode'), MYNEWS_VERSION );
 	
 	// jQuery (if needed)
 	wp_enqueue_script( 'jquery' );
@@ -519,6 +708,21 @@ require get_template_directory() . '/inc/custom-styles.php';
 require get_template_directory() . '/inc/mobile-customizer.php';
 
 /**
+ * Ad placements customizer options
+ */
+require get_template_directory() . '/inc/ad-customizer.php';
+
+/**
+ * Ad insertion functions
+ */
+require get_template_directory() . '/inc/ad-insertion.php';
+
+/**
+ * Advanced ad features - in-feed ads, sticky ads, and video ads
+ */
+require get_template_directory() . '/inc/advanced-ad-features.php';
+
+/**
  * Breaking News help and documentation
  */
 require get_template_directory() . '/inc/breaking-news-help.php';
@@ -663,8 +867,7 @@ function mynews_post_navigation() {    // Get the previous and next posts
             <?php if (!empty($prev_post)) : ?>
                 <div class="col-md-6">
                     <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body">
-                            <span class="d-block text-uppercase text-muted small">
+                        <div class="card-body">                            <span class="d-block text-uppercase small post-nav-label">
                                 <i class="bi bi-arrow-left"></i> <?php _e('Previous Post', 'mynews'); ?>
                             </span>
                             <h3 class="h5 mb-3">
@@ -695,8 +898,7 @@ function mynews_post_navigation() {    // Get the previous and next posts
             <?php if (!empty($next_post)) : ?>
                 <div class="col-md-6">
                     <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body text-end">
-                            <span class="d-block text-uppercase text-muted small">
+                        <div class="card-body text-end">                            <span class="d-block text-uppercase small post-nav-label">
                                 <?php _e('Next Post', 'mynews'); ?> <i class="bi bi-arrow-right"></i>
                             </span>
                             <h3 class="h5 mb-3">

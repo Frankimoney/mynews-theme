@@ -73,6 +73,9 @@ if (function_exists('mynews_generate_article_schema')) {
                         } else {
                             get_template_part('template-parts/content', get_post_type());
                         }
+                        
+                        // Add social share buttons after post content
+                        get_template_part('template-parts/post-share');
                     endwhile; // End of the loop.
                     ?>
                 </div>

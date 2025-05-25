@@ -443,6 +443,21 @@
     text-align: left !important;
 }
 
+/* --- Fix excessive horizontal padding for single post content and pagination on mobile --- */
+@media (max-width: 576px) {
+  .single-post,
+  .single .post,
+  .single-post .post,
+  .single .entry-content {
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+  }
+  .pagination {
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+  }
+}
+
 /* Bootstrap Components */
 [data-theme="dark"] .badge {
     background-color: rgba(0, 0, 0, 0.2);
@@ -799,4 +814,69 @@
 [data-theme="dark"] .mynews-post-navigation h4.fw-bold,
 [data-theme="dark"] .mynews-post-navigation h4.text-center {
     color: var(--heading-color) !important;
+}
+
+/* --- Social Share Buttons --- */
+.mynews-share-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1.5rem 0 0.5rem 0;
+    flex-wrap: wrap;
+}
+.mynews-share-label {
+    font-weight: 600;
+    margin-right: 0.5rem;
+    color: var(--heading-color);
+}
+.mynews-share-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35em 0.85em;
+    border-radius: 2em;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    border: none;
+    outline: none;
+    background: #f1f1f1;
+    color: #222;
+    margin-right: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+.mynews-share-btn i {
+    margin-right: 0.4em;
+    font-size: 1.1em;
+}
+.mynews-share-btn.facebook { background: #1877f2; color: #fff; }
+.mynews-share-btn.twitter { background: #1da1f2; color: #fff; }
+.mynews-share-btn.linkedin { background: #0077b5; color: #fff; }
+.mynews-share-btn.whatsapp { background: #25d366; color: #fff; }
+.mynews-share-btn:hover, .mynews-share-btn:focus { opacity: 0.85; text-decoration: none; }
+
+[data-theme="dark"] .mynews-share-label {
+    color: #222 !important;
+    text-shadow: none !important;
+}
+[data-theme="dark"] .mynews-share-btn {
+    background: #23272b;
+    color: #e0e0e0;
+}
+[data-theme="dark"] .mynews-share-btn.facebook { background: #1877f2; color: #fff; }
+[data-theme="dark"] .mynews-share-btn.twitter { background: #1da1f2; color: #fff; }
+[data-theme="dark"] .mynews-share-btn.linkedin { background: #0077b5; color: #fff; }
+[data-theme="dark"] .mynews-share-btn.whatsapp { background: #25d366; color: #fff; }
+[data-theme="dark"] .mynews-share-btn:hover, [data-theme="dark"] .mynews-share-btn:focus { opacity: 0.85; }
+
+@media (max-width: 576px) {
+    .mynews-share-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+    .mynews-share-btn {
+        width: 100%;
+        justify-content: flex-start;
+    }
 }

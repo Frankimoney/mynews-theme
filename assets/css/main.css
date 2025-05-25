@@ -521,6 +521,27 @@
     }
 }
 
+.single-post .wp-post-image,
+.single .wp-post-image {
+    max-width: 600px;
+    max-height: 350px;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 0.5rem;
+    object-fit: cover;
+}
+
+@media (max-width: 991px) {
+    .single-post .wp-post-image,
+    .single .wp-post-image {
+        max-width: 90vw;
+        max-height: 250px;
+    }
+}
+
 /* Media */
 .page-content .wp-smiley,
 .entry-content .wp-smiley,

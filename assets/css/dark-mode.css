@@ -352,12 +352,36 @@
     color: #222 !important;
 }
 
-/* Main comment section outer container - force dark text in dark mode */
+/* Main comment section outer container - force light text in dark mode */
 [data-theme="dark"] .comments-area,
 [data-theme="dark"] #comments,
 [data-theme="dark"] .comments-area *,
 [data-theme="dark"] #comments * {
-    color: #222 !important;
+    color: var(--body-color) !important;
+}
+
+/* Override the global comment area color rule to exclude comment section titles */
+[data-theme="dark"] .comments-area *:not(.comments-title):not(.comment-title):not(.comment-reply-title):not(#reply-title),
+[data-theme="dark"] #comments *:not(.comments-title):not(.comment-title):not(.comment-reply-title):not(#reply-title) {
+    color: var(--body-color) !important;
+}
+[data-theme="dark"] .comments-area .comments-title,
+[data-theme="dark"] #comments .comments-title,
+[data-theme="dark"] .comments-area .comment-title,
+[data-theme="dark"] #comments .comment-title,
+[data-theme="dark"] .comments-area .comment-reply-title,
+[data-theme="dark"] #comments .comment-reply-title,
+[data-theme="dark"] .comments-area #reply-title,
+[data-theme="dark"] #comments #reply-title {
+    background: #181c20 !important;
+    color: #fff !important;
+    text-shadow: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    display: inline-block;
 }
 
 /* Pagination */
@@ -879,4 +903,72 @@
         width: 100%;
         justify-content: flex-start;
     }
+}
+
+/* --- Fix: Ensure 'Leave a Reply' and comment form section is fully visible in dark mode --- */
+[data-theme="dark"] .comment-respond,
+[data-theme="dark"] .comment-form {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--card-border) !important;
+    color: var(--body-color) !important;
+    border-radius: 0.5rem;
+    padding: 1.5rem 1rem;
+}
+[data-theme="dark"] .comment-reply-title,
+[data-theme="dark"] #reply-title,
+[data-theme="dark"] .comment-notes,
+[data-theme="dark"] .comment-form label {
+    color: var(--body-color) !important;
+}
+[data-theme="dark"] .comment-form input,
+[data-theme="dark"] .comment-form textarea {
+    background-color: var(--input-bg) !important;
+    border-color: var(--input-border) !important;
+    color: var(--body-color) !important;
+}
+[data-theme="dark"] .comment-form input:focus,
+[data-theme="dark"] .comment-form textarea:focus {
+    outline: 2px solid var(--link-color) !important;
+    background-color: #23272b !important;
+}
+[data-theme="dark"] .comment-form input::placeholder,
+[data-theme="dark"] .comment-form textarea::placeholder {
+    color: #b0b0b0 !important;
+    opacity: 1;
+}
+[data-theme="dark"] .form-submit input[type="submit"] {
+    background-color: var(--link-color) !important;
+    color: #fff !important;
+    border: none !important;
+}
+[data-theme="dark"] .form-submit input[type="submit"]:hover,
+[data-theme="dark"] .form-submit input[type="submit"]:focus {
+    background-color: var(--link-hover-color) !important;
+    color: #fff !important;
+}
+
+/* Ensure post title above comment section is visible in dark mode */
+[data-theme="dark"] .comments-title,
+[data-theme="dark"] .comment-title {
+    color: var(--heading-color) !important;
+}
+
+/* Ensure all likely post/comment title selectors within the comment area are visible in dark mode */
+[data-theme="dark"] .comments-area .comments-title,
+[data-theme="dark"] .comments-area .comment-title,
+[data-theme="dark"] .comments-area .comment-reply-title,
+[data-theme="dark"] .comments-area #reply-title,
+[data-theme="dark"] .comments-area h1,
+[data-theme="dark"] .comments-area h2,
+[data-theme="dark"] .comments-area .entry-title,
+[data-theme="dark"] .comments-area .post-title,
+[data-theme="dark"] #comments .comments-title,
+[data-theme="dark"] #comments .comment-title,
+[data-theme="dark"] #comments .comment-reply-title,
+[data-theme="dark"] #comments #reply-title,
+[data-theme="dark"] #comments h1,
+[data-theme="dark"] #comments h2,
+[data-theme="dark"] #comments .entry-title,
+[data-theme="dark"] #comments .post-title {
+    color: var(--heading-color) !important;
 }

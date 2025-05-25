@@ -75,10 +75,10 @@
         e.preventDefault();
         if (this.isPaused) {
           this.play();
-          this.$pause.html('<i class="fas fa-pause"></i>');
+          this.$pause.html('<i class="fas fa-pause"></i>'); // Show pause icon when playing
         } else {
           this.pause();
-          this.$pause.html('<i class="fas fa-play"></i>');
+          this.$pause.html('<i class="fas fa-play"></i>'); // Show play icon when paused
         }
       });
       if (this.options.pauseOnHover) {

@@ -24,7 +24,7 @@ if (is_singular() && 'post' === get_post_type()) {
     $microdata_attributes = ' itemscope itemtype="https://schema.org/' . $schema_type . '"';
 }
 ?>
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?><?php echo $microdata_attributes; ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class(is_singular() ? 'single-post-container' : ''); ?><?php echo $microdata_attributes; ?>>
 	<header class="entry-header">
 		<?php
 		if ( is_singular() ) :
@@ -115,7 +115,7 @@ if (is_singular() && 'post' === get_post_type()) {
 		}
 	}
 	?>
-	<div class="entry-content"<?php echo is_singular() ? ' itemprop="articleBody"' : ''; ?>>
+	<div class="entry-content<?php echo is_singular() ? ' single-post-content' : ''; ?>"<?php echo is_singular() ? ' itemprop="articleBody"' : ''; ?>>
 		<?php
 		if ( is_singular() ) :
 			// Add publisher info for article schema

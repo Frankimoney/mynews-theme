@@ -94,34 +94,6 @@
     text-decoration: underline;
 }
 
-/* Dark mode support */
-.dark-mode .mynews-post-reactions {
-    background-color: #2d3748;
-}
-
-.dark-mode .mynews-reaction-btn {
-    background-color: #1a202c;
-    border-color: #4a5568;
-    color: #e2e8f0;
-}
-
-.dark-mode .mynews-reaction-count {
-    color: #a0aec0;
-}
-
-.dark-mode .mynews-reaction-btn.reacted {
-    background-color: #2a4365;
-    border-color: #4299e1;
-}
-
-.dark-mode .mynews-reaction-login-prompt {
-    color: #a0aec0;
-}
-
-.dark-mode .mynews-reaction-login-prompt a {
-    color: #63b3ed;
-}
-
 /* Mobile responsive adjustments */
 @media (max-width: 576px) {
     .mynews-reaction-buttons {

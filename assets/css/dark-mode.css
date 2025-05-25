@@ -61,12 +61,14 @@
     width: 60px;
     height: 30px;
     margin: 0 10px;
+    cursor: pointer;
 }
 
 .dark-mode-toggle input {
     opacity: 0;
     width: 0;
     height: 0;
+    position: absolute;
 }
 
 .dark-mode-toggle .slider {
@@ -79,6 +81,7 @@
     background-color: #ccc;
     transition: .4s;
     border-radius: 34px;
+    overflow: hidden;
 }
 
 .dark-mode-toggle .slider:before {
@@ -91,44 +94,51 @@
     background-color: white;
     transition: .4s;
     border-radius: 50%;
+    z-index: 2;
 }
 
 .dark-mode-toggle input:checked + .slider {
-    background-color: #4caf50;
+    background-color: #2a3a4a;
 }
 
 .dark-mode-toggle input:focus + .slider {
-    box-shadow: 0 0 1px #4caf50;
+    box-shadow: 0 0 1px #2a3a4a;
 }
 
 .dark-mode-toggle input:checked + .slider:before {
     transform: translateX(30px);
+    background-color: #4caf50;
 }
 
 .dark-mode-toggle .slider .moon,
 .dark-mode-toggle .slider .sun {
     position: absolute;
-    top: 6px;
+    top: 7px;
     font-size: 14px;
-    color: #fff;
+    transition: all 0.3s ease;
 }
 
 .dark-mode-toggle .slider .sun {
     left: 8px;
+    color: #ff9800;
+    opacity: 1;
 }
 
 .dark-mode-toggle .slider .moon {
     right: 8px;
-    color: #333;
+    color: #e0e0e0;
+    opacity: 0.7;
 }
 
 /* Icons in dark mode */
 [data-theme="dark"] .dark-mode-toggle .slider .moon {
     color: #fff;
+    opacity: 1;
 }
 
 [data-theme="dark"] .dark-mode-toggle .slider .sun {
-    color: #333;
+    color: #ff9800;
+    opacity: 0.7;
 }
 
 /* Apply dark mode styles */
@@ -632,7 +642,15 @@
 
 /* Reading progress bar - dark mode */
 [data-theme="dark"] .reading-progress-bar {
-    background-color: var(--link-color);
+    background-color: #4caf50 !important; /* Using explicit color instead of var for reliability */
+    visibility: visible !important;
+    display: block !important;
+    z-index: 2147483647 !important; /* Maximum possible z-index value */
+    pointer-events: none !important; /* Prevent interaction issues */
+    transform: translateZ(0) !important; /* Force hardware acceleration */
+    -webkit-transform: translateZ(0) !important; /* Safari fix */
+    will-change: width !important; /* Browser optimization hint */
+    will-change: width !important; /* Hint for browser optimization */
 }
 
 /* Mobile bottom navigation - dark mode */
@@ -720,4 +738,65 @@
 
 [data-theme="dark"] .breadcrumb-item.active {
     color: var(--body-color); /* This ensures the current page title is visible */
+}
+
+/* --- Post Reactions: Dark Mode --- */
+[data-theme="dark"] .mynews-post-reactions {
+    background-color: #2d3748;
+}
+[data-theme="dark"] .mynews-post-reactions h4 {
+    color: #e2e8f0;
+}
+[data-theme="dark"] .mynews-reaction-btn {
+    background-color: #1a202c;
+    border-color: #4a5568;
+    color: #e2e8f0;
+}
+[data-theme="dark"] .mynews-reaction-label {
+    color: #cbd5e1;
+}
+[data-theme="dark"] .mynews-reaction-count {
+    color: #a0aec0;
+}
+[data-theme="dark"] .mynews-reaction-btn.reacted {
+    background-color: #2a4365;
+    border-color: #4299e1;
+}
+[data-theme="dark"] .mynews-reaction-login-prompt {
+    color: #a0aec0;
+}
+[data-theme="dark"] .mynews-reaction-login-prompt a {
+    color: #63b3ed;
+}
+
+/* --- Post Navigation: Dark Mode --- */
+[data-theme="dark"] .mynews-post-navigation .card {
+    background-color: var(--card-bg);
+    border-color: var(--card-border);
+}
+[data-theme="dark"] .mynews-post-navigation a {
+    color: var(--heading-color);
+}
+[data-theme="dark"] .mynews-post-navigation a:hover {
+    color: var(--link-hover-color);
+}
+[data-theme="dark"] .mynews-post-navigation .badge.bg-primary {
+    background-color: var(--link-color) !important;
+    color: #fff !important;
+}
+[data-theme="dark"] .mynews-post-navigation .text-muted {
+    color: rgba(255,255,255,0.7) !important;
+}
+[data-theme="dark"] .mynews-post-navigation .post-nav-label {
+    color: rgba(255,255,255,0.7);
+}
+[data-theme="dark"] .mynews-post-navigation h4 {
+    color: var(--heading-color);
+}
+[data-theme="dark"] .mynews-post-navigation h4,
+[data-theme="dark"] .mynews-post-navigation .fw-bold,
+[data-theme="dark"] .mynews-post-navigation .text-center,
+[data-theme="dark"] .mynews-post-navigation h4.fw-bold,
+[data-theme="dark"] .mynews-post-navigation h4.text-center {
+    color: var(--heading-color) !important;
 }

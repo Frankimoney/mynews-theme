@@ -1,0 +1,185 @@
+/**
+ * Dark Mode Toggle Button Fix
+ * 
+ * This file fixes issues with the dark mode toggle appearance and functionality
+ * 
+ * @package My_News
+ */
+
+/* Dark Mode Toggle Button */
+.dark-mode-toggle {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.dark-mode-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.dark-mode-toggle .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+    overflow: hidden;
+}
+
+.dark-mode-toggle .slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.dark-mode-toggle input:checked + .slider {
+    background-color: #2a3a4a;
+}
+
+.dark-mode-toggle input:focus + .slider {
+    box-shadow: 0 0 1px #2a3a4a;
+}
+
+.dark-mode-toggle input:checked + .slider:before {
+    transform: translateX(30px);
+    background-color: #4caf50;
+}
+
+.dark-mode-toggle .slider .moon,
+.dark-mode-toggle .slider .sun {
+    position: absolute;
+    top: 7px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.dark-mode-toggle .slider .sun {
+    left: 8px;
+    color: #ff9800;
+    opacity: 1;
+}
+
+.dark-mode-toggle .slider .moon {
+    right: 8px;
+    color: #e0e0e0;
+    opacity: 0.7;
+}
+
+/* Icons in dark mode */
+[data-theme="dark"] .dark-mode-toggle .slider .moon {
+    color: #fff;
+    opacity: 1;
+}
+
+[data-theme="dark"] .dark-mode-toggle .slider .sun {
+    color: #ff9800;
+    opacity: 0.7;
+}
+
+/* Improved visibility in dark mode for various elements */
+[data-theme="dark"] .widget-title,
+[data-theme="dark"] .card-title,
+[data-theme="dark"] h1, 
+[data-theme="dark"] h2, 
+[data-theme="dark"] h3, 
+[data-theme="dark"] h4, 
+[data-theme="dark"] h5, 
+[data-theme="dark"] h6 {
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .card-text,
+[data-theme="dark"] p,
+[data-theme="dark"] .widget ul li,
+[data-theme="dark"] .widget ol li {
+    color: #e0e0e0 !important;
+}
+
+/* Force white text for footer widgets in dark mode */
+[data-theme="dark"] .site-footer .widget-title {
+    color: white !important; 
+    visibility: visible !important;
+    display: block !important;
+}
+
+[data-theme="dark"] .site-footer p {
+    color: rgba(255,255,255,0.8) !important;
+    visibility: visible !important;
+    display: block !important;
+}
+
+[data-theme="dark"] .site-footer ul.footer-contact li {
+    color: rgba(255,255,255,0.8) !important;
+}
+
+/* Footer bottom content */
+[data-theme="dark"] .footer-bottom,
+[data-theme="dark"] .site-info,
+[data-theme="dark"] .site-info a {
+    color: #ffffff !important;
+}
+
+/* Navbar elements */
+[data-theme="dark"] .navbar-light .navbar-brand,
+[data-theme="dark"] .navbar-light .navbar-brand:hover,
+[data-theme="dark"] .navbar-light .navbar-brand:focus,
+[data-theme="dark"] .navbar-light .navbar-nav .nav-link,
+[data-theme="dark"] .navbar-light .navbar-nav .active > .nav-link {
+    color: #ffffff !important;
+}
+
+/* Dark mode toggle feedback */
+.dark-mode-toggle:focus-within {
+    outline: 2px solid #4caf50;
+    outline-offset: 2px;
+}
+
+/* Media queries for responsive dark mode toggle */
+@media (max-width: 768px) {
+    .dark-mode-toggle {
+        width: 50px;
+        height: 26px;
+        margin: 0 5px;
+    }
+    
+    .dark-mode-toggle .slider:before {
+        height: 18px;
+        width: 18px;
+    }
+    
+    .dark-mode-toggle input:checked + .slider:before {
+        transform: translateX(24px);
+    }
+    
+    .dark-mode-toggle .slider .moon,
+    .dark-mode-toggle .slider .sun {
+        font-size: 12px;
+        top: 7px;
+    }
+}
+
+@media (max-width: 400px) {
+    .dark-mode-container {
+        position: absolute;
+        right: 70px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}

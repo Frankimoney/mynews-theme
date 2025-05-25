@@ -147,8 +147,19 @@ if ( get_theme_mod( 'mynews_enable_mobile_bottom_nav', false ) && get_theme_mod(
         const toggle = document.getElementById('dark-mode-toggle');
         const isDarkMode = document.documentElement.hasAttribute('data-theme');
         
-        if (toggle && toggle.checked !== isDarkMode) {
+        if (toggle) {
             toggle.checked = isDarkMode;
+            // Make sure the toggle is visible and properly styled
+            toggle.style.opacity = '1';
+            toggle.parentElement.style.visibility = 'visible';
+        }
+        
+        // Force refresh of dark mode appearance
+        if (isDarkMode) {
+            document.documentElement.removeAttribute('data-theme');
+            setTimeout(function() {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }, 10);
         }
     })();
 </script>

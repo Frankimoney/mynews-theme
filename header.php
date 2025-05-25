@@ -11,30 +11,6 @@
 <!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
-	<!-- Dark mode detection script - must run before any rendering -->
-	<script>
-		// Check for saved dark mode preference or system preference
-		(function() {
-			const storageKey = 'mynews_dark_mode';
-			let darkMode = false;
-			
-			// Check localStorage first
-			if (typeof localStorage !== 'undefined') {
-				const savedPreference = localStorage.getItem(storageKey);
-				if (savedPreference !== null) {
-					darkMode = JSON.parse(savedPreference);
-				} else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-					// If no saved preference, check system preference
-					darkMode = true;
-				}
-			}
-			
-			// Apply dark mode immediately to prevent flickering
-			if (darkMode) {
-				document.documentElement.setAttribute('data-theme', 'dark');
-			}
-		})();
-	</script>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 	<meta name="theme-color" content="<?php echo esc_attr(get_theme_mod('mynews_primary_color', '#0d6efd')); ?>">
@@ -47,6 +23,96 @@
 	<!-- Mobile Web App Settings -->
 	<link rel="apple-touch-icon" sizes="180x180" href="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/app-icon-180.png">
 	<link rel="manifest" href="<?php echo esc_url(get_template_directory_uri()); ?>/manifest.json">
+	<?php endif; ?>
+
+	<!-- Dark mode detection script - must run before any rendering -->
+	<script>
+		// Check for saved dark mode preference or system preference
+		(function() {
+			const storageKey = 'mynews_dark_mode';
+			let darkMode = false;
+			
+			// Check localStorage first
+			try {
+				if (typeof localStorage !== 'undefined') {
+					const savedPreference = localStorage.getItem(storageKey);
+					if (savedPreference !== null) {
+						darkMode = JSON.parse(savedPreference);
+					} else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+						// If no saved preference, check system preference
+						darkMode = true;
+					}
+				}
+			} catch (e) {
+				console.warn('Error accessing localStorage for dark mode preference:', e);
+				// Fallback to system preference if localStorage access fails
+				if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+					darkMode = true;
+				}
+			}
+			
+			// Apply dark mode immediately to prevent flickering
+			if (darkMode) {
+				document.documentElement.setAttribute('data-theme', 'dark');
+			} else {
+				document.documentElement.removeAttribute('data-theme');
+			}
+		})();
+	</script>
+	
+	<?php if (is_singular('post')) : // Create reading progress bar for single posts ?>	<style>
+		/* Inline critical CSS for reading progress bar to ensure it loads fast */
+		.reading-progress-bar,
+		body .reading-progress-bar,
+		html body .reading-progress-bar,
+		#page .reading-progress-bar,
+		div.reading-progress-bar {
+			position: fixed !important;
+			top: <?php echo is_admin_bar_showing() ? (wp_is_mobile() ? '46px' : '32px') : '0'; ?> !important;
+			left: 0 !important;
+			height: 5px !important;
+			width: 0% !important;
+			background-color: <?php echo get_theme_mod('dark_mode_default', false) ? '#4caf50' : '#0073aa'; ?> !important;
+			z-index: 2147483647 !important; /* Maximum possible z-index value */
+			transition: width 0.1s ease-out !important;
+			display: block !important;
+			visibility: visible !important;
+			opacity: 1 !important;
+			pointer-events: none !important;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+			transform: translateZ(0) !important; /* Force hardware acceleration */
+			-webkit-transform: translateZ(0) !important; /* Safari fix */
+			will-change: width !important; /* Hint for browser optimization */
+			max-width: 100% !important;
+			min-height: 5px !important;
+		}
+
+		@keyframes progress-pulse {
+			0% { opacity: 1 !important; }
+			50% { opacity: 0.7 !important; }
+			100% { opacity: 1 !important; }
+		}
+
+		.reading-progress-bar.complete,
+		body .reading-progress-bar.complete,
+		html body .reading-progress-bar.complete {
+			animation: progress-pulse 2s infinite !important;
+		}
+		
+		/* Safari specific fix */
+		@media not all and (min-resolution:.001dpcm) {
+			@supports (-webkit-appearance:none) {
+				.reading-progress-bar,
+				body .reading-progress-bar,
+				html body .reading-progress-bar {
+					transform: translateZ(0) !important;
+					-webkit-transform: translateZ(0) !important;
+					z-index: 2147483647 !important;
+					will-change: transform !important;
+				}
+			}
+		}
+	</style>
 	<?php endif; ?>
 
 	<?php 
@@ -63,6 +129,114 @@
 
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+
+<?php if (is_singular('post')) : // Add reading progress bar only for single posts
+// Insert reading progress bar as the first element after body open
+echo '<div id="mynews-reading-progress" class="reading-progress-bar" style="position:fixed !important;top:' . (is_admin_bar_showing() ? (wp_is_mobile() ? '46px' : '32px') : '0') . ' !important;left:0 !important;height:5px !important;background-color:' . (get_theme_mod('dark_mode_default', false) ? '#4caf50' : '#0073aa') . ' !important;width:0% !important;z-index:2147483647 !important;transition:width 0.1s ease-out !important;display:block !important;visibility:visible !important;opacity:1 !important;transform:translateZ(0) !important;-webkit-transform:translateZ(0) !important;will-change:width !important;"></div>';
+?>
+<script>
+// Simple script to handle reading progress bar - completely standalone implementation
+(function() {
+	// Create/verify our progress bar exists and is in the right place
+	function ensureProgressBar() {
+		// Try to find existing bar first
+		var progressBar = document.querySelector('.reading-progress-bar');
+		
+		// If it doesn't exist, create it
+		if (!progressBar) {
+			progressBar = document.createElement('div');
+			progressBar.id = 'mynews-reading-progress';
+			progressBar.className = 'reading-progress-bar';
+			
+			// Set critical inline styles that can't be overridden
+			var adminBarHeight = document.body.classList.contains('admin-bar') ? 
+				(window.innerWidth < 783 ? '46px' : '32px') : '0';
+			
+			var barColor = document.documentElement.getAttribute('data-theme') === 'dark' ? 
+				'#4caf50' : '#0073aa';
+			
+			progressBar.setAttribute('style', 
+				'position:fixed !important;' + 
+				'top:' + adminBarHeight + ' !important;' + 
+				'left:0 !important;' + 
+				'height:5px !important;' + 
+				'background-color:' + barColor + ' !important;' + 
+				'width:0% !important;' + 
+				'z-index:2147483647 !important;' + 
+				'transition:width 0.1s ease-out !important;' + 
+				'display:block !important;' + 
+				'visibility:visible !important;' + 
+				'opacity:1 !important;' +
+				'transform:translateZ(0) !important;' +
+				'-webkit-transform:translateZ(0) !important;' +
+				'will-change:width !important;'
+			);
+			
+			// Insert at the beginning of body
+			document.body.insertBefore(progressBar, document.body.firstChild);
+		}
+		
+		return progressBar;
+	}
+	
+	// Update the progress bar width based on scroll position
+	function updateReadingProgress() {
+		try {
+			var progressBar = ensureProgressBar();
+			if (!progressBar) return;
+			
+			var winScroll = window.pageYOffset || document.documentElement.scrollTop;
+			var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+			var scrolled = (winScroll / height) * 100;
+			
+			// Ensure valid percentage
+			if (isNaN(scrolled)) scrolled = 0;
+			if (scrolled < 0) scrolled = 0;
+			if (scrolled > 100) scrolled = 100;
+			
+			// Update width with !important to ensure it's applied
+			progressBar.style.setProperty('width', scrolled + '%', 'important');
+			
+			// Add/remove complete class for animation
+			if (scrolled > 98) {
+				progressBar.classList.add('complete');
+			} else {
+				progressBar.classList.remove('complete');
+			}
+		} catch (e) {
+			// Silently catch errors to prevent disruptions
+			console.error('Error updating reading progress bar:', e);
+		}
+	}
+	
+	// Initialize: Add scroll event listener and perform initial update
+	function initialize() {
+		// Ensure we have a progress bar
+		ensureProgressBar();
+		
+		// Update on scroll
+		window.addEventListener('scroll', updateReadingProgress);
+		
+		// Update on window resize (for responsive layouts)
+		window.addEventListener('resize', updateReadingProgress);
+		
+		// Update when page is fully loaded
+		window.addEventListener('load', updateReadingProgress);
+		
+		// Do initial update
+		updateReadingProgress();
+		
+		// Re-apply after a short delay to fight other scripts
+		setTimeout(updateReadingProgress, 100);
+		setTimeout(updateReadingProgress, 500);
+		setTimeout(updateReadingProgress, 1500);
+	}
+	
+	// Run initialization
+	initialize();
+})();
+</script>
+<?php endif; ?>
 <a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'mynews' ); ?></a>
 
 <div id="page" class="site">
@@ -145,14 +319,13 @@
 						<?php endif;
 					}
 					?>
-				</div><!-- .navbar-brand -->				<div class="d-flex align-items-center ms-auto">
-					<!-- Dark Mode Toggle -->
+				</div><!-- .navbar-brand -->				<div class="d-flex align-items-center ms-auto">					<!-- Dark Mode Toggle -->
 					<div class="dark-mode-container me-3">
-						<label class="dark-mode-toggle" title="<?php esc_attr_e('Toggle Dark Mode', 'mynews'); ?>">
+						<label class="dark-mode-toggle" title="<?php esc_attr_e('Toggle Dark Mode', 'mynews'); ?>" style="visibility: visible;">
 							<input type="checkbox" id="dark-mode-toggle">
 							<span class="slider">
-								<i class="sun bi bi-sun"></i>
-								<i class="moon bi bi-moon"></i>
+								<i class="sun bi bi-sun-fill"></i>
+								<i class="moon bi bi-moon-fill"></i>
 							</span>
 						</label>
 						<span class="visually-hidden"><?php esc_html_e('Toggle Dark Mode', 'mynews'); ?></span>

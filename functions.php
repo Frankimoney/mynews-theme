@@ -50,6 +50,11 @@ require get_template_directory() . '/inc/footer-text-fix.php';
 require get_template_directory() . '/inc/post-formats-admin.php';
 
 /**
+ * Include Dark Mode Troubleshooting Tool
+ */
+require get_template_directory() . '/inc/dark-mode-troubleshoot.php';
+
+/**
  * Sets up theme defaults and registers support for various WordPress features.
  */
 function mynews_setup() {
@@ -446,16 +451,21 @@ function mynews_scripts() {
 	if (file_exists(get_template_directory() . '/assets/css/top-reactions.css')) {
 		wp_enqueue_style( 'mynews-top-reactions', get_template_directory_uri() . '/assets/css/top-reactions.css', array('mynews-main'), MYNEWS_VERSION );
 	}
-	// Add mobile-specific optimizations
-	wp_enqueue_style( 'mynews-mobile', get_template_directory_uri() . '/assets/css/mobile.css', array('mynews-main'), MYNEWS_VERSION );	// Add grid layout fixes
+	// Add mobile-specific optimizations	wp_enqueue_style( 'mynews-mobile', get_template_directory_uri() . '/assets/css/mobile.css', array('mynews-main'), MYNEWS_VERSION );	// Add grid layout fixes
 	wp_enqueue_style( 'mynews-grid-fixes', get_template_directory_uri() . '/assets/css/grid-fixes.css', array('mynews-main', 'mynews-blog'), MYNEWS_VERSION );
 	
+	// Improved single post styling
+	wp_enqueue_style( 'mynews-single-post', get_template_directory_uri() . '/assets/css/single-post.css', array('mynews-main'), MYNEWS_VERSION );
+
 	// Add featured image size constraints	wp_enqueue_style( 'mynews-featured-image-fixes', get_template_directory_uri() . '/assets/css/featured-image-fixes.css', array('mynews-main'), MYNEWS_VERSION );
 	// Add ad placements styles
 	wp_enqueue_style( 'mynews-ad-placements', get_template_directory_uri() . '/assets/css/ad-placements.css', array('mynews-main'), MYNEWS_VERSION );
 	// Add custom style.css (for additional custom styles)
 	wp_enqueue_style( 'mynews-custom', get_template_directory_uri() . '/assets/css/style.css', array('bootstrap', 'mynews-main'), MYNEWS_VERSION );
-		// Add dark mode styles	wp_enqueue_style( 'mynews-dark-mode', get_template_directory_uri() . '/assets/css/dark-mode.css', array('bootstrap', 'mynews-main'), MYNEWS_VERSION );
+	// Add dark mode styles	
+	wp_enqueue_style( 'mynews-dark-mode', get_template_directory_uri() . '/assets/css/dark-mode.css', array('bootstrap', 'mynews-main'), MYNEWS_VERSION );
+	// Add dark mode fix styles
+	wp_enqueue_style( 'mynews-dark-mode-fix', get_template_directory_uri() . '/assets/css/dark-mode-fix.css', array('mynews-dark-mode'), MYNEWS_VERSION );
 		// Add post formats styling
 	wp_enqueue_style( 'mynews-post-formats', get_template_directory_uri() . '/assets/css/post-formats.css', array('mynews-main'), MYNEWS_VERSION );
 		// Add author profiles styling
@@ -569,9 +579,14 @@ function mynews_scripts() {
 	wp_localize_script( 'mynews-back-to-top', 'mynewsBackToTop', array(
 		'enabled' => get_theme_mod('mynews_enable_back_to_top', true),
 	));
-	
-	// Dark Mode toggle script
+		// Dark Mode toggle script
 	wp_enqueue_script( 'mynews-dark-mode', get_template_directory_uri() . '/assets/js/dark-mode.js', array('jquery'), MYNEWS_VERSION, array(
+		'strategy' => 'defer',
+		'in_footer' => true,
+	));
+	
+	// Dark Mode fix script
+	wp_enqueue_script( 'mynews-dark-mode-fix', get_template_directory_uri() . '/assets/js/dark-mode-fix.js', array('jquery', 'mynews-dark-mode'), MYNEWS_VERSION, array(
 		'strategy' => 'defer',
 		'in_footer' => true,
 	));
@@ -862,12 +877,22 @@ function mynews_post_navigation() {    // Get the previous and next posts
     // Start output buffer
     ob_start(); 
     ?>
-    <nav class="mynews-post-navigation my-4" aria-label="<?php esc_attr_e('Post Navigation', 'mynews'); ?>">
+    <nav class="mynews-post-navigation my-5 pt-4 border-top" aria-label="<?php esc_attr_e('Post Navigation', 'mynews'); ?>">
+        <h4 class="h5 mb-4 text-center fw-bold"><?php _e('Continue Reading', 'mynews'); ?></h4>
         <div class="row g-4">
             <?php if (!empty($prev_post)) : ?>
                 <div class="col-md-6">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body">                            <span class="d-block text-uppercase small post-nav-label">
+                    <div class="card h-100 border-0 shadow-sm post-navigation-card">
+                        <?php if (has_post_thumbnail($prev_post->ID)) : ?>
+                            <div class="post-nav-thumbnail">
+                                <?php echo get_the_post_thumbnail($prev_post->ID, 'thumbnail', array('class' => 'img-fluid')); ?>
+                                <div class="post-nav-overlay">
+                                    <i class="bi bi-arrow-left-circle-fill"></i>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <div class="card-body">
+                            <span class="d-block text-uppercase small post-nav-label">
                                 <i class="bi bi-arrow-left"></i> <?php _e('Previous Post', 'mynews'); ?>
                             </span>
                             <h3 class="h5 mb-3">
@@ -897,8 +922,17 @@ function mynews_post_navigation() {    // Get the previous and next posts
             
             <?php if (!empty($next_post)) : ?>
                 <div class="col-md-6">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body text-end">                            <span class="d-block text-uppercase small post-nav-label">
+                    <div class="card h-100 border-0 shadow-sm post-navigation-card">
+                        <?php if (has_post_thumbnail($next_post->ID)) : ?>
+                            <div class="post-nav-thumbnail">
+                                <?php echo get_the_post_thumbnail($next_post->ID, 'thumbnail', array('class' => 'img-fluid')); ?>
+                                <div class="post-nav-overlay">
+                                    <i class="bi bi-arrow-right-circle-fill"></i>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <div class="card-body text-end">
+                            <span class="d-block text-uppercase small post-nav-label">
                                 <?php _e('Next Post', 'mynews'); ?> <i class="bi bi-arrow-right"></i>
                             </span>
                             <h3 class="h5 mb-3">
@@ -1717,6 +1751,7 @@ function mynews_ajax_load_more_posts() {
     wp_reset_postdata();
     
     wp_send_json_success(array(
+
         'html' => $html,
         'page' => $page,
         'max_pages' => $posts_query->max_num_pages
@@ -1732,22 +1767,21 @@ add_action('wp_ajax_nopriv_mynews_load_more_posts', 'mynews_ajax_load_more_posts
 function mynews_enqueue_reading_progress_assets() {
     // Only load on single posts
     if (is_singular('post')) {
-        // Enqueue CSS
+        // Enqueue dark mode CSS if needed
         wp_enqueue_style(
-            'mynews-reading-progress',
-            get_template_directory_uri() . '/assets/css/reading-progress.css',
+            'mynews-dark-mode',
+            get_template_directory_uri() . '/assets/css/dark-mode.css',
             array(),
-            MYNEWS_VERSION
+            MYNEWS_VERSION . '.' . time()
         );
-        
-        // Enqueue JavaScript
+        // Enqueue only the resolver script
         wp_enqueue_script(
-            'mynews-reading-progress',
-            get_template_directory_uri() . '/assets/js/reading-progress.js',
+            'mynews-reading-progress-resolver',
+            get_template_directory_uri() . '/assets/js/reading-progress-resolver.js',
             array('jquery'),
-            MYNEWS_VERSION,
+            MYNEWS_VERSION . '.' . time(),
             array(
-                'strategy' => 'defer',
+                'strategy' => 'async',
                 'in_footer' => true,
             )
         );

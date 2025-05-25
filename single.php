@@ -13,8 +13,8 @@ get_header();
 $theme_layout = get_theme_mod('mynews_theme_layout', 'full-width');
 $container_class = ($theme_layout === 'boxed') ? 'container' : 'container-fluid';
 
-// Add the reading progress bar
-echo '<div class="reading-progress-bar"></div>';
+// The reading progress bar is now handled by inline JavaScript for better reliability
+// We don't need to output it here anymore
 
 // Output schema.org structured data for this article
 if (function_exists('mynews_generate_article_schema')) {
@@ -44,7 +44,8 @@ if (function_exists('mynews_generate_article_schema')) {
     ?>
     
     <div class="<?php echo esc_attr($container_class); ?>">
-        <div class="row">            <div class="col-lg-8">
+        <div class="row">
+            <div class="col-lg-8">
                 <!-- Breadcrumb Navigation -->
                 <nav aria-label="breadcrumb" class="mb-4">
                     <ol class="breadcrumb">
@@ -58,29 +59,46 @@ if (function_exists('mynews_generate_article_schema')) {
                         <?php endif; ?>
                         <li class="breadcrumb-item active" aria-current="page"><?php echo wp_trim_words(get_the_title(), 5); ?></li>
                     </ol>
-                </nav>                <?php
-                while (have_posts()) :
-                    the_post();
-                    
-                    // Check for post format
-                    $format = get_post_format();
-                    if ($format && in_array($format, array('video', 'audio'))) {
-                        get_template_part('template-parts/content', $format);
-                    } else {
-                        get_template_part('template-parts/content', get_post_type());
-                    }
-                    
+                </nav>
+                
+                <div class="single-post-wrapper bg-white p-4 rounded shadow-sm mb-5">
+                    <?php
+                    while (have_posts()) :
+                        the_post();
+                        
+                        // Check for post format
+                        $format = get_post_format();
+                        if ($format && in_array($format, array('video', 'audio'))) {
+                            get_template_part('template-parts/content', $format);
+                        } else {
+                            get_template_part('template-parts/content', get_post_type());
+                        }
+                    endwhile; // End of the loop.
+                    ?>
+                </div>
+                
+                <div class="post-components bg-white p-4 rounded shadow-sm mb-5">
+                    <?php
                     // Display post reactions
                     get_template_part('template-parts/post-reactions');
-                      // Display author box
-                    get_template_part('template-parts/author-box');
                     
+                    // Display author box
+                    get_template_part('template-parts/author-box');
+                    ?>
+                </div>
+                
+                <div class="post-recommendations bg-white p-4 rounded shadow-sm mb-5">
+                    <?php
                     // Display read next recommendation
                     get_template_part('template-parts/read-next');
                     
                     // Display related articles
                     get_template_part('template-parts/related-articles');
-                    
+                    ?>
+                </div>
+                
+                <div class="post-navigation-container bg-white p-4 rounded shadow-sm mb-5">
+                    <?php
                     // Enhanced post navigation with thumbnails and categories
                     if (function_exists('mynews_post_navigation')) {
                         echo mynews_post_navigation();
@@ -93,13 +111,16 @@ if (function_exists('mynews_generate_article_schema')) {
                             )
                         );
                     }
+                    ?>
+                </div>
 
-                    // If comments are open or we have at least one comment, load up the comment template.
-                    if (comments_open() || get_comments_number()) :
-                        comments_template();
-                    endif;
-
-                endwhile; // End of the loop.
+                <?php
+                // If comments are open or we have at least one comment, load up the comment template.
+                if (comments_open() || get_comments_number()) :
+                    echo '<div class="comments-container bg-white p-4 rounded shadow-sm mb-5">';
+                    comments_template();
+                    echo '</div>';
+                endif;
                 ?>
             </div><!-- .col-lg-8 -->
 

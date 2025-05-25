@@ -402,25 +402,29 @@ function mynews_sanitize_video_ad_position( $input ) {
 
     if ( in_array( $input, $valid ) ) {
         return $input;
-    }
-
-    return 'after-content';
+    }    return 'after-content';
 }
 
 /**
- * Custom heading control for the customizer
+ * Register custom controls for the Customizer
  */
-if ( ! class_exists( 'WP_Customize_Heading_Control' ) ) {
-    class WP_Customize_Heading_Control extends WP_Customize_Control {
-        public $type = 'heading';
-        
-        public function render_content() {
-            if ( ! empty( $this->label ) ) {
-                echo '<h4 class="customize-control-heading" style="margin-top:30px; border-top:1px solid #ddd; padding-top:20px;">' . esc_html( $this->label ) . '</h4>';
-            }
-            if ( ! empty( $this->description ) ) {
-                echo '<span class="description customize-control-description">' . esc_html( $this->description ) . '</span>';
+function mynews_register_custom_controls() {
+    /**
+     * Custom heading control for the customizer
+     */
+    if ( ! class_exists( 'WP_Customize_Heading_Control' ) && class_exists( 'WP_Customize_Control' ) ) {
+        class WP_Customize_Heading_Control extends WP_Customize_Control {
+            public $type = 'heading';
+            
+            public function render_content() {
+                if ( ! empty( $this->label ) ) {
+                    echo '<h4 class="customize-control-heading" style="margin-top:30px; border-top:1px solid #ddd; padding-top:20px;">' . esc_html( $this->label ) . '</h4>';
+                }
+                if ( ! empty( $this->description ) ) {
+                    echo '<span class="description customize-control-description">' . esc_html( $this->description ) . '</span>';
+                }
             }
         }
     }
 }
+add_action( 'customize_register', 'mynews_register_custom_controls', 1 );

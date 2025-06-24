@@ -36,7 +36,7 @@
             <?php the_title('<h3 class="entry-title card-title h5"><a href="' . esc_url(get_permalink()) . '" rel="bookmark">', '</a></h3>'); ?>
         </header>
 
-        <div class="entry-meta text-muted small mb-2">
+        <div class="entry-meta text-muted small d-none d-md-block">
             <?php
             // Posted on
             echo '<span class="posted-on">';

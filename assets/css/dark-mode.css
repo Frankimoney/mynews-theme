@@ -719,7 +719,15 @@
 [data-theme="dark"] .widget_recent_comments li,
 [data-theme="dark"] .widget_recent_comments li *,
 [data-theme="dark"] .widget_recent_comments a {
-    color: #222 !important;
+    color: #fff !important;
+    background: #181c20 !important;
+}
+[data-theme="dark"] .widget_recent_comments li {
+    border-bottom: 1px solid var(--card-border) !important;
+    padding: 0.5rem 0.75rem;
+}
+[data-theme="dark"] .widget_recent_comments li:last-child {
+    border-bottom: none !important;
 }
 
 /* MAXIMUM SPECIFICITY: Comment widget text - dark mode fix for white background */

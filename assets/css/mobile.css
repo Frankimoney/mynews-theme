@@ -190,6 +190,27 @@
 }
 
 /**
+ * Tablet specific adjustments (768px - 992px)
+ */
+@media (min-width: 768px) and (max-width: 992px) {
+    /* Optimize post card images for tablets */
+    .post-thumbnail img {
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    /* Adjust card spacing for tablets */
+    .mynews-posts-grid .col-md-6 {
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Ensure proper grid layout on tablets */
+    .mynews-posts-grid .col-md-6 .card {
+        height: 100%;
+    }
+}
+
+/**
  * Small mobile specific adjustments
  */
 @media (max-width: 576px) {
@@ -197,6 +218,33 @@
     .site-content {
         padding-top: 1rem;
         padding-bottom: 1rem;
+    }
+    
+    /* Mobile-specific featured image optimizations */
+    .post-thumbnail img {
+        height: 140px !important;
+        object-fit: cover;
+        border-radius: 0.25rem;
+    }
+    
+    /* Ensure cards don't take up too much space on small screens */
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .card-body {
+        padding: 0.75rem;
+    }
+    
+    .entry-title {
+        font-size: 1rem;
+        line-height: 1.3;
+        margin-bottom: 0.5rem;
+    }
+    
+    .entry-content {
+        font-size: 0.875rem;
+        line-height: 1.4;
     }
 
     /* Simplified footer on mobile */

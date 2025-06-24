@@ -1,0 +1,251 @@
+/**
+ * Post Card Layout Improvements
+ * Fixes for featured images and card sizing across all devices
+ */
+
+/* General card improvements */
+.mynews-posts-grid .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.mynews-posts-grid .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Featured image container improvements */
+.post-thumbnail {
+    position: relative;
+    overflow: hidden;
+    background-color: #f8f9fa;
+}
+
+.post-thumbnail img {
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    border-radius: 0;
+}
+
+.post-thumbnail:hover img {
+    transform: scale(1.03);
+}
+
+/* Card body optimization */
+.card-body {
+    flex: 1;
+    padding: 0.75rem; /* Reduced padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Title improvements */
+.entry-title {
+    font-size: 1rem;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    max-height: 2.6em; /* Limit to 2 lines of text */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.entry-title a {
+    color: #2c3e50;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.entry-title a:hover {
+    color: var(--bs-primary);
+}
+
+/* Content excerpt */
+.entry-content {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+    flex-grow: 1;
+    max-height: 4.2em; /* Limit to 3 lines of text */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Reduced from 3 to 2 lines */
+    line-clamp: 2; /* Standard property */
+    -webkit-box-orient: vertical;
+}
+
+/* Meta information */
+.entry-meta {
+    font-size: 0.75rem; /* Smaller font */
+    color: #adb5bd;
+    margin-bottom: 0.4rem; /* Reduced margin */
+}
+
+.entry-meta i {
+    margin-right: 0.25rem;
+}
+
+/* Category badges */
+.post-categories {
+    margin-bottom: 0.4rem; /* Reduced margin */
+}
+
+.post-categories a {
+    font-size: 0.65rem; /* Smaller font */
+    padding: 0.15rem 0.3rem; /* Less padding */
+    margin-right: 0.2rem;
+    margin-bottom: 0.2rem;
+    border-radius: 0.2rem;
+    background-color: var(--bs-primary);
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease;
+}
+
+.post-categories a:hover {
+    background-color: var(--bs-primary-dark, #0056b3);
+    color: white;
+}
+
+/* Read more button */
+.read-more-link {
+    font-size: 0.85rem;
+    font-weight: 500;
+    align-self: flex-start;
+}
+
+/* Desktop optimizations */
+@media (min-width: 1200px) {
+    .post-thumbnail img {
+        height: 170px;
+    }
+    
+    .entry-title {
+        font-size: 1.15rem;
+    }
+    
+    .card-body {
+        padding: 1.25rem;
+    }
+}
+
+/* Large desktop (1200px and up) */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .post-thumbnail img {
+        height: 165px;
+    }
+}
+
+/* Tablet landscape (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .post-thumbnail img {
+        height: 160px;
+    }
+    
+    .entry-title {
+        font-size: 1.05rem;
+    }
+    
+    .card-body {
+        padding: 0.9rem;
+    }
+}
+
+/* Mobile landscape and portrait (up to 767px) */
+@media (max-width: 767px) {
+    .post-thumbnail img {
+        height: 150px;
+    }
+    
+    .entry-title {
+        font-size: 1rem;
+        line-height: 1.3;
+    }
+    
+    .card-body {
+        padding: 0.8rem;
+    }
+    
+    .entry-content {
+        font-size: 0.85rem;
+    }
+    
+    .entry-meta {
+        font-size: 0.75rem;
+    }
+}
+
+/* Small mobile (up to 575px) */
+@media (max-width: 575px) {
+    .post-thumbnail img {
+        height: 140px;
+    }
+    
+    .entry-title {
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .card-body {
+        padding: 0.7rem;
+    }
+    
+    .entry-content {
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .post-categories a {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.3rem;
+    }
+    
+    .read-more-link {
+        font-size: 0.8rem;
+    }
+}
+
+/* Featured post card specific improvements */
+.featured-post .post-thumbnail img {
+    height: 300px;
+}
+
+@media (max-width: 768px) {
+    .featured-post .post-thumbnail img {
+        height: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .featured-post .post-thumbnail img {
+        height: 180px;
+    }
+}
+
+/* List layout specific improvements */
+.posts-list .post-thumbnail img {
+    height: 100% !important;
+    min-height: 120px;
+    max-height: 180px;
+}
+
+@media (max-width: 768px) {
+    .posts-list .post-thumbnail img {
+        height: 160px !important;
+        min-height: auto;
+        max-height: none;
+    }
+}

